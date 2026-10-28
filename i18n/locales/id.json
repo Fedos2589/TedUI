@@ -1,0 +1,51 @@
+{
+  "common": {
+    "action": {
+      "close": "Tutup",
+      "back": "Kembali",
+      "clear": "Hapus",
+      "show_options": "Tampilkan opsi",
+      "menu": "Menu"
+    },
+    "button": {
+      "apply": "Terapkan",
+      "cancel": "Batalkan",
+      "clear": "Bersihkan",
+      "remove": "Hapus"
+    },
+    "datePicker": {
+      "selectDate": "Pilih tanggal",
+      "selectDates": "Pilih rentang tanggal",
+      "selectYear": "Pilih tahun",
+      "selectMonth": "Pilih bulan",
+      "prevMonth": "Bulan sebelumnya",
+      "nextMonth": "Bulan berikutnya",
+      "daysCount_one": "{{count}} hari",
+      "daysCount_other": "{{count}} hari"
+    },
+    "placeholder": {
+      "search": "Cari"
+    },
+    "text": {
+      "new": "baru",
+      "startTypingToSeeSuggestions": "Mulai mengetik untuk melihat saran",
+      "included": "Termasuk",
+      "not_included": "Tidak termasuk",
+      "more_count": "{{count}} lainnya",
+      "people_count_one": "{{count}} orang",
+      "people_count_other": "{{count}} orang"
+    },
+    "title": {
+      "select_country": "Pilih negara",
+      "phone_number": "Nomor telepon"
+    }
+  },
+  "page": {
+    "cropAvatarModal": {
+      "upload": "Unggah"
+    }
+  },
+  "codeField": {
+    "digit": "Angka {{current}} dari {{total}}"
+  }
+}

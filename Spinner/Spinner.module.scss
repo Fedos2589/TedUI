@@ -1,0 +1,17 @@
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Color follows `currentColor`; size/thickness come from inline style.
+.spinner {
+  display: inline-block;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border-style: solid;
+  border-radius: 50%;
+  border-color: currentColor;
+  border-top-color: transparent;
+  animation: spin 0.7s linear infinite;
+}

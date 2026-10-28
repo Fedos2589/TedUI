@@ -1,0 +1,107 @@
+@use '../styles/breakpoints' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(71, 71, 71, 0.3);
+  backdrop-filter: blur(12px);
+  z-index: 1400;
+  opacity: 1;
+  transition: opacity 0.3s;
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+  }
+}
+
+.modalWrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 640px;
+  z-index: 1400;
+  display: flex;
+
+  @include mobile {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(0);
+    max-width: 100%;
+    transition: transform 0.3s;
+
+    &[data-starting-style],
+    &[data-ending-style] {
+      transform: translateY(100%);
+    }
+  }
+}
+
+.modal {
+  box-shadow: 0px 20px 20px 0px #8d98be1a;
+  background-color: #fff;
+  border-radius: 24px;
+  padding: 24px 0;
+  width: 100%;
+
+  @include mobile {
+    border-radius: 24px 24px 0 0;
+    // Bottom sheet: clear the home indicator in the PWA (0 in a browser).
+    padding-bottom: calc(24px + var(--sa-bottom, 0px));
+  }
+}
+
+.content {
+  padding: 12px 24px;
+  @include mobile {
+    padding: 12px 16px;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 24px 16px;
+  border-bottom: 1px solid #f2f4f6;
+
+  @include mobile {
+    border-bottom: none;
+    padding: 0 16px 12px;
+  }
+}
+
+// Title and the optional subtitle stack; the block takes the slack so the
+// close button stays pinned to the end of the row.
+.titleBlock {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  // A long word in either line wraps instead of pushing the close button out.
+  word-break: break-word;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 0;
+}
+
+// Takes the slack so the buttons sit at the end of the row.
+.footerStart {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+// `column-reverse`, not `column`: see the `columnButtons` prop — the last
+// button is the primary one and belongs on top once stacked.
+.footerColumn {
+  flex-direction: column-reverse;
+}

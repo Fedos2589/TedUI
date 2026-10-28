@@ -1,0 +1,110 @@
+// Trigger wrapper — gives base-ui a real DOM anchor regardless of whether the
+// passed child forwards a ref. Hugs its content so layout is unaffected.
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+// Positioner — owns stacking context so the tooltip sits above modals (1400).
+.positioner {
+  z-index: 1500;
+}
+
+// =============================================================================
+// Popup (shared)
+// =============================================================================
+
+.popup {
+  box-sizing: border-box;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+  transform-origin: var(--transform-origin);
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+// With an arrow, skip the scale and fade only — the arrow's `left` is computed
+// in the popup's pre-transform coordinates, so scaling makes it visibly slide.
+.withArrow {
+  transition: opacity 0.15s ease;
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    transform: none;
+  }
+}
+
+// =============================================================================
+// Themes
+// =============================================================================
+
+.light {
+  background-color: var(--color-bw-white);
+  border-color: var(--color-grey-200);
+  color: var(--color-bw-black);
+  box-shadow: 0 4px 12px rgba(141, 152, 190, 0.1);
+}
+
+.dark {
+  background-color: var(--color-grey-600);
+  color: var(--color-bw-white);
+}
+
+// =============================================================================
+// Arrow (optional)
+// =============================================================================
+
+// A rotated square whose center sits on the popup edge: the outer half forms the
+// point, the inner half tucks behind the popup. Only the two outer edges get a
+// border, and the fill paints over the popup's own border so there's no seam.
+.arrow {
+  width: 12px;
+  height: 12px;
+
+  &[data-side='bottom'] {
+    top: -6px;
+  }
+  &[data-side='top'] {
+    bottom: -6px;
+    transform: rotate(180deg);
+  }
+  &[data-side='left'] {
+    right: -6px;
+    transform: rotate(90deg);
+  }
+  &[data-side='right'] {
+    left: -6px;
+    transform: rotate(-90deg);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: rotate(45deg);
+    border-top-left-radius: 3px;
+  }
+}
+
+.light .arrow::before {
+  background-color: var(--color-bw-white);
+  border-top: 1px solid var(--color-grey-200);
+  border-left: 1px solid var(--color-grey-200);
+}
+
+.dark .arrow::before {
+  background-color: var(--color-grey-600);
+}

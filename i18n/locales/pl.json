@@ -1,0 +1,55 @@
+{
+  "common": {
+    "action": {
+      "close": "Zamknij",
+      "back": "Wstecz",
+      "clear": "Wyczyść",
+      "show_options": "Pokaż opcje",
+      "menu": "Menu"
+    },
+    "button": {
+      "apply": "Zastosuj",
+      "cancel": "Anuluj",
+      "clear": "Wyczyść",
+      "remove": "Usuń"
+    },
+    "datePicker": {
+      "selectDate": "Wybierz datę",
+      "selectDates": "Wybierz daty",
+      "selectYear": "Wybierz rok",
+      "selectMonth": "Wybierz miesiąc",
+      "prevMonth": "Poprzedni miesiąc",
+      "nextMonth": "Następny miesiąc",
+      "daysCount_one": "{{count}} dzień",
+      "daysCount_few": "{{count}} dni",
+      "daysCount_many": "{{count}} dni",
+      "daysCount_other": "{{count}} dnia"
+    },
+    "placeholder": {
+      "search": "Szukaj"
+    },
+    "text": {
+      "new": "nowy",
+      "startTypingToSeeSuggestions": "Zacznij pisać, aby zobaczyć sugestie",
+      "included": "Zawarte",
+      "not_included": "Niezawarte",
+      "more_count": "jeszcze {{count}}",
+      "people_count_one": "{{count}} osoba",
+      "people_count_few": "{{count}} osoby",
+      "people_count_many": "{{count}} osób",
+      "people_count_other": "{{count}} osoby"
+    },
+    "title": {
+      "select_country": "Wybierz kraj",
+      "phone_number": "Numer telefonu"
+    }
+  },
+  "page": {
+    "cropAvatarModal": {
+      "upload": "Prześlij"
+    }
+  },
+  "codeField": {
+    "digit": "Cyfra {{current}} z {{total}}"
+  }
+}

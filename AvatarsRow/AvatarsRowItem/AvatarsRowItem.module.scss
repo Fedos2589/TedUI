@@ -1,0 +1,63 @@
+.item {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.fade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+// Opt-in entrance animation (enabled via AvatarsRow `animateOnAdd`). Runs once on
+// mount — since rows only ever append, each new avatar animates in while existing
+// ones stay put (transform doesn't affect layout, so neighbours never shift).
+// The FIRST avatar pops in with a scale; every subsequent one slides in from the
+// left (left → right) into its place.
+.animatedFirst {
+  animation: avatarRowItemPop 340ms ease-out both;
+}
+
+.animatedRest {
+  animation: avatarRowItemSlide 340ms ease-out both;
+}
+
+@keyframes avatarRowItemPop {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes avatarRowItemSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animatedFirst,
+  .animatedRest {
+    animation: avatarRowItemFade 200ms ease-out both;
+  }
+}
+
+@keyframes avatarRowItemFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

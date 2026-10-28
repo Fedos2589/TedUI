@@ -1,0 +1,242 @@
+.wrapper {
+  position: relative;
+  width: fit-content;
+  // Never wider than the space it was given. A row of tabs too long for it (a
+  // narrow column, a longer locale) used to keep its content width and hang
+  // over the parent, which clipped the last tab.
+  max-width: 100%;
+}
+
+.list {
+  position: relative;
+  display: inline-flex;
+  // …and when it doesn't fit, the tabs go onto a second line rather than off
+  // the edge. Wrapping rather than scrolling on purpose: `overflow` would also
+  // clip vertically and cut the active tab's shadow, and a scroll strip with a
+  // hidden scrollbar gives no hint that there is more. `scrollable` is for
+  // where scrolling IS wanted and sets `flex-wrap: nowrap` itself.
+  flex-wrap: wrap;
+  gap: 4px;
+  border: 1px solid var(--color-grey-100);
+}
+
+.scheme_white .list {
+  background-color: var(--color-bw-white);
+}
+
+.scheme_white .indicator {
+  background-color: var(--color-blue-50);
+}
+
+.scheme_grey .list {
+  background-color: var(--color-grey-50);
+}
+
+.scheme_grey .indicator {
+  background-color: var(--color-bw-white);
+  box-shadow: 0 4px 12px rgba(141, 152, 190, 0.1);
+}
+
+.scheme_grey {
+  .tab:not([data-active]):not([data-disabled]) {
+    &:hover {
+      background-color: var(--color-bw-white);
+    }
+
+    &:active {
+      background-color: var(--color-grey-100);
+    }
+  }
+
+  .list:has(.tab[data-active]:not([data-disabled]):hover) .indicator {
+    box-shadow:
+      inset 0 0 0 1px var(--color-blue-100),
+      0 2px 2px 0 rgba(141, 152, 190, 0.06);
+  }
+
+  .list:has(.tab[data-active]:not([data-disabled]):active) .indicator {
+    box-shadow:
+      inset 0 0 0 1px var(--color-blue-200),
+      0 2px 2px 0 rgba(141, 152, 190, 0.06);
+  }
+}
+
+.scheme_white {
+  .tab:not([data-active]):not([data-disabled]) {
+    &:hover {
+      background-color: var(--color-blue-50);
+    }
+
+    &:active {
+      background-color: var(--color-blue-100);
+    }
+  }
+
+  .list:has(.tab[data-active]:not([data-disabled]):hover) .indicator {
+    background-color: var(--color-blue-100);
+  }
+
+  .list:has(.tab[data-active]:not([data-disabled]):active) .indicator {
+    background-color: var(--color-blue-100);
+    box-shadow: inset 0 0 0 1px var(--color-blue-200);
+  }
+}
+
+.tab {
+  all: unset;
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    color 0.2s ease-in-out,
+    background-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+
+  span {
+    color: var(--color-grey-400);
+    transition: color 0.2s ease-in-out;
+    white-space: nowrap;
+  }
+
+  &[data-active] span,
+  &:not([data-disabled]):hover span {
+    color: var(--color-blue-300);
+  }
+
+  &[data-disabled] {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &[data-disabled][data-active] span {
+    color: var(--color-blue-200);
+  }
+
+  &[data-disabled]:not([data-active]) span {
+    color: var(--color-grey-300);
+  }
+}
+
+.indicator {
+  position: absolute;
+  top: var(--active-tab-top);
+  left: var(--active-tab-left);
+  width: var(--active-tab-width);
+  height: var(--active-tab-height);
+  z-index: 1;
+  transition:
+    top 0.2s ease-in-out,
+    left 0.2s ease-in-out,
+    width 0.2s ease-in-out,
+    height 0.2s ease-in-out,
+    background-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+
+.size_small {
+  .list {
+    padding: 4px;
+    border-radius: 12px;
+  }
+
+  .tab {
+    min-width: 32px;
+    padding: 2px 12px;
+    border-radius: 8px;
+  }
+
+  .indicator {
+    border-radius: 8px;
+  }
+}
+
+.size_medium {
+  .list {
+    padding: 4px;
+    border-radius: 12px;
+  }
+
+  .tab {
+    min-width: 40px;
+    padding: 6px 20px;
+    border-radius: 8px;
+  }
+
+  .indicator {
+    border-radius: 8px;
+  }
+}
+
+.size_big {
+  .list {
+    padding: 4px;
+    border-radius: 16px;
+  }
+
+  .tab {
+    min-width: 56px;
+    padding: 9px 24px;
+    border-radius: 12px;
+    gap: 12px;
+  }
+
+  .indicator {
+    border-radius: 12px;
+  }
+}
+
+.variant_scrollable {
+  width: 100%;
+  max-width: 100%;
+
+  .list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .tab {
+    flex-shrink: 0;
+  }
+}
+
+.variant_fullWidth {
+  width: 100%;
+
+  .list {
+    display: flex;
+    width: 100%;
+  }
+
+  .tab {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.auraBadge {
+  position: absolute;
+  padding: 0 6px;
+  border-radius: 6px;
+  background-color: #37c269;
+  line-height: 14px !important;
+  top: -5px;
+  right: -14px;
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+
+  &.hovered {
+    transform: rotate(10deg) scale(1.1);
+  }
+}

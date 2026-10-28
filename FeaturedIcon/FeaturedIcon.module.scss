@@ -1,0 +1,137 @@
+.featuredIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  // Keeps the `white` variant's border inside the box, so it lines up with the
+  // filled variants instead of rendering 1px larger.
+  box-sizing: border-box;
+}
+
+// Sizes — box dimensions, corner radius and the icon size inside. The icon size
+// is enforced here (@remixicon/react sets width/height as presentational
+// attributes, which CSS overrides) so callers can't drift from the design system.
+
+.size_xl {
+  width: 84px;
+  height: 84px;
+  border-radius: var(--spacing-28);
+
+  > svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.size_l {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--spacing-24);
+
+  > svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.size_m {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--spacing-16);
+
+  > svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.size_s {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--spacing-12);
+
+  > svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.size_xs {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--spacing-12);
+
+  > svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Variant × color — background fill plus the `color` the icon inherits through
+// `currentColor`, so callers can drop a bare <RiIcon /> in and still match the
+// design. An explicit `color` prop on the icon still wins.
+
+.variant_light {
+  &.color_blue {
+    background: var(--color-blue-50);
+    color: var(--color-blue-300);
+  }
+
+  &.color_red {
+    background: var(--color-red-50);
+    color: var(--color-red-300);
+  }
+
+  &.color_grey {
+    background: var(--color-grey-100);
+    color: var(--color-grey-500);
+  }
+
+  &.color_green {
+    background: var(--color-green-50);
+    color: var(--color-green-400);
+  }
+
+  &.color_orange {
+    background: var(--color-orange-50);
+    color: var(--color-orange-300);
+  }
+
+  &.color_white {
+    background: var(--color-bw-white);
+    color: var(--color-blue-300);
+    border: 0.5px solid var(--color-grey-200);
+    box-shadow: 0 2px 2px 0 rgba(141, 152, 190, 0.06);
+  }
+}
+
+.variant_solid {
+  color: var(--color-bw-white);
+
+  &.color_blue {
+    background: var(--color-blue-300);
+  }
+
+  &.color_red {
+    background: var(--color-red-300);
+  }
+
+  &.color_grey {
+    background: var(--color-grey-600);
+  }
+
+  &.color_green {
+    background: var(--color-green-300);
+  }
+
+  &.color_orange {
+    background: var(--color-orange-300);
+  }
+
+  // `white` keeps its name across variants: it is the neutral one, inverted to
+  // black when solid.
+  &.color_white {
+    background: var(--color-bw-black);
+    box-shadow: 0 2px 2px 0 rgba(141, 152, 190, 0.06);
+  }
+}

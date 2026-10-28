@@ -1,0 +1,87 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  white-space: nowrap;
+
+  .icon {
+    display: inline-flex;
+    align-items: center;
+
+    svg {
+      display: block;
+    }
+  }
+}
+
+.size20 {
+  height: 20px;
+  padding: 0 6px;
+  gap: 4px;
+  border-radius: 10px;
+
+  .icon svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.size24 {
+  height: 24px;
+  padding: 0 8px;
+  gap: 4px;
+  border-radius: 12px;
+
+  .icon svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.size28 {
+  height: 28px;
+  padding: 0 8px;
+  gap: 6px;
+  border-radius: 14px;
+
+  .icon svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.size32 {
+  height: 32px;
+  padding: 0 12px;
+  gap: 6px;
+  border-radius: 16px;
+
+  .icon svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.size36 {
+  height: 36px;
+  padding: 0 12px;
+  gap: 8px;
+  border-radius: 18px;
+
+  .icon svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.size40 {
+  height: 40px;
+  padding: 0 16px;
+  gap: 8px;
+  border-radius: 20px;
+
+  .icon svg {
+    width: 20px;
+    height: 20px;
+  }
+}

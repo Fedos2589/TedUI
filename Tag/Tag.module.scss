@@ -1,0 +1,282 @@
+// =============================================================================
+// Base
+// =============================================================================
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--color-grey-500);
+  transition:
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    color 0.15s ease-in-out;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+
+  // Only shows when the tag is focusable (e.g. keyboard nav in TagSelect).
+  &:focus-visible {
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: 2px;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.button {
+  appearance: none;
+  margin: 0;
+  text-align: inherit;
+}
+
+.body {
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+  gap: inherit;
+  box-sizing: border-box;
+  padding: 0 0 0 var(--tag-padding-x);
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: inherit;
+
+  > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.remove {
+  flex-shrink: 0;
+  margin-left: -2px;
+}
+
+// =============================================================================
+// Sizes
+// =============================================================================
+
+.size_small {
+  --tag-padding-x: 8px;
+  height: 28px;
+  padding: 0 var(--tag-padding-x);
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 18px;
+
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.size_medium {
+  --tag-padding-x: 12px;
+  height: 32px;
+  padding: 0 var(--tag-padding-x);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 20px;
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.size_big {
+  --tag-padding-x: 16px;
+  height: 40px;
+  padding: 0 var(--tag-padding-x);
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 22px;
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// The body button takes the left padding, so the whole left edge stays clickable.
+.split {
+  padding-left: 0;
+}
+
+// "Show more / Show less" keeps a 16px icon at every size, unlike the filled tag.
+.outlined .icon {
+  width: 16px;
+  height: 16px;
+}
+
+// =============================================================================
+// Filled (Type=Tag)
+// =============================================================================
+
+.filled.blue {
+  background-color: var(--color-blue-50);
+  color: var(--color-blue-300);
+
+  &:not(.selected):hover {
+    background-color: var(--color-blue-100);
+  }
+
+  &:not(.selected):active {
+    background-color: var(--color-blue-200);
+  }
+}
+
+.filled.grey {
+  background-color: var(--color-grey-100);
+  color: var(--color-grey-500);
+
+  &:not(.selected):hover {
+    background-color: var(--color-grey-200);
+  }
+
+  &:not(.selected):active {
+    background-color: var(--color-grey-200);
+    border-color: var(--color-grey-300);
+  }
+}
+
+.filled.emerald {
+  background-color: var(--color-emerald-50);
+  color: var(--color-emerald-400);
+
+  &:not(.selected):hover {
+    background-color: var(--color-emerald-100);
+  }
+
+  &:not(.selected):active {
+    background-color: var(--color-emerald-200);
+  }
+}
+
+.filled.orange {
+  background-color: var(--color-orange-50);
+  color: var(--color-orange-300);
+
+  &:not(.selected):hover {
+    background-color: var(--color-orange-100);
+  }
+
+  &:not(.selected):active {
+    background-color: var(--color-orange-200);
+  }
+}
+
+// =============================================================================
+// Outlined (Type=Show more / Show less)
+// =============================================================================
+
+.outlined.blue {
+  background-color: transparent;
+  border-color: var(--color-blue-100);
+  color: var(--color-blue-300);
+
+  &:not(.selected):hover {
+    background-color: var(--color-blue-50);
+  }
+
+  &:not(.selected):active {
+    background-color: var(--color-blue-100);
+  }
+}
+
+.outlined.grey {
+  background-color: transparent;
+  border-color: var(--color-grey-100);
+  color: var(--color-grey-500);
+
+  &:not(.selected):hover {
+    background-color: var(--color-grey-100);
+  }
+
+  &:not(.selected):active {
+    background-color: var(--color-grey-100);
+    border-color: var(--color-grey-200);
+  }
+}
+
+.outlined.emerald {
+  background-color: transparent;
+  border-color: var(--color-emerald-100);
+  color: var(--color-emerald-400);
+
+  &:not(.selected):hover {
+    background-color: var(--color-emerald-50);
+  }
+
+  &:not(.selected):active {
+    background-color: var(--color-emerald-100);
+  }
+}
+
+.outlined.orange {
+  background-color: transparent;
+  border-color: var(--color-orange-100);
+  color: var(--color-orange-300);
+
+  &:not(.selected):hover {
+    background-color: var(--color-orange-50);
+  }
+
+  &:not(.selected):active {
+    background-color: var(--color-orange-100);
+  }
+}
+
+// =============================================================================
+// Selected — solid accent fill + white text (overrides both variants).
+// grey is the exception: the accent fill would read as a disabled chip, so the
+// design marks it with a border and a darker label instead.
+// =============================================================================
+
+.blue.selected {
+  background-color: var(--color-blue-300);
+  border-color: transparent;
+  color: var(--color-bw-white);
+}
+
+.grey.selected {
+  background-color: var(--color-grey-100);
+  border-color: var(--color-grey-300);
+  color: var(--color-grey-600);
+}
+
+.emerald.selected {
+  background-color: var(--color-emerald-300);
+  border-color: transparent;
+  color: var(--color-bw-white);
+}
+
+.orange.selected {
+  background-color: var(--color-orange-300);
+  border-color: transparent;
+  color: var(--color-bw-white);
+}

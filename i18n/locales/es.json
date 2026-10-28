@@ -1,0 +1,51 @@
+{
+  "common": {
+    "action": {
+      "close": "Cerrar",
+      "back": "Atrás",
+      "clear": "Borrar",
+      "show_options": "Mostrar opciones",
+      "menu": "Menú"
+    },
+    "button": {
+      "apply": "Aplicar",
+      "cancel": "Cancelar",
+      "clear": "Borrar",
+      "remove": "Eliminar"
+    },
+    "datePicker": {
+      "selectDate": "Seleccionar fecha",
+      "selectDates": "Seleccionar fechas",
+      "selectYear": "Seleccionar año",
+      "selectMonth": "Seleccionar mes",
+      "prevMonth": "Mes anterior",
+      "nextMonth": "Mes siguiente",
+      "daysCount_one": "{{count}} día",
+      "daysCount_other": "{{count}} días"
+    },
+    "placeholder": {
+      "search": "Buscar"
+    },
+    "text": {
+      "new": "nuevo",
+      "startTypingToSeeSuggestions": "Empieza a escribir para ver sugerencias",
+      "included": "Incluido",
+      "not_included": "No incluido",
+      "more_count": "{{count}} más",
+      "people_count_one": "{{count}} persona",
+      "people_count_other": "{{count}} personas"
+    },
+    "title": {
+      "select_country": "Selecciona el país",
+      "phone_number": "Número de teléfono"
+    }
+  },
+  "page": {
+    "cropAvatarModal": {
+      "upload": "Subir"
+    }
+  },
+  "codeField": {
+    "digit": "Dígito {{current}} de {{total}}"
+  }
+}

@@ -1,0 +1,214 @@
+@use '../styles/breakpoints' as *;
+
+// ─── End-icon button (clear / chevron) ────────────────────────────────────────
+
+.endIconButton {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-grey-400);
+  padding: 4px;
+  margin: -4px;
+
+  &[data-popup-open] svg {
+    transform: rotate(180deg);
+  }
+
+  svg {
+    transition: transform 0.15s ease-in-out;
+  }
+}
+
+// ─── Positioner (desktop dropdown) ───────────────────────────────────────────
+// z-index must live here: the Positioner is the `position: fixed` element, so
+// it's the stacking participant. The Popup inside it is `position: static`, so
+// a z-index there is ignored — which is why it was occluded by Bootstrap modals
+// (z-index 1055) when a Combobox is rendered inside one.
+
+.positioner {
+  z-index: 1100;
+}
+
+// ─── Popup (desktop dropdown) ────────────────────────────────────────────────
+
+.popup {
+  box-sizing: border-box;
+  background: var(--color-bw-white);
+  border: 1px solid var(--color-grey-100);
+  border-radius: 16px;
+  box-shadow: 0 20px 20px 0 rgba(141, 152, 190, 0.1);
+  // border-box keeps the border inside the anchor width, so the popup stays
+  // flush with the field it hangs off.
+  width: var(--anchor-width);
+
+  &[data-starting-style] {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  &:not([data-starting-style]) {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 0.15s ease-in-out,
+      transform 0.15s ease-in-out;
+  }
+}
+
+// Trigger mode: the popup still takes its width from the anchor (pass `anchor`
+// to stretch it across the enclosing field), with a floor for the case where
+// the anchor is the small trigger button itself.
+.popupWithTrigger {
+  min-width: min(280px, calc(100vw - 40px));
+}
+
+.popupSearch {
+  padding: 8px 8px 0;
+}
+
+// Shorter list than the plain dropdown: the popup also carries a search field,
+// so the full 320px would make it tall enough to flip above the field.
+.popupWithTrigger .list {
+  max-height: 240px;
+}
+
+.list {
+  display: block;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 8px;
+
+  &:empty {
+    display: none;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-grey-200);
+    background-clip: content-box;
+    border-right: 4px solid transparent;
+    border-radius: 4px;
+
+    &:hover {
+      background: #818fa4;
+      background-clip: content-box;
+    }
+  }
+}
+
+.item {
+  box-sizing: border-box;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-bw-black);
+  display: block;
+  transition: all 0.1s ease-in-out;
+  user-select: none;
+
+  &:hover,
+  &[data-highlighted],
+  &[data-selected] {
+    background-color: #f0f3fb;
+  }
+
+  &[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.empty {
+  padding: 12px;
+  text-align: center;
+  color: var(--color-grey-400);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+
+  &:empty {
+    display: none;
+  }
+}
+
+// ─── Mobile modal ────────────────────────────────────────────────────────────
+
+.mobileModalWrapper {
+  // Modal default radius is 24px; Figma uses 20px on mobile bottom-sheet.
+  @include mobile {
+    > div {
+      border-radius: 20px 20px 0 0;
+    }
+  }
+}
+
+.mobileModalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobileList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: calc(100vh - 280px);
+
+  // Without the search field the list gets its ~52px (field + gap) back.
+  &.mobileListNoSearch {
+    max-height: calc(100vh - 228px);
+  }
+  overflow-y: auto;
+  padding: 0;
+}
+
+.mobileItem {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--color-bw-black);
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+
+  // On mobile only "selected" gets a background. Skipping `[data-highlighted]`
+  // because base-ui auto-highlights the first item on open (and on hover via
+  // touch), which would visually compete with the actual selected row.
+  &[data-selected] {
+    background-color: #f0f3fb;
+  }
+
+  &[data-disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+// Figma spec for the email field: 8px between the control and its hint row.
+.emailField.emailField {
+  gap: 8px;
+}
+
+// Clickable address in the email story's "did you mean" hint: cursor only.
+.inlineSuggestion {
+  cursor: pointer;
+}

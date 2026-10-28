@@ -1,0 +1,151 @@
+@use '../styles/breakpoints' as *;
+
+// Typography scale — synced with the Design System Figma frame (node 22:534).
+// Headings H1–H8: Montserrat SemiBold (600). Bold Headings BH1–BH7: Bold (700).
+// Paragraphs T1–T5: Medium (500). T6 is a legacy size kept for back-compat.
+
+.root {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  // Default color lives here (not as an inline style) so a parent selector
+  // targeting the text — e.g. TabsRounded's `.tab[data-active] span` — can
+  // still override it. An explicit `color` prop is applied inline and wins.
+  color: var(--color-bw-black);
+}
+
+// --- Headings (SemiBold / 600) -------------------------------------------------
+
+.h1 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+
+  @include mobile {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+.h2 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.h3 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.h4 {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.h5 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.h6 {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.h7 {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.h8 {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+}
+
+// --- Bold Headings (Bold / 700) ------------------------------------------------
+
+.bh1 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+.bh2 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.bh3 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.bh4 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.bh5 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.bh6 {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.bh7 {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+// --- Paragraphs (Medium / 500) -------------------------------------------------
+
+.t1 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.t2 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.t3 {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.t4 {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.t5 {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.t6 {
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 10px;
+}

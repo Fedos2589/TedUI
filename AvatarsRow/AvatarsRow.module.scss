@@ -1,0 +1,16 @@
+.avatars {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+// Trailing "+N" chip — sizing/radius/ring are set inline so they match the
+// avatars (which size themselves the same way).
+.overflow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  background: var(--color-grey-100);
+}

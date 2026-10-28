@@ -1,0 +1,66 @@
+// `stack` drops the shell's own padding so a wrapped row of chips grows the
+// field instead of being clipped by the size's fixed height; the padding moves
+// here — 8px block (not the 12px a multiline input would use) so a single row
+// of 28px chips matches the design.
+.items {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  box-sizing: border-box;
+  gap: 4px;
+  min-width: 0;
+  min-height: 40px;
+  padding: 8px 16px;
+}
+
+// `role="list"` strips the default list box; this keeps the chips flowing in
+// the same wrap as the text field.
+.tags {
+  display: contents;
+}
+
+.field {
+  flex: 1 1 120px;
+  height: 28px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 8px;
+  background: var(--color-bw-white);
+  border: 1px solid var(--color-grey-100);
+  border-radius: 8px;
+  box-shadow: 0 2px 2px rgba(141, 152, 190, 0.06);
+}
+
+.remove {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-grey-400);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover {
+    color: var(--color-grey-600);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  // `all: unset` above drops the outline too, so the ring has to come back.
+  &:focus-visible {
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  svg {
+    display: block;
+  }
+}

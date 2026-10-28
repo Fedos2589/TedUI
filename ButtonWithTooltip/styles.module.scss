@@ -1,0 +1,16 @@
+.anchorInner {
+  max-width: 100%;
+}
+
+// `fullWidth`: both wrapper levels shrink to the trigger by default (the
+// tooltip's own trigger `<span>` is `inline-flex`), so stretching the anchor
+// takes an override on each — a `width: 100%` on the trigger itself has nothing
+// to measure against otherwise.
+.triggerFullWidth {
+  width: 100%;
+}
+
+.anchorInnerFullWidth {
+  flex: 1 1 auto;
+  min-width: 0;
+}

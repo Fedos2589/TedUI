@@ -1,0 +1,35 @@
+// The code and the number read as one string in the design, so the field's
+// control row uses a text-space gap instead of the shell's `size-big` 12px.
+// `className` lands on InputShell's outer container, whose only direct <div>
+// child is that control row (label is a <label>, the helper line a <span>).
+.field > div {
+  gap: 4px;
+}
+
+.countryTrigger {
+  gap: 4px;
+  padding: 0;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.optionName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flag {
+  flex-shrink: 0;
+  font-size: 16px;
+  line-height: 1;
+}

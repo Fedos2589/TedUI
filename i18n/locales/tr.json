@@ -1,0 +1,51 @@
+{
+  "common": {
+    "action": {
+      "close": "Kapat",
+      "back": "Geri",
+      "clear": "Temizle",
+      "show_options": "Seçenekleri göster",
+      "menu": "Menü"
+    },
+    "button": {
+      "apply": "Uygula",
+      "cancel": "İptal",
+      "clear": "Temizle",
+      "remove": "Kaldır"
+    },
+    "datePicker": {
+      "selectDate": "Tarih seçin",
+      "selectDates": "Tarih aralığı seçin",
+      "selectYear": "Yıl seçin",
+      "selectMonth": "Ay seçin",
+      "prevMonth": "Önceki ay",
+      "nextMonth": "Sonraki ay",
+      "daysCount_one": "{{count}} gün",
+      "daysCount_other": "{{count}} gün"
+    },
+    "placeholder": {
+      "search": "Ara"
+    },
+    "text": {
+      "new": "yeni",
+      "startTypingToSeeSuggestions": "Önerileri görmek için yazmaya başlayın",
+      "included": "Dahil",
+      "not_included": "Dahil değil",
+      "more_count": "{{count}} daha",
+      "people_count_one": "{{count}} kişi",
+      "people_count_other": "{{count}} kişi"
+    },
+    "title": {
+      "select_country": "Ülke seçin",
+      "phone_number": "Telefon numarası"
+    }
+  },
+  "page": {
+    "cropAvatarModal": {
+      "upload": "Yükle"
+    }
+  },
+  "codeField": {
+    "digit": "{{total}} basamaktan {{current}}. basamak"
+  }
+}

@@ -1,0 +1,95 @@
+@use '../styles/breakpoints' as *;
+
+.cellWrap {
+  min-width: 0;
+}
+
+.cell {
+  width: 100%;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-grey-50);
+  color: var(--color-grey-500);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+
+  @include mobile {
+    height: 48px;
+    font-size: 14px;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-blue-50);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-blue-100);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: -2px;
+  }
+
+  &:disabled {
+    color: var(--color-grey-300);
+    cursor: default;
+  }
+}
+
+// Days borrowed from the neighbouring month stay readable but recede — the
+// design leaves them without the fill, so the month reads as one block.
+.outside {
+  background: transparent;
+  color: var(--color-grey-300);
+}
+
+.inRange {
+  background-color: var(--color-blue-100);
+  color: var(--color-blue-400);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-blue-200);
+  }
+}
+
+// The only cell the design outlines: the fill alone would read as "in range".
+.today {
+  background-color: var(--color-green-50);
+  border: 1px solid var(--color-green-200);
+  color: var(--color-green-400);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-green-100);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-green-200);
+  }
+}
+
+// Last, so a selected day wins over today and over the range fill.
+.selected {
+  background-color: var(--color-blue-300);
+  color: var(--color-bw-white);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-blue-400);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-blue-500);
+  }
+
+  &:disabled {
+    background-color: var(--color-blue-200);
+    color: var(--color-bw-white);
+  }
+}

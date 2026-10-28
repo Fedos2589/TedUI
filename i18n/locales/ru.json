@@ -1,0 +1,55 @@
+{
+  "common": {
+    "action": {
+      "close": "Закрыть",
+      "back": "Назад",
+      "clear": "Очистить",
+      "show_options": "Показать варианты",
+      "menu": "Меню"
+    },
+    "button": {
+      "apply": "Применить",
+      "cancel": "Отмена",
+      "clear": "Очистить",
+      "remove": "Удалить"
+    },
+    "datePicker": {
+      "selectDate": "Выберите дату",
+      "selectDates": "Выберите даты",
+      "selectYear": "Выберите год",
+      "selectMonth": "Выберите месяц",
+      "prevMonth": "Предыдущий месяц",
+      "nextMonth": "Следующий месяц",
+      "daysCount_one": "{{count}} день",
+      "daysCount_few": "{{count}} дня",
+      "daysCount_many": "{{count}} дней",
+      "daysCount_other": "{{count}} дня"
+    },
+    "placeholder": {
+      "search": "Поиск"
+    },
+    "text": {
+      "new": "новый",
+      "startTypingToSeeSuggestions": "Начните вводить, чтобы увидеть подсказки",
+      "included": "Включено",
+      "not_included": "Не включено",
+      "more_count": "ещё {{count}}",
+      "people_count_one": "{{count}} человек",
+      "people_count_few": "{{count}} человека",
+      "people_count_many": "{{count}} человек",
+      "people_count_other": "{{count}} человека"
+    },
+    "title": {
+      "select_country": "Выберите страну",
+      "phone_number": "Номер телефона"
+    }
+  },
+  "page": {
+    "cropAvatarModal": {
+      "upload": "Загрузить"
+    }
+  },
+  "codeField": {
+    "digit": "Цифра {{current}} из {{total}}"
+  }
+}

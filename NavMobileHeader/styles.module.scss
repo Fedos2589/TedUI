@@ -1,0 +1,65 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 10;
+  // Bar sits flush to the top in a browser (env inset = 0); in the PWA it clears
+  // the notch/status bar via the raw safe-area inset. No fixed base offset — the
+  // 15px base of --header-mobile-safe-top is intended for floating logos, not a
+  // full-width header bar with its own background.
+  height: calc(56px + var(--sa-top, 0px));
+  padding-top: var(--sa-top, 0px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.alignLeft {
+  justify-content: flex-start;
+  gap: 8px;
+  padding-left: 16px;
+
+  // Back button joins the flow so the left-aligned title sits after it instead
+  // of underlapping the (otherwise absolute) button.
+  .backButton {
+    position: static;
+    padding-left: 0;
+  }
+
+  // Long titles (e.g. a vacancy name) truncate on one line rather than wrapping
+  // out of the fixed-height header.
+  .title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // Keep the title clear of the right edge when there's no right-side button.
+  &.noRightContent {
+    padding-right: 12px;
+  }
+}
+
+.backButton {
+  position: absolute;
+  left: 16px;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--color-bw-black);
+}
+
+.rightContent {
+  position: absolute;
+  right: 16px;
+  display: flex;
+  align-items: center;
+}

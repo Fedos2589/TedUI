@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+// MUI Typography renders as `span` here — force it to fill the column so the
+// `align` prop has a width to align inside.
+.line {
+  display: block;
+  width: 100%;
+  word-break: break-word;
+}
+
+// Per-size gap between title and subtitle.
+
+.size_xxl {
+  gap: var(--spacing-16);
+}
+
+.size_xl {
+  gap: var(--spacing-12);
+}
+
+.size_l {
+  gap: var(--spacing-12);
+}
+
+.size_m {
+  gap: var(--spacing-8);
+}
+
+.size_s {
+  gap: var(--spacing-8);
+}
+
+.size_xs {
+  gap: var(--spacing-8);
+}

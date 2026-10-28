@@ -1,0 +1,51 @@
+{
+  "common": {
+    "action": {
+      "close": "Chiudi",
+      "back": "Indietro",
+      "clear": "Cancella",
+      "show_options": "Mostra opzioni",
+      "menu": "Menu"
+    },
+    "button": {
+      "apply": "Applica",
+      "cancel": "Annulla",
+      "clear": "Cancella",
+      "remove": "Rimuovi"
+    },
+    "datePicker": {
+      "selectDate": "Seleziona una data",
+      "selectDates": "Seleziona le date",
+      "selectYear": "Seleziona l'anno",
+      "selectMonth": "Seleziona il mese",
+      "prevMonth": "Mese precedente",
+      "nextMonth": "Mese successivo",
+      "daysCount_one": "{{count}} giorno",
+      "daysCount_other": "{{count}} giorni"
+    },
+    "placeholder": {
+      "search": "Cerca"
+    },
+    "text": {
+      "new": "nuovo",
+      "startTypingToSeeSuggestions": "Inizia a digitare per vedere i suggerimenti",
+      "included": "Incluso",
+      "not_included": "Non incluso",
+      "more_count": "altri {{count}}",
+      "people_count_one": "{{count}} persona",
+      "people_count_other": "{{count}} persone"
+    },
+    "title": {
+      "select_country": "Seleziona il paese",
+      "phone_number": "Numero di telefono"
+    }
+  },
+  "page": {
+    "cropAvatarModal": {
+      "upload": "Carica"
+    }
+  },
+  "codeField": {
+    "digit": "Cifra {{current}} di {{total}}"
+  }
+}
