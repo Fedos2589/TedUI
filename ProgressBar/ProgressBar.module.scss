@@ -1,0 +1,142 @@
+// Geometry matches the Figma Design System: track and fill share the same
+// border-radius (no inset), the colored fill renders flush against the track
+// edges, and the track clips anything that overflows.
+
+// Wrapper around the track and the optional caption. The gap only materialises
+// when a caption is actually rendered, so a captionless bar keeps its exact
+// previous box.
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  width: 100%;
+}
+
+// =============================================================================
+// Track — the bar itself: background, height, radius and the typography the
+// label inherits. Kept off `.container` so the caption isn't clipped by
+// `overflow: hidden` and doesn't sit on the grey fill.
+// =============================================================================
+
+.track {
+  position: relative;
+  width: 100%;
+  background: var(--color-grey-100);
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
+}
+
+// =============================================================================
+// Sizes — each size sets: track height, track radius, and label typography.
+// Fill inherits the track radius via `border-radius: inherit`.
+// Figma naming differs: its `S` is our `thin`, its `M` is our `small`;
+// `medium` / `big` have no counterpart in the Design System frame.
+// =============================================================================
+
+// The label-less 8px track (Figma `Type=S`) — no typography, the value is
+// carried by the caption instead.
+.size_thin .track {
+  height: 8px;
+  border-radius: 8px;
+}
+
+.size_small .track {
+  height: 24px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+}
+
+.size_medium .track {
+  height: 32px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.size_big .track {
+  height: 40px;
+  border-radius: 12px;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+// =============================================================================
+// Fill
+// =============================================================================
+
+.fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--fill-percent, 0%);
+  border-radius: inherit;
+}
+
+.blue .fill {
+  background: var(--color-blue-300);
+}
+
+.green .fill {
+  background: var(--color-green-300);
+}
+
+// =============================================================================
+// Label
+// =============================================================================
+
+.label {
+  position: absolute;
+  top: 50%;
+  white-space: nowrap;
+  pointer-events: none;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+// Hidden probe used to measure the widest possible label. Lives in the DOM
+// but is invisible and removed from layout/hit-testing.
+.measureProbe {
+  visibility: hidden;
+  pointer-events: none;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+// Inside the fill, anchored to its right edge (white text on the colored fill).
+.label_inside {
+  left: var(--fill-percent, 0%);
+  transform: translate(calc(-100% - var(--label-inner-gap, 8px)), -50%);
+  color: var(--color-bw-white);
+}
+
+// Just outside the fill, on the light background (dark text).
+.label_outside {
+  left: var(--fill-percent, 0%);
+  transform: translate(var(--label-outer-gap, 8px), -50%);
+  color: var(--color-grey-600);
+}
+
+// "0" placeholder — anchored to the left of the (empty) bar.
+.label_zero {
+  left: var(--zero-placeholder-left, 8px);
+  transform: translateY(-50%);
+  color: var(--color-grey-600);
+}
+
+// =============================================================================
+// Caption — arbitrary content under the track. Layout only: the typography is
+// the caller's, via `Typography` (the Design System uses T3 next to the 24px
+// track and T4 next to `thin`).
+// =============================================================================
+
+.caption {
+  width: 100%;
+}

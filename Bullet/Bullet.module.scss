@@ -1,0 +1,27 @@
+.container {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 6px;
+
+  .icon {
+    flex-shrink: 0;
+  }
+
+  // Centers the small icon on the first line of t3 text.
+  .icon_small {
+    margin-top: 3px;
+  }
+
+  .ok {
+    color: var(--color-green-300);
+  }
+
+  .not_ok {
+    color: var(--color-orange-300);
+  }
+
+  .empty {
+    color: var(--color-grey-400);
+  }
+}

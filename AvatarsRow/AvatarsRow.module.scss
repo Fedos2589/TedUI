@@ -1,0 +1,25 @@
+@use '../styles/colorTokens' as *;
+
+// `borderColor`: the row sets --ring-color from a token; items and the chip read it.
+@include color-token-classes(ring, --ring-color);
+
+.avatars {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+// Trailing "+N" chip — size, radius and ring width are set inline so they match
+// the avatars (which size themselves the same way).
+.overflow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  background: var(--color-grey-100);
+}
+
+.ringed {
+  box-shadow: 0 0 0 var(--ring-width) var(--ring-color);
+}

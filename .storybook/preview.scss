@@ -1,0 +1,85 @@
+// Приложение получает border-box побочным эффектом bootstrap reboot внутри
+// styles/global.scss. Пакет к этому файлу доступа не имеет и иметь не должен,
+// а без border-box любой компонент с шириной плюс padding рисуется шире, чем
+// в приложении. Поэтому правило объявлено здесь явно.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Ещё две вещи, которые пакет молча получал от styles/global.scss:
+//
+// 1. `body { margin: 0 }` — браузерный дефолт добавляет 8px отступ вокруг
+//    <body>. В приложении его снимает app-level reset; здесь без этой строки
+//    каждая стори рисуется с рамкой в 8px там, где в приложении её нет.
+// 2. Шрифт Montserrat — компоненты пакета (Button, Tag, Tooltip, InputShell,
+//    ProgressBar, Typography и другие) прописывают `font-family: 'Montserrat',
+//    sans-serif` напрямую в своих модулях, но сами файлы шрифта (@font-face)
+//    лежат в styles/font.scss и грузятся из app assets, недоступных пакету.
+//    Без источника шрифта браузер молча откатывается на sans-serif —
+//    компоненты выглядят иначе, чем в приложении, хотя разметка не падает.
+//    Файлы шрифта (только веса, которые реально используются в SCSS пакета:
+//    500, 600, 700) вендорятся локально в ./fonts, а не грузятся с Google
+//    Fonts — пакет самодостаточен, скриншот-тесты в CI не зависят от сети, и
+//    Google-запрос без subset не гарантировал бы кириллицу для ru-строк.
+body {
+  margin: 0;
+}
+
+/* montserrat-400 - latin_cyrillic */
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''), url('./fonts/montserrat-v15-latin_cyrillic-regular.woff2') format('woff2');
+}
+
+/* montserrat-500 - latin_cyrillic */
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  src: local(''), url('./fonts/montserrat-v15-latin_cyrillic-500.woff2') format('woff2');
+}
+
+/* montserrat-600 - latin_cyrillic */
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  src: local(''), url('./fonts/montserrat-v15-latin_cyrillic-600.woff2') format('woff2');
+}
+
+/* montserrat-700 - latin_cyrillic */
+@font-face {
+  font-display: swap;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''), url('./fonts/montserrat-v15-latin_cyrillic-700.ttf') format('truetype');
+}
+
+// Два дополнительных правила из styles/global.scss и styles/_reset.scss,
+// которые в приложении применяют шрифт Montserrat, но недоступны пакету:
+// 1. html, body { font-family: 'Montserrat', sans-serif; font-size: 16px; }
+// 2. input, button, select, optgroup, textarea { font-family: inherit; … }
+// Без них компоненты наследуют браузерные дефолты (Times, Arial).
+html,
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+}
+
+input,
+button,
+select,
+optgroup,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}

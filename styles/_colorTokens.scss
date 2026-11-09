@@ -1,0 +1,27 @@
+// The `--color-*` token names from tokens.scss, for components whose prop picks a color
+// (`ColorToken` in colors.ts). Typography/textColor.test.ts checks these lists against
+// both files.
+
+// Quoted: unquoted `orange`, `red`, `green`… are Sass color values, not names.
+$color-groups: 'grey', 'grey-blue', 'blue', 'green', 'emerald', 'red', 'orange', 'yellow',
+  'beige', 'gainsborough';
+$color-shades: 50, 100, 200, 300, 400, 500, 600;
+
+// One class per token: `.#{$prefix}-grey-500 { #{$property}: var(--color-grey-500) }`.
+// A component maps its color prop to `styles[`${prefix}-${token}`]` — a class, never an
+// inline style.
+@mixin color-token-classes($prefix, $property) {
+  @each $token in 'bw-black', 'bw-white' {
+    .#{$prefix}-#{$token} {
+      #{$property}: var(--color-#{$token});
+    }
+  }
+
+  @each $group in $color-groups {
+    @each $shade in $color-shades {
+      .#{$prefix}-#{$group}-#{$shade} {
+        #{$property}: var(--color-#{$group}-#{$shade});
+      }
+    }
+  }
+}

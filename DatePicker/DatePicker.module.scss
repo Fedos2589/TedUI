@@ -1,0 +1,17 @@
+.trigger input {
+  cursor: pointer;
+}
+
+.popover {
+  width: 344px;
+  padding: 16px;
+  background-color: var(--color-bw-white);
+  border-radius: 16px;
+  box-shadow: 0 20px 20px 0 rgba(141, 152, 190, 0.1);
+}
+
+.sheetContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

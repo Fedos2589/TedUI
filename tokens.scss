@@ -1,0 +1,169 @@
+:root {
+  // B&W
+  --color-bw-black: #000000;
+  --color-bw-white: #ffffff;
+
+  // Grey scale
+  --color-grey-50: #f8f9f9;
+  --color-grey-100: #f2f4f6;
+  --color-grey-200: #e2e6eb;
+  --color-grey-300: #c1c9d2;
+  --color-grey-400: #919cad;
+  --color-grey-500: #545d6c;
+  --color-grey-600: #343a42;
+
+  // Grey-blue scale
+  --color-grey-blue-50: #f6f9ff;
+  --color-grey-blue-100: #ecf2ff;
+  --color-grey-blue-200: #dde8fb;
+  --color-grey-blue-300: #c4d2f0;
+  --color-grey-blue-400: #919fc7;
+  --color-grey-blue-500: #6b7ca8;
+  --color-grey-blue-600: #4e5d83;
+
+  // Blue scale
+  --color-blue-50: #f0f3ff;
+  --color-blue-100: #e5e8ff;
+  --color-blue-200: #b7bfff;
+  --color-blue-300: #4959dc;
+  --color-blue-400: #2333b6;
+  --color-blue-500: #081791;
+  --color-blue-600: #091473;
+
+  // Green scale
+  --color-green-50: #e8fcec;
+  --color-green-100: #d5f5e1;
+  --color-green-200: #91e1ae;
+  --color-green-300: #37c269;
+  --color-green-400: #1ca04c;
+  --color-green-500: #007b40;
+  --color-green-600: #00582e;
+
+  // Emerald scale
+  --color-emerald-50: #e8fcf9;
+  --color-emerald-100: #d5f5f1;
+  --color-emerald-200: #91e1d4;
+  --color-emerald-300: #38bea6;
+  --color-emerald-400: #1ca086;
+  --color-emerald-500: #007b6a;
+  --color-emerald-600: #005855;
+
+  // Red scale
+  --color-red-50: #fff1f1;
+  --color-red-100: #ffe3e3;
+  --color-red-200: #ffb1b1;
+  --color-red-300: #ff4343;
+  --color-red-400: #da2d2d;
+  --color-red-500: #a51919;
+  --color-red-600: #780000;
+
+  // Orange scale
+  --color-orange-50: #fff4ec;
+  --color-orange-100: #ffdec6;
+  --color-orange-200: #ffc499;
+  --color-orange-300: #fa7413;
+  --color-orange-400: #db5e04;
+  --color-orange-500: #ad4900;
+  --color-orange-600: #8d2f00;
+
+  // Yellow scale
+  --color-yellow-50: #fff9de;
+  --color-yellow-100: #fff7c9;
+  --color-yellow-200: #ffed8c;
+  --color-yellow-300: #ffe350;
+  --color-yellow-400: #fcd819;
+  --color-yellow-500: #edb500;
+  --color-yellow-600: #e49500;
+
+  // Beige scale
+  --color-beige-50: #fff7ec;
+  --color-beige-100: #fff4e4;
+  --color-beige-200: #fae7ca;
+  --color-beige-300: #f7d6a5;
+  --color-beige-400: #d8b493;
+  --color-beige-500: #bb9d81;
+  --color-beige-600: #998672;
+
+  // Gainsborough scale
+  --color-gainsborough-50: #fbfaf7;
+  --color-gainsborough-100: #f3f2ee;
+  --color-gainsborough-200: #eae9e6;
+  --color-gainsborough-300: #dcdbd7;
+  --color-gainsborough-400: #c6c4bd;
+  --color-gainsborough-500: #aaa69b;
+  --color-gainsborough-600: #86847f;
+
+  // Spacing scale — mirrors Figma `Spacing/*`. Used for gaps, paddings and
+  // corner radii (Figma binds radii to the same scale).
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  // -------------------------------------------------------------------------
+  // Button Color Tokens (state-based)
+  // -------------------------------------------------------------------------
+
+  // Black
+  --btn-black-bg: var(--color-bw-black);
+  --btn-black-bg-hover: var(--color-grey-600);
+  --btn-black-bg-active: var(--color-grey-500);
+  --btn-black-bg-disabled: var(--color-grey-400);
+  --btn-black-text: var(--color-bw-white);
+  --btn-black-text-disabled: var(--color-grey-300);
+
+  // Grey
+  --btn-grey-bg: var(--color-grey-100);
+  --btn-grey-bg-hover: var(--color-grey-200);
+  --btn-grey-bg-active: var(--color-grey-300);
+  --btn-grey-bg-disabled: var(--color-grey-50);
+  --btn-grey-text: var(--color-grey-600);
+  --btn-grey-text-disabled: var(--color-grey-300);
+
+  // White
+  --btn-white-bg: var(--color-bw-white);
+  --btn-white-bg-hover: var(--color-grey-100);
+  --btn-white-bg-active: var(--color-grey-200);
+  --btn-white-bg-disabled: var(--color-bw-white);
+  --btn-white-text: var(--color-grey-600);
+  --btn-white-text-disabled: var(--color-grey-300);
+
+  // Light Blue
+  --btn-light-blue-bg: var(--color-grey-blue-100);
+  --btn-light-blue-bg-hover: var(--color-grey-blue-200);
+  --btn-light-blue-bg-active: var(--color-grey-blue-300);
+  --btn-light-blue-bg-disabled: var(--color-grey-blue-50);
+  --btn-light-blue-text: var(--color-blue-300);
+  --btn-light-blue-text-disabled: var(--color-grey-blue-300);
+
+  // Blue
+  --btn-blue-bg: var(--color-blue-300);
+  --btn-blue-bg-hover: var(--color-blue-400);
+  --btn-blue-bg-active: var(--color-blue-500);
+  --btn-blue-bg-disabled: var(--color-blue-200);
+  --btn-blue-text: var(--color-bw-white);
+  --btn-blue-text-disabled: var(--color-blue-50);
+
+  // Red
+  --btn-red-bg: var(--color-red-300);
+  --btn-red-bg-hover: var(--color-red-400);
+  --btn-red-bg-active: var(--color-red-500);
+  --btn-red-bg-disabled: var(--color-red-200);
+  --btn-red-text: var(--color-bw-white);
+  --btn-red-text-disabled: var(--color-red-100);
+
+  // Light Red
+  --btn-light-red-bg: var(--color-red-50);
+  --btn-light-red-bg-hover: var(--color-red-100);
+  --btn-light-red-bg-active: var(--color-red-200);
+  --btn-light-red-bg-disabled: var(--color-red-50);
+  --btn-light-red-text: var(--color-red-300);
+  --btn-light-red-text-disabled: var(--color-red-200);
+}

@@ -1,0 +1,177 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.textGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.root {
+  all: unset;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background-color: var(--color-grey-blue-200);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+
+  &[data-checked] {
+    background-color: var(--color-blue-300);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: 2px;
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: var(--color-grey-blue-100);
+
+    &[data-checked] {
+      background-color: var(--color-blue-100);
+    }
+  }
+}
+
+.wrapper:hover:not(.disabled):not(.error) .root[data-checked] {
+  background-color: var(--color-blue-400);
+}
+
+.wrapper:active:not(.disabled):not(.error) .root[data-checked] {
+  background-color: var(--color-blue-500);
+}
+
+// Neutral scheme — muted grey-blue for low-emphasis consent/confirmation checkboxes
+// (design-system colorScheme=neutral). Unchecked keeps a border for WCAG 1.4.11 contrast;
+// the border is an inset box-shadow so toggling never shifts layout. Check icon stays white.
+.wrapper.neutral .root {
+  background-color: var(--color-grey-blue-100);
+  box-shadow: inset 0 0 0 1px var(--color-grey-blue-500);
+
+  &[data-checked] {
+    background-color: var(--color-grey-blue-500);
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline-color: var(--color-grey-blue-500);
+  }
+
+  &[data-disabled] {
+    background-color: var(--color-grey-blue-100);
+    box-shadow: inset 0 0 0 1px var(--color-grey-blue-300);
+
+    &[data-checked] {
+      background-color: var(--color-grey-blue-200);
+      box-shadow: none;
+    }
+  }
+}
+
+.wrapper.neutral:hover:not(.disabled):not(.error) .root {
+  box-shadow: inset 0 0 0 1px var(--color-grey-blue-600);
+
+  &[data-checked] {
+    background-color: var(--color-grey-blue-600);
+    box-shadow: none;
+  }
+}
+
+.wrapper.neutral:active:not(.disabled):not(.error) .root {
+  background-color: var(--color-grey-blue-200);
+  box-shadow: inset 0 0 0 1px var(--color-grey-blue-600);
+
+  &[data-checked] {
+    background-color: var(--color-bw-black);
+    box-shadow: none;
+  }
+}
+
+// Label states for neutral (consumers that use the built-in label; express passes its own
+// Typography). Hover/active tint the label grey-blue instead of the default blue.
+.wrapper.neutral:hover:not(.disabled):not(.error) .label,
+.wrapper.neutral:active:not(.disabled):not(.error) .label {
+  color: var(--color-grey-blue-600);
+}
+
+.label {
+  color: var(--color-bw-black);
+  transition: color 0.15s ease-in-out;
+}
+
+.wrapper:hover:not(.disabled):not(.error) .label {
+  color: var(--color-blue-300);
+}
+
+.wrapper:active:not(.disabled):not(.error) .label {
+  color: var(--color-blue-500);
+}
+
+// Disabled
+.wrapper.disabled {
+  cursor: not-allowed;
+
+  .label {
+    color: var(--color-grey-blue-300);
+  }
+}
+
+.wrapper.error {
+  .label {
+    color: var(--color-red-300);
+  }
+
+  .root {
+    background-color: var(--color-grey-blue-200);
+    box-shadow: inset 0 0 0 1px var(--color-red-300);
+
+    &[data-checked] {
+      background-color: var(--color-red-300);
+      box-shadow: none;
+    }
+  }
+}
+
+.textGroup .hint {
+  color: var(--color-grey-400);
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  // Kept mounted in both states (see keepMounted) so toggling doesn't insert /
+  // remove a DOM node and reflow the layout — only the opacity changes.
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+
+  &[data-checked] {
+    opacity: 1;
+  }
+}
+
+.icon {
+  display: block;
+  fill: white;
+  stroke: white;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

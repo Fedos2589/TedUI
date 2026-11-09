@@ -1,0 +1,150 @@
+.wrapper {
+  // Color scheme (default = blue). The `.green` modifier overrides these vars.
+  --radio-checked: var(--color-blue-300);
+  --radio-checked-hover: var(--color-blue-400);
+  --radio-checked-active: var(--color-blue-500);
+  --radio-checked-disabled: var(--color-blue-100);
+  --radio-accent: var(--color-blue-300);
+  --radio-accent-active: var(--color-blue-500);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+
+  &:has(.root[data-disabled]) {
+    cursor: not-allowed;
+  }
+}
+
+.green {
+  --radio-checked: var(--color-green-300);
+  --radio-checked-hover: var(--color-green-400);
+  --radio-checked-active: var(--color-green-500);
+  --radio-checked-disabled: var(--color-green-100);
+  --radio-accent: var(--color-green-300);
+  --radio-accent-active: var(--color-green-500);
+}
+
+.textGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.root {
+  all: unset;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  background-color: var(--color-grey-blue-200);
+  transition: background-color 0.15s ease;
+
+  // The dot grows on hover and while pressed. It is scaled rather than resized:
+  // animating width/height relayouts the flex box on every frame, which reads as
+  // the whole control twitching under the cursor.
+  &::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: transparent;
+    transition:
+      background-color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  &[data-checked] {
+    background-color: var(--radio-checked);
+
+    &::before {
+      background-color: var(--color-bw-white);
+    }
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &[data-disabled][data-unchecked] {
+    background-color: var(--color-grey-blue-100);
+  }
+
+  &[data-disabled][data-checked] {
+    background-color: var(--radio-checked-disabled);
+
+    &::before {
+      background-color: var(--color-bw-white);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--radio-accent);
+    outline-offset: 2px;
+  }
+}
+
+.wrapper:hover {
+  .root:not([data-disabled])::before {
+    background-color: var(--color-bw-white);
+  }
+
+  .root[data-checked]:not([data-disabled]) {
+    background-color: var(--radio-checked-hover);
+
+    &::before {
+      transform: scale(1.25);
+    }
+  }
+}
+
+.wrapper:active {
+  .root:not([data-disabled]) {
+    background-color: var(--radio-accent);
+
+    &::before {
+      background-color: var(--color-bw-white);
+    }
+  }
+
+  .root[data-checked]:not([data-disabled]) {
+    background-color: var(--radio-checked-active);
+
+    &::before {
+      transform: scale(1.25);
+    }
+  }
+}
+
+.label {
+  color: var(--color-bw-black);
+  transition: color 0.15s ease;
+}
+
+.wrapper:hover .label {
+  color: var(--radio-accent);
+}
+
+.wrapper:active .label {
+  color: var(--radio-accent);
+}
+
+.wrapper:active:has(.root[data-checked]) .label {
+  color: var(--radio-accent-active);
+}
+
+.wrapper:has(.root[data-disabled]) .label {
+  color: var(--color-grey-blue-300);
+}
+
+.textGroup .hint {
+  color: var(--color-grey-400);
+}

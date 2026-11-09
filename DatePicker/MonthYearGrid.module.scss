@@ -1,0 +1,114 @@
+@use '../styles/mixins' as *;
+
+// Gap the design leaves between the cells and the scrollbar.
+$cell-scrollbar-clearance: 8px;
+
+.root {
+  display: grid;
+  overflow-y: auto;
+  font-family: 'Montserrat', sans-serif;
+
+  @include thin-scrollbar;
+}
+
+.grid {
+  // offsetTop of the selected option — how the list scrolls itself into view —
+  // is measured against this box, so it has to be the positioned ancestor.
+  position: relative;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  max-height: 246px;
+  // The scrollbar costs the cells width on one side only, which reads as the
+  // grid sitting off-centre in its container. The clearance it needs is taken
+  // as padding and then pulled straight back out as margin, so the cells end
+  // where they would with no scrollbar at all — whatever padding the popover or
+  // the sheet around them happens to have.
+  margin-right: -($cell-scrollbar-clearance + $thin-scrollbar-width);
+  padding-right: $cell-scrollbar-clearance;
+}
+
+.list {
+  grid-template-columns: 1fr;
+  gap: 2px;
+  max-height: 200px;
+  padding: 8px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-grey-100);
+  color: var(--color-grey-500);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-blue-50);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-blue-100);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: -2px;
+  }
+
+  &:disabled {
+    color: var(--color-grey-300);
+    cursor: default;
+  }
+}
+
+.grid .option {
+  height: 48px;
+}
+
+.list .option {
+  height: 40px;
+  justify-content: flex-start;
+  padding: 0 12px;
+  border-radius: 12px;
+  background-color: transparent;
+  color: var(--color-bw-black);
+
+  // The row under the pointer is the one the design tints blue — not the
+  // current value, which stays black and is marked by the check alone.
+  &:hover:not(:disabled) {
+    background-color: var(--color-grey-blue-50);
+    color: var(--color-blue-300);
+  }
+}
+
+// Only the grid layout fills the current value in: in the dropdown the current
+// row reads like any other and is marked by the check alone, and it hovers the
+// way its neighbours do. The rule is scoped to a layout so it does not
+// out-specify the shared `.option:hover`.
+.grid .selected {
+  background-color: var(--color-blue-300);
+  color: var(--color-bw-white);
+  font-weight: 600;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-blue-400);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-blue-500);
+  }
+}
+
+.check {
+  margin-left: auto;
+  color: var(--color-grey-300);
+}

@@ -1,0 +1,67 @@
+.counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  // Force the scheme's text color even when a parent (e.g. inactive tab) tries
+  // to color descendant spans/paragraphs via a tag selector.
+  &,
+  & * {
+    color: var(--counter-text) !important;
+  }
+}
+
+.sizeSmall {
+  min-width: 16px;
+  height: 16px;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+
+.sizeMedium {
+  min-width: 20px;
+  height: 20px;
+  padding: 5px 6px;
+  border-radius: 8px;
+}
+
+.dot {
+  display: inline-block;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.schemeRed {
+  --counter-text: var(--color-bw-white);
+
+  background: var(--color-red-300);
+}
+
+.schemeGreen {
+  --counter-text: var(--color-bw-white);
+
+  background: var(--color-green-300);
+}
+
+.schemeGrey {
+  --counter-text: var(--color-bw-white);
+
+  background: var(--color-grey-400);
+}
+
+.schemeWhite {
+  --counter-text: var(--color-blue-300);
+
+  background: var(--color-bw-white);
+}
+
+.dotSmall {
+  width: 5px;
+  height: 5px;
+}
+
+.dotMedium {
+  width: 8px;
+  height: 8px;
+}

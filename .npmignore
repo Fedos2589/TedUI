@@ -1,0 +1,17 @@
+node_modules
+storybook-static
+.storybook
+_storybook
+**/*.stories.*
+**/*.test.*
+vitest.config.mts
+.eslintcache
+eslint.config.mjs
+.prettierrc
+.npmrc
+# Правила для агентов, правящих сам кит. В node_modules потребителя им не место:
+# Claude Code подхватывает CLAUDE.md из папки, где читает файлы, и агент в
+# приложении получил бы правила для правки кита. Потребителям — docs/agents/usage.md.
+AGENTS.md
+CLAUDE.md
+.claude

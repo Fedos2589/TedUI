@@ -1,0 +1,159 @@
+// =============================================================================
+// Base
+// =============================================================================
+
+.avatar {
+  flex-shrink: 0;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 22%;
+  overflow: hidden;
+  user-select: none;
+  transition: all 0.15s ease-in-out;
+
+  --avatar-icon-size: 50%;
+  --avatar-font-size: 37%;
+}
+
+.button {
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+}
+
+// =============================================================================
+// Sizes
+// =============================================================================
+
+.size3xl {
+  width: 100px;
+  height: 100px;
+  --avatar-font-size: 37px;
+  --avatar-icon-size: 46px;
+}
+
+.size2xl {
+  width: 72px;
+  height: 72px;
+  --avatar-font-size: 27px;
+  --avatar-icon-size: 33px;
+}
+
+.sizeXl {
+  width: 60px;
+  height: 60px;
+  --avatar-font-size: 22px;
+  --avatar-icon-size: 28px;
+}
+
+.sizeLg {
+  width: 52px;
+  height: 52px;
+  --avatar-font-size: 19px;
+  --avatar-icon-size: 24px;
+}
+
+.sizeMd {
+  width: 40px;
+  height: 40px;
+  --avatar-font-size: 15px;
+  --avatar-icon-size: 18px;
+}
+
+.sizeSm {
+  width: 32px;
+  height: 32px;
+  --avatar-font-size: 12px;
+  --avatar-icon-size: 14px;
+}
+
+.sizeXs {
+  width: 24px;
+  height: 24px;
+  --avatar-font-size: 9px;
+  --avatar-icon-size: 11px;
+}
+
+.size2xs {
+  width: 20px;
+  height: 20px;
+  --avatar-font-size: 8px;
+  --avatar-icon-size: 9px;
+}
+
+.size3xs {
+  width: 16px;
+  height: 16px;
+  --avatar-font-size: 6px;
+  --avatar-icon-size: 7px;
+}
+
+// =============================================================================
+// Shared icon style
+// =============================================================================
+
+.icon {
+  width: var(--avatar-icon-size);
+  height: var(--avatar-icon-size);
+}
+
+.userIcon {
+  width: 80%;
+  height: 80%;
+  margin-top: auto;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+// =============================================================================
+// User
+// =============================================================================
+
+.user {
+  background: #f2f4f6;
+  color: #e2e6eb;
+
+  &:hover {
+    background: #e2e6eb;
+    color: #c1c9d2;
+  }
+}
+
+.initials {
+  background: #919cad;
+
+  &:hover {
+    background: #545d6c;
+  }
+}
+
+.input {
+  background: var(--color-blue-50);
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: #dde8fb;
+  }
+
+  .icon {
+    width: 40%;
+    height: auto;
+  }
+}

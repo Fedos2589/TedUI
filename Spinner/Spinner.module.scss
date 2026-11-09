@@ -1,0 +1,38 @@
+@use '../styles/colorTokens' as *;
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Color follows `currentColor` unless the `color` prop picks a token.
+.spinner {
+  display: inline-block;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 50%;
+  border-color: currentColor;
+  border-top-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+
+// The busy states of Button's sizes.
+.small {
+  width: 14px;
+  height: 14px;
+}
+
+.medium {
+  width: 16px;
+  height: 16px;
+}
+
+.large {
+  width: 20px;
+  height: 20px;
+}
+
+@include color-token-classes(color, color);

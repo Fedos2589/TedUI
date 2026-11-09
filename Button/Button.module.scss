@@ -1,0 +1,341 @@
+// =============================================================================
+// Base
+// =============================================================================
+
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  border-radius: 12px;
+  line-height: 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  height: 32px;
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  // Keyboard-only focus ring. Matches Tag / Checkbox / Radio; without
+  // it `outline: none` above leaves keyboard users with no visible position.
+  &:focus-visible {
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: 2px;
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+  }
+}
+
+.loading {
+  pointer-events: none;
+}
+
+.contentHidden {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+}
+
+.spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+// =============================================================================
+// Sizes
+// =============================================================================
+
+.small {
+  padding: 0 12px;
+  border-radius: 8px;
+}
+
+.medium {
+  padding: 0 16px;
+  height: 40px;
+}
+
+.large {
+  padding: 0 24px;
+  height: 48px;
+}
+
+// =============================================================================
+// Variants (structural)
+// =============================================================================
+
+.solid {
+  // Colors applied via colorScheme
+}
+
+.ghost {
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  &:hover:not([data-disabled]) {
+    opacity: 0.7;
+  }
+
+  &:active:not([data-disabled]) {
+    opacity: 0.5;
+  }
+}
+
+// =============================================================================
+// Color Schemes
+// =============================================================================
+
+// `outline` is a standalone scheme (border + white bg), independent of variant.
+.outline {
+  background: var(--color-bw-white);
+  border-color: var(--color-grey-200);
+  box-shadow: 0 2px 2px rgba(141, 152, 190, 0.06);
+  color: var(--color-grey-600);
+
+  &:hover:not([data-disabled]) {
+    background: var(--color-grey-50);
+  }
+
+  &:active:not([data-disabled]) {
+    background: var(--color-grey-100);
+  }
+
+  &[data-disabled] {
+    color: var(--color-grey-300);
+    border-color: var(--color-grey-200);
+  }
+}
+
+.black {
+  &.solid {
+    background: var(--btn-black-bg);
+    color: var(--btn-black-text);
+
+    &:hover:not([data-disabled]) {
+      background: var(--btn-black-bg-hover);
+    }
+
+    &:active:not([data-disabled]) {
+      background: var(--btn-black-bg-active);
+    }
+
+    &[data-disabled] {
+      background: var(--btn-black-bg-disabled);
+      color: var(--btn-black-text-disabled);
+    }
+  }
+
+  &.ghost {
+    color: var(--btn-black-bg);
+
+    &[data-disabled] {
+      color: var(--btn-black-bg-disabled);
+    }
+  }
+}
+
+.grey {
+  &.solid {
+    background: var(--btn-grey-bg);
+    color: var(--btn-grey-text);
+
+    &:hover:not([data-disabled]) {
+      background: var(--btn-grey-bg-hover);
+    }
+
+    &:active:not([data-disabled]) {
+      background: var(--btn-grey-bg-active);
+    }
+
+    &[data-disabled] {
+      background: var(--btn-grey-bg-disabled);
+      color: var(--btn-grey-text-disabled);
+    }
+  }
+
+  &.ghost {
+    color: var(--btn-grey-text);
+
+    &[data-disabled] {
+      color: var(--btn-grey-text-disabled);
+    }
+  }
+}
+
+.white {
+  &.solid {
+    background: var(--btn-white-bg);
+    color: var(--btn-white-text);
+
+    &:hover:not([data-disabled]) {
+      background: var(--btn-white-bg-hover);
+    }
+
+    &:active:not([data-disabled]) {
+      background: var(--btn-white-bg-active);
+    }
+
+    &[data-disabled] {
+      background: var(--btn-white-bg-disabled);
+      color: var(--btn-white-text-disabled);
+    }
+  }
+
+  &.ghost {
+    color: var(--btn-white-text);
+
+    &[data-disabled] {
+      color: var(--btn-white-text-disabled);
+    }
+  }
+}
+
+.lightBlue {
+  &.solid {
+    background: var(--btn-light-blue-bg);
+    color: var(--btn-light-blue-text);
+
+    &:hover:not([data-disabled]) {
+      background: var(--btn-light-blue-bg-hover);
+    }
+
+    &:active:not([data-disabled]) {
+      background: var(--btn-light-blue-bg-active);
+    }
+
+    &[data-disabled] {
+      background: var(--btn-light-blue-bg-disabled);
+      color: var(--btn-light-blue-text-disabled);
+    }
+  }
+
+  &.ghost {
+    color: var(--btn-light-blue-text);
+
+    &[data-disabled] {
+      color: var(--btn-light-blue-text-disabled);
+    }
+  }
+}
+
+.blue {
+  &.solid {
+    background: var(--btn-blue-bg);
+    color: var(--btn-blue-text);
+
+    &:hover:not([data-disabled]) {
+      background: var(--btn-blue-bg-hover);
+    }
+
+    &:active:not([data-disabled]) {
+      background: var(--btn-blue-bg-active);
+    }
+
+    &[data-disabled] {
+      background: var(--btn-blue-bg-disabled);
+      color: var(--btn-blue-text-disabled);
+    }
+  }
+
+  &.ghost {
+    color: var(--btn-blue-bg);
+
+    &[data-disabled] {
+      color: var(--btn-blue-bg-disabled);
+    }
+  }
+}
+
+.red {
+  &.solid {
+    background: var(--btn-red-bg);
+    color: var(--btn-red-text);
+
+    &:hover:not([data-disabled]) {
+      background: var(--btn-red-bg-hover);
+    }
+
+    &:active:not([data-disabled]) {
+      background: var(--btn-red-bg-active);
+    }
+
+    &[data-disabled] {
+      background: var(--btn-red-bg-disabled);
+      color: var(--btn-red-text-disabled);
+    }
+  }
+
+  &.ghost {
+    color: var(--btn-red-bg);
+
+    &[data-disabled] {
+      color: var(--btn-red-bg-disabled);
+    }
+  }
+}
+
+.lightRed {
+  &.solid {
+    background: var(--btn-light-red-bg);
+    color: var(--btn-light-red-text);
+
+    &:hover:not([data-disabled]) {
+      background: var(--btn-light-red-bg-hover);
+    }
+
+    &:active:not([data-disabled]) {
+      background: var(--btn-light-red-bg-active);
+    }
+
+    &[data-disabled] {
+      background: var(--btn-light-red-bg-disabled);
+      color: var(--btn-light-red-text-disabled);
+    }
+  }
+
+  &.ghost {
+    color: var(--btn-light-red-text);
+
+    &[data-disabled] {
+      color: var(--btn-light-red-text-disabled);
+    }
+  }
+}
+
+.fullWidth {
+  width: 100%;
+  flex-grow: 1;
+}
+
+// =============================================================================
+// Align
+// =============================================================================
+
+.align_left {
+  justify-content: flex-start;
+}
+
+.align_center {
+  justify-content: center;
+}
+
+.align_right {
+  justify-content: flex-end;
+}

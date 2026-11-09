@@ -1,0 +1,43 @@
+// Pop-in animation for the status icons (success / error / warning). It starts
+// AFTER the toast bubble has flown in (react-hot-toast's enter is ~0.35s), so the
+// icon pop is its own beat instead of being lost inside the bubble's movement.
+// `both` fill-mode holds the 0% frame (icon hidden) during the delay.
+@keyframes toastIconEnter {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.iconEnter {
+  display: inline-flex;
+  flex-shrink: 0;
+  transform-origin: center;
+  animation: toastIconEnter 0.3s cubic-bezier(0.21, 1.02, 0.73, 1) 0.35s both;
+}
+
+.closeButton {
+  appearance: none;
+  display: flex;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iconEnter {
+    animation: none;
+  }
+}

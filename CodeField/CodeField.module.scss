@@ -1,0 +1,110 @@
+@use '../styles/breakpoints' as bp;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  width: 100%;
+}
+
+.boxes {
+  display: flex;
+  gap: var(--spacing-8);
+  // Centred by default; a screen that gives the field a fixed column can spread
+  // the boxes across it instead, which is what the auth screens do on mobile.
+  justify-content: var(--code-field-justify, center);
+}
+
+.box {
+  flex: 0 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+  text-align: center;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--color-bw-black);
+  background-color: var(--color-grey-blue-50);
+  border: 1px solid transparent;
+  // 4px, the radius the code boxes have always had on these screens.
+  border-radius: var(--radius-sm);
+  // Sizing lives on the modifier classes below.
+  appearance: none;
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  // No focus ring yet — the design for it is still being agreed. Until then the
+  // only cue that a box is active is the native text caret, which is weaker than
+  // WCAG 2.4.7 wants; the `border` above is kept so a ring can be added without
+  // shifting the layout.
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:disabled {
+    color: var(--color-grey-400);
+    cursor: not-allowed;
+  }
+}
+
+// Only the border turns red. Filling the boxes was a change of design that came
+// in with this component; before, the neutral background stayed put.
+.boxError {
+  border-color: var(--color-red-300);
+}
+
+// The scale covers every box geometry these screens have shipped with:
+// `large` the auth pages, `medium` the full-page confirmation screens,
+// `small` the compact fields inside panels and modals.
+.large .box {
+  width: 60px;
+  height: 50px;
+  font-size: 20px;
+}
+
+.medium .box {
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+}
+
+.small .box {
+  width: 44px;
+  height: 40px;
+  font-size: 18px;
+}
+
+// 600px, not the 768px desktop breakpoint: that is where these boxes have
+// always stepped down. A fluid row is exempt — it already fits whatever column
+// it is given, so shrinking it a second time only makes the boxes squat.
+@include bp.bp-down(601px) {
+  .large:not(.fluid) .box {
+    width: 45px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  .medium:not(.fluid) .box {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+
+  .small:not(.fluid) .box {
+    width: 38px;
+    height: 36px;
+    font-size: 16px;
+  }
+}
+
+// The boxes share the row instead of taking the size's fixed width, so the
+// field spans a fixed-width column exactly. Declared after the scale to win on
+// source order, since both selectors weigh the same.
+.fluid .box {
+  flex: 1 1 0;
+  width: auto;
+}

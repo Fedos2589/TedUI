@@ -1,0 +1,217 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease-in-out;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  flex-shrink: 0;
+  padding: 0;
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  // Keyboard-only focus ring. Matches Tag / Checkbox / Radio; without
+  // it `outline: none` above leaves keyboard users with no visible position.
+  &:focus-visible {
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: 2px;
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+  }
+}
+
+// =============================================================================
+// Sizes
+// =============================================================================
+
+.size_extraBig {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+
+.size_big {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+}
+
+.size_medium {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+}
+
+.size_small {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+}
+
+// =============================================================================
+// Spinner
+// =============================================================================
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  display: block;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+
+// =============================================================================
+// Color schemes
+// =============================================================================
+
+// Icon buttons carry a lighter icon than the text buttons' label — grey-500
+// instead of the shared --btn-*-text (grey-600).
+.white {
+  background: var(--btn-white-bg);
+  color: var(--color-grey-500);
+
+  &:hover:not([data-disabled]) {
+    background: var(--btn-white-bg-hover);
+  }
+
+  &:active:not([data-disabled]):not(.loading) {
+    background: var(--btn-white-bg-active);
+  }
+
+  &.loading {
+    background: var(--btn-white-bg-active);
+  }
+
+  &[data-disabled] {
+    background: var(--btn-white-bg-disabled);
+    color: var(--btn-white-text-disabled);
+  }
+}
+
+.grey {
+  background: var(--btn-grey-bg);
+  color: var(--color-grey-500);
+
+  &:hover:not([data-disabled]) {
+    background: var(--btn-grey-bg-hover);
+  }
+
+  &:active:not([data-disabled]):not(.loading) {
+    background: var(--btn-grey-bg-active);
+  }
+
+  &.loading {
+    background: var(--btn-grey-bg-active);
+  }
+
+  &[data-disabled] {
+    background: var(--btn-grey-bg-disabled);
+    color: var(--btn-grey-text-disabled);
+  }
+}
+
+.whiteBlue {
+  background: transparent;
+  color: var(--color-blue-300);
+
+  &:hover:not([data-disabled]) {
+    background: var(--color-grey-blue-100);
+  }
+
+  &:active:not([data-disabled]):not(.loading) {
+    background: var(--color-grey-blue-200);
+  }
+
+  &.loading {
+    background: var(--color-grey-blue-200);
+  }
+
+  &[data-disabled] {
+    background: transparent;
+    color: var(--color-grey-blue-300);
+  }
+}
+
+.greyBlue {
+  background: var(--btn-light-blue-bg);
+  color: var(--btn-light-blue-text);
+
+  &:hover:not([data-disabled]) {
+    background: var(--btn-light-blue-bg-hover);
+  }
+
+  &:active:not([data-disabled]):not(.loading) {
+    background: var(--btn-light-blue-bg-active);
+  }
+
+  &.loading {
+    background: var(--btn-light-blue-bg-active);
+  }
+
+  &[data-disabled] {
+    background: var(--btn-light-blue-bg-disabled);
+    color: var(--btn-light-blue-text-disabled);
+  }
+}
+
+// Solid blue primary — filled circle/square with a white glyph.
+.blue {
+  background: var(--color-blue-300);
+  color: var(--color-bw-white);
+
+  &:hover:not([data-disabled]) {
+    background: var(--color-blue-400);
+  }
+
+  &:active:not([data-disabled]):not(.loading) {
+    background: var(--color-blue-500);
+  }
+
+  &.loading {
+    background: var(--color-blue-400);
+  }
+
+  &[data-disabled] {
+    background: var(--color-blue-200);
+    color: var(--color-bw-white);
+  }
+}
+
+// Transparent neutral — no background until hover, grey glyph. For icon actions
+// that sit directly on a surface (e.g. the "cancel recording" X).
+.transparent {
+  background: transparent;
+  color: var(--color-grey-500);
+
+  &:hover:not([data-disabled]) {
+    background: var(--color-grey-100);
+  }
+
+  &:active:not([data-disabled]):not(.loading) {
+    background: var(--color-grey-200);
+  }
+
+  &.loading {
+    background: var(--color-grey-100);
+  }
+
+  &[data-disabled] {
+    background: transparent;
+    color: var(--color-grey-300);
+  }
+}

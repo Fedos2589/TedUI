@@ -1,0 +1,65 @@
+// Positioner — owns the stacking context so the popover sits above app chrome.
+.positioner {
+  z-index: 1400;
+}
+
+// Popup — a transparent wrapper; the visible card comes from `children`. Only
+// carries the open/close transition. Base UI exposes `--transform-origin`.
+.popup {
+  box-sizing: border-box;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+  transform-origin: var(--transform-origin);
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+// Optional dimming backdrop (off by default).
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(20, 24, 31, 0.4);
+  transition: opacity 0.15s ease;
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+  }
+}
+
+// Optional arrow — a rotated square tucked against the popup edge.
+.arrow {
+  width: 12px;
+  height: 12px;
+
+  &[data-side='bottom'] {
+    top: -6px;
+  }
+  &[data-side='top'] {
+    bottom: -6px;
+    transform: rotate(180deg);
+  }
+  &[data-side='left'] {
+    right: -6px;
+    transform: rotate(90deg);
+  }
+  &[data-side='right'] {
+    left: -6px;
+    transform: rotate(-90deg);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: rotate(45deg);
+    background-color: var(--color-bw-white);
+    border: 1px solid var(--color-grey-200);
+    border-top-left-radius: 3px;
+  }
+}

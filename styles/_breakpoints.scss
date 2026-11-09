@@ -1,0 +1,36 @@
+// Canonical breakpoints — synced with styles/theme.ts MUI breakpoints.
+// Use these mixins for all responsive code.
+
+$bp-sm: 600px;
+$bp-md: 768px; // primary mobile <-> desktop threshold
+$bp-lg: 1280px;
+
+@mixin mobile {
+  @media screen and (max-width: #{$bp-md - 1}) {
+    @content;
+  }
+}
+
+@mixin isPwa {
+  @media (display-mode: standalone) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: $bp-md) {
+    @content;
+  }
+}
+
+@mixin bp-up($bp) {
+  @media screen and (min-width: $bp) {
+    @content;
+  }
+}
+
+@mixin bp-down($bp) {
+  @media screen and (max-width: #{$bp - 1}) {
+    @content;
+  }
+}

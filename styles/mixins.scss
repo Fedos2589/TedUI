@@ -1,0 +1,111 @@
+// Mixins living in UI-KIT — single source of truth for these.
+// The app re-imports them from here via `@use 'ted-ui/styles/mixins' as *`.
+// noSelect / rounded-hex / scroll stay in the app-level styles/mixins.scss.
+
+@mixin remove-scrollbar {
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
+
+  scrollbar-width: none;
+}
+
+// The design's scrollbar: a 2px grey thumb inset 4px from the right edge, no
+// track. Declaring `::-webkit-scrollbar` at all is also what makes macOS give
+// up its overlay scrollbar and paint the same always-visible bar Windows does,
+// so the element scrolls identically on both. Firefox exposes no equivalent
+// control — `thin` plus a thumb colour is the closest it offers.
+// Width the scrollbar takes out of the content box. Exported so a layout that
+// has to stay centred can pull the same amount back with a negative margin.
+$thin-scrollbar-width: 6px;
+
+@mixin thin-scrollbar {
+  &::-webkit-scrollbar {
+    width: $thin-scrollbar-width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-grey-200);
+    // The thumb paints into the content box only, so the 4px border is what
+    // holds it off the right edge and trims it to the 2px the design draws.
+    background-clip: content-box;
+    border-right: 4px solid transparent;
+    border-radius: 4px;
+  }
+
+  // Firefox only. `scrollbar-width` and `scrollbar-color` are the standard
+  // properties, and Chrome drops every `::-webkit-scrollbar` rule on an element
+  // the moment either is set — setting them unconditionally is what left the
+  // bar as the browser's own thick one. Firefox doesn't know the pseudo, so the
+  // query selects exactly the engine that needs them.
+  @supports not selector(::-webkit-scrollbar) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-grey-200) transparent;
+  }
+}
+
+@mixin fadeBefore($start-color: rgba(255, 255, 255, 0), $end-color: #ffffff) {
+  position: relative;
+
+  &::before {
+    content: '';
+    height: 40px;
+    background: linear-gradient(180deg, $start-color 0%, $end-color 100%);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    z-index: 10;
+  }
+}
+
+@mixin fadeAfter($start-color: rgba(255, 255, 255, 0), $end-color: #ffffff) {
+  position: relative;
+
+  &::after {
+    content: '';
+    height: 40px;
+    background: linear-gradient(0deg, $start-color 0%, $end-color 100%);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 99%;
+    z-index: 10;
+  }
+}
+
+@mixin fadeLeft($start-color: rgba(255, 255, 255, 0), $end-color: #ffffff, $width: 40px) {
+  position: relative;
+
+  &::before {
+    content: '';
+    width: $width;
+    background: linear-gradient(270deg, $start-color 0%, $end-color 100%);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+  }
+}
+
+@mixin fadeRight($start-color: rgba(255, 255, 255, 0), $end-color: #ffffff, $width: 40px) {
+  position: relative;
+
+  &::after {
+    content: '';
+    width: $width;
+    background: linear-gradient(90deg, $start-color 0%, $end-color 100%);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+  }
+}
