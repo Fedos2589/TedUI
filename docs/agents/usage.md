@@ -33,6 +33,7 @@ npm install github:Fedos2589/TedUI#vX.Y.Z   # → "ted-ui": "github:Fedos2589/Te
 | i18next initialised + `registerUIKitTranslations(i18n)` from `ted-ui/i18n/resources` | Kit components call `useTranslation('ui-kit')`; without it they print keys |
 | `ToastProvider` from `ted-ui/Toast/Toast`, once | Only if the app calls `toast()` |
 | Base resets: `*, *::before, *::after { box-sizing: border-box }`, `body { margin: 0 }`, form controls `font: inherit` | Kit components are measured assuming them |
+| Viewport meta `width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content` | `viewport-fit=cover` makes `env(safe-area-inset-*)` non-zero (`ActionBar` pads by it); `interactive-widget` makes Chrome shrink the layout (and `dvh`) for the on-screen keyboard instead of covering the page |
 
 The kit is installed from GitHub by tag (`github:Fedos2589/TedUI#vX.Y.Z`), not from
 the npm registry; always pin a tag, never the bare repo (that tracks `main`).
@@ -70,6 +71,7 @@ import { Typography } from 'ted-ui'               // root — works, but see bel
 | a date or date-range field | `DatePicker` — needs dayjs, see below |
 | tabs | `Tabs`, `TabsRounded` |
 | a dialog / bottom sheet | `Modal` |
+| a form's or a step's main action(s) at the bottom | `ActionBar` around the `Button`s, inside the `<form>` after the fields: on mobile it is pinned to the bottom, above the home indicator and the on-screen keyboard |
 | a floating menu | `Popover` |
 | a hint on hover | `Tooltip` |
 | a spinner / skeleton / progress | `Spinner`, `Skeleton`, `ProgressBar` |
@@ -210,17 +212,24 @@ system (a kit change), don't hard-code one.
   `{ isMobile, isDesktop }`. The server and first paint assume **mobile** and reconcile
   on hydration — don't branch markup on it where a CSS mixin would do, or desktop users
   see the mobile layout flash.
-- **Primary action on mobile stays reachable**: the main CTA of a step/flow is pinned to
-  the bottom of the viewport (sticky/fixed bar, `fullWidth` buttons), not left below the
-  fold after long content.
+- **Primary action on mobile stays reachable**: the main CTA of a step/flow goes in
+  `ActionBar` (`fullWidth` buttons), not left below the fold after long content or under
+  the keyboard. A hand-rolled `position: sticky; bottom: 0` bar ends up under the keys on
+  iOS Safari, which lays the keyboard over the page; `ActionBar` rises by
+  `useKeyboardInset()` (`ted-ui/hooks/useKeyboardInset`) — use that hook for anything
+  else pinned to the bottom.
+- **Screen height: `dvh`, never `vh`.** `100vh` is the height with the browser bars
+  hidden, so on a phone a `100vh` box is taller than the screen while they show, and it
+  ignores the keyboard. `min-height: 100dvh` for a full-screen shell; `svh` / `lvh` when
+  you need the smallest / largest. The kit's own sources are held to this by a test.
 - **Safe area**: anything pinned to the top or bottom offsets by
   `env(safe-area-inset-top|bottom, 0px)` (or the app's token built on it). It only works
   when the page's viewport meta has `viewport-fit=cover`; check the app sets it.
-- **iOS zooms the page on focus when a field's font is below 16px.** Kit `Input` renders
-  13px (`small`, `medium`) and 14px (`big`), so on its own it triggers the zoom. Don't
-  suppress it with `maximum-scale=1.0, user-scalable=no` in the viewport meta — that
-  blocks pinch-zoom for everyone, an accessibility cost — and don't shrink your own
-  fields below 16px; a 16px-on-mobile size for kit inputs is a pending kit change.
+- **iOS zooms the page on focus when a field's font is below 16px.** Kit fields (`Input`,
+  `Textarea`, `Combobox`, `TagsInput`) render 16px on mobile for that reason (13–14px on
+  desktop). Don't suppress the zoom with `maximum-scale=1.0, user-scalable=no` in the
+  viewport meta — that blocks pinch-zoom for everyone, an accessibility cost — and don't
+  shrink your own fields below 16px.
 - **Horizontal overflow is a bug**: `document.documentElement.scrollWidth` must equal
   the viewport width at 390px.
 - Verify mobile in a mobile viewport (390×844, touch), not by resizing a desktop window.
