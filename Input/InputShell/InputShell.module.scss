@@ -1,3 +1,5 @@
+@use '../../styles/breakpoints' as *;
+
 .inputContainer {
   display: flex;
   flex-direction: column;
@@ -77,6 +79,11 @@
   .control {
     font-size: 13px;
     line-height: 20px;
+
+    // iOS zooms the page into a focused field whose text is below 16px.
+    @include mobile {
+      font-size: 16px;
+    }
   }
 
   &.multiline {
@@ -102,6 +109,11 @@
   .control {
     font-size: 13px;
     line-height: 20px;
+
+    // iOS zooms the page into a focused field whose text is below 16px.
+    @include mobile {
+      font-size: 16px;
+    }
   }
 
   &.multiline {
@@ -124,6 +136,11 @@
   .control {
     font-size: 14px;
     line-height: 22px;
+
+    // iOS zooms the page into a focused field whose text is below 16px.
+    @include mobile {
+      font-size: 16px;
+    }
   }
 
   &.multiline {
