@@ -1,0 +1,22 @@
+@use '../styles/breakpoints' as *;
+
+.bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+
+  @include mobile {
+    position: sticky;
+    // --keyboard-inset is set by the component (0px without a keyboard).
+    bottom: var(--keyboard-inset, 0px);
+    z-index: 1;
+    padding: var(--spacing-12) var(--spacing-16)
+      calc(var(--spacing-12) + env(safe-area-inset-bottom, 0px));
+    background: var(--color-bw-white);
+
+    // The keyboard covers the home indicator: no safe-area gap above it.
+    &[data-keyboard-open] {
+      padding-bottom: var(--spacing-12);
+    }
+  }
+}

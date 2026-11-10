@@ -16,6 +16,8 @@ export { Bullet } from './Bullet/Bullet'
 export type { BulletState } from './Bullet/Bullet'
 export { Checkbox } from './Checkbox'
 export type { CheckboxProps } from './Checkbox'
+export { ActionBar } from './ActionBar/ActionBar'
+export type { ActionBarProps } from './ActionBar/ActionBar'
 export { Counter } from './Counter/Counter'
 export type {
   CounterColorScheme,

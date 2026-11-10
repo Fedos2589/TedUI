@@ -156,11 +156,11 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  max-height: calc(100vh - 280px);
+  max-height: calc(100dvh - 280px);
 
   // Without the search field the list gets its ~52px (field + gap) back.
   &.mobileListNoSearch {
-    max-height: calc(100vh - 228px);
+    max-height: calc(100dvh - 228px);
   }
   overflow-y: auto;
   padding: 0;

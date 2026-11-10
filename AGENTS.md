@@ -100,6 +100,9 @@ the boundary is the component that calls them.
   `tokens.scss`. In TSX, where a raw value is unavoidable (canvas, a 3rd-party config,
   SVG props): `colors` from `colors.ts`. Never a hex/rgba literal in a module —
   literals are what make a theme (dark, a product palette) impossible later.
+- **Screen height** — `dvh` (or `svh` / `lvh`), never `vh`: on phones `100vh` is taller
+  than the screen while the browser bars show and ignores the keyboard.
+  `styles/viewportUnits.test.ts` fails on a plain `vh` in any `.scss` / `.tsx`.
 - **Spacing and radius** — `var(--spacing-4…32)`, `var(--radius-sm|md)` where a token
   fits; a one-off number is fine when the design really has one.
 - **Text color** — `<Typography color="grey-500">`: the prop takes a `--color-*` token
