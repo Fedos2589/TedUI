@@ -21,19 +21,19 @@ has the kit, this is listed so you recognise it and don't "clean it up".
 npm install github:Fedos2589/TedUI#vX.Y.Z   # → "ted-ui": "github:Fedos2589/TedUI#vX.Y.Z"
 ```
 
-| What | Why |
-|---|---|
-| `optimizeDeps.exclude: ['ted-ui']` in `vite.config.ts` | The kit ships `.tsx` + `.module.scss` sources; Vite compiles them like app code instead of pre-bundling |
-| `optimizeDeps.include` listing every package the kit imports (`'ted-ui > classnames'`, `'ted-ui > @base-ui/react/<part>'`, dayjs and its plugins…) | Excluding the kit also skips its imports; their CommonJS then reaches the browser raw — "does not provide an export named 'default'". Dev only: `build` passes, `npm run test:e2e` catches it |
-| `vite-plugin-svgr` with `include: '**/*.svg'`, `exportType: 'default'` | Kit components import SVGs as React components without `?react`; without it they render "Element type is invalid" |
-| `verbatimModuleSyntax: false` in `tsconfig.app.json` | tsc checks the kit's sources too, and they import types without `import type` |
-| `sass` installed | Kit styles are SCSS modules |
-| `import 'ted-ui/tokens.scss'` once, in `src/main.tsx` | Components read `var(--color-*)`; the kit doesn't load its tokens itself |
-| Montserrat loaded with the literal family name `'Montserrat'` (`index.html`) | Kit modules set `font-family: 'Montserrat'`; a renamed family falls back to sans-serif silently |
-| i18next initialised + `registerUIKitTranslations(i18n)` from `ted-ui/i18n/resources` | Kit components call `useTranslation('ui-kit')`; without it they print keys |
-| `ToastProvider` from `ted-ui/Toast/Toast`, once | Only if the app calls `toast()` |
-| Base resets: `*, *::before, *::after { box-sizing: border-box }`, `body { margin: 0 }`, form controls `font: inherit` | Kit components are measured assuming them |
-| Viewport meta `width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content` | `viewport-fit=cover` makes `env(safe-area-inset-*)` non-zero (`ActionBar` pads by it); `interactive-widget` makes Chrome shrink the layout (and `dvh`) for the on-screen keyboard instead of covering the page |
+| What                                                                                                                                               | Why                                                                                                                                                                                                            |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `optimizeDeps.exclude: ['ted-ui']` in `vite.config.ts`                                                                                             | The kit ships `.tsx` + `.module.scss` sources; Vite compiles them like app code instead of pre-bundling                                                                                                        |
+| `optimizeDeps.include` listing every package the kit imports (`'ted-ui > classnames'`, `'ted-ui > @base-ui/react/<part>'`, dayjs and its plugins…) | Excluding the kit also skips its imports; their CommonJS then reaches the browser raw — "does not provide an export named 'default'". Dev only: `build` passes, `npm run test:e2e` catches it                  |
+| `vite-plugin-svgr` with `include: '**/*.svg'`, `exportType: 'default'`                                                                             | Kit components import SVGs as React components without `?react`; without it they render "Element type is invalid"                                                                                              |
+| `verbatimModuleSyntax: false` in `tsconfig.app.json`                                                                                               | tsc checks the kit's sources too, and they import types without `import type`                                                                                                                                  |
+| `sass` installed                                                                                                                                   | Kit styles are SCSS modules                                                                                                                                                                                    |
+| `import 'ted-ui/tokens.scss'` once, in `src/main.tsx`                                                                                              | Components read `var(--color-*)`; the kit doesn't load its tokens itself                                                                                                                                       |
+| Montserrat loaded with the literal family name `'Montserrat'` (`index.html`)                                                                       | Kit modules set `font-family: 'Montserrat'`; a renamed family falls back to sans-serif silently                                                                                                                |
+| i18next initialised + `registerUIKitTranslations(i18n)` from `ted-ui/i18n/resources`                                                               | Kit components call `useTranslation('ui-kit')`; without it they print keys                                                                                                                                     |
+| `ToastProvider` from `ted-ui/Toast/Toast`, once                                                                                                    | Only if the app calls `toast()`                                                                                                                                                                                |
+| Base resets: `*, *::before, *::after { box-sizing: border-box }`, `body { margin: 0 }`, form controls `font: inherit`                              | Kit components are measured assuming them                                                                                                                                                                      |
+| Viewport meta `width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content`                                        | `viewport-fit=cover` makes `env(safe-area-inset-*)` non-zero (`ActionBar` pads by it); `interactive-widget` makes Chrome shrink the layout (and `dvh`) for the on-screen keyboard instead of covering the page |
 
 The kit is installed from GitHub by tag (`github:Fedos2589/TedUI#vX.Y.Z`), not from
 the npm registry; always pin a tag, never the bare repo (that tracks `main`).
@@ -43,9 +43,9 @@ the next `npm ci` wipes the change. To change the kit, see "When the kit lacks s
 ## Imports
 
 ```tsx
-import { Button } from 'ted-ui/Button'            // component folder — preferred
-import { Input } from 'ted-ui/Input/Input'        // exact file — also fine
-import { Typography } from 'ted-ui'               // root — works, but see below
+import { Button } from 'ted-ui/Button' // component folder — preferred
+import { Input } from 'ted-ui/Input/Input' // exact file — also fine
+import { Typography } from 'ted-ui' // root — works, but see below
 ```
 
 - The root entry pulls every component in the kit into the module graph. Prefer folder/file imports in new
@@ -56,29 +56,30 @@ import { Typography } from 'ted-ui'               // root — works, but see bel
 
 ## Use the kit, not your own
 
-| Instead of | Use |
-|---|---|
-| `<button>`, an `<a>`/`<div>` styled as a button | `Button` with explicit `variant` (`solid \| ghost`) and `colorScheme` (`black \| grey \| white \| lightBlue \| blue \| red \| lightRed \| outline`); link-style text buttons are `variant="ghost"` |
-| an icon-only button | `IconButton` with `aria-label` naming the action |
-| `<input>`, `<textarea>` | `Input`, `Input/Textarea` (`autoGrow`, `minRows`, `maxRows`) with `label` |
-| a time of day (opening hours, a slot start) | `TimePicker` — `value`/`onChange` are minutes after midnight, native picker |
-| an error message next to a field | the field's `error` + `errorText` |
-| `<h1>`–`<h6>`, `<p>`, `<span>` with text | `Typography` with a `variant`; need a tag → `component="h1"` |
-| a chip group to pick from | `TagSelect` (`multiple` or single) |
-| a static pill / status | `Tag` or `Label` |
-| an unread/notification count badge | `Counter` (`size` `S \| M`, `variant` `number \| dot`, `colorScheme` `red \| green \| grey \| white`) |
-| radio buttons / checkboxes | `RadioGroup` + `Radio`, `Checkbox` |
-| a dropdown with search | `Combobox` |
-| a date or date-range field | `DatePicker` — needs dayjs, see below |
-| tabs | `Tabs`, `TabsRounded` |
-| a dialog / bottom sheet | `Modal` |
-| a form's or a step's main action(s) at the bottom | `ActionBar` around the `Button`s, inside the `<form>` after the fields: on mobile it is pinned to the bottom, above the home indicator and the on-screen keyboard |
-| a floating menu | `Popover` |
-| a hint on hover | `Tooltip` |
-| a spinner / skeleton / progress | `Spinner`, `Skeleton`, `ProgressBar` |
-| a notification | `toast` + `ToastProvider` |
-| announcing something to a screen reader | `LiveRegion` |
-| an avatar, a row of avatars | `Avatar`, `AvatarsRow` |
+| Instead of                                           | Use                                                                                                                                                                                                |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<button>`, an `<a>`/`<div>` styled as a button      | `Button` with explicit `variant` (`solid \| ghost`) and `colorScheme` (`black \| grey \| white \| lightBlue \| blue \| red \| lightRed \| outline`); link-style text buttons are `variant="ghost"` |
+| an icon-only button                                  | `IconButton` with `aria-label` naming the action                                                                                                                                                   |
+| `<input>`, `<textarea>`                              | `Input`, `Input/Textarea` (`autoGrow`, `minRows`, `maxRows`) with `label`                                                                                                                          |
+| a time of day (opening hours, a slot start)          | `TimePicker` — `value`/`onChange` are minutes after midnight, native picker                                                                                                                        |
+| an error message next to a field                     | the field's `error` + `errorText`                                                                                                                                                                  |
+| `<h1>`–`<h6>`, `<p>`, `<span>` with text             | `Typography` with a `variant`; need a tag → `component="h1"`                                                                                                                                       |
+| a chip group to pick from                            | `TagSelect` (`multiple` or single)                                                                                                                                                                 |
+| a static pill / status                               | `Tag` or `Label`                                                                                                                                                                                   |
+| an unread/notification count badge                   | `Counter` (`size` `S \| M`, `variant` `number \| dot`, `colorScheme` `red \| green \| grey \| white`)                                                                                              |
+| radio buttons / checkboxes                           | `RadioGroup` + `Radio`, `Checkbox`                                                                                                                                                                 |
+| a dropdown with search                               | `Combobox`                                                                                                                                                                                         |
+| a date or date-range field                           | `DatePicker` — needs dayjs, see below                                                                                                                                                              |
+| tabs                                                 | `Tabs`, `TabsRounded`                                                                                                                                                                              |
+| a dialog / bottom sheet                              | `Modal`                                                                                                                                                                                            |
+| «Delete this?» / «Save changes?» — a yes/no question | `ConfirmDialog` (`colorScheme="red"` for what cannot be undone)                                                                                                                                    |
+| a form's or a step's main action(s) at the bottom    | `ActionBar` around the `Button`s, inside the `<form>` after the fields: on mobile it is pinned to the bottom, above the home indicator and the on-screen keyboard                                  |
+| a floating menu                                      | `Popover`                                                                                                                                                                                          |
+| a hint on hover                                      | `Tooltip`                                                                                                                                                                                          |
+| a spinner / skeleton / progress                      | `Spinner`, `Skeleton`, `ProgressBar`                                                                                                                                                               |
+| a notification                                       | `toast` + `ToastProvider`                                                                                                                                                                          |
+| announcing something to a screen reader              | `LiveRegion`                                                                                                                                                                                       |
+| an avatar, a row of avatars                          | `Avatar`, `AvatarsRow`                                                                                                                                                                             |
 
 Using the kit component is not only about looks: `Button` handles `loading` and
 disabled-while-loading, `Input` wires label, hint and error to the field for screen
@@ -117,6 +118,7 @@ To use it:
    It is deliberately **not** re-exported from the root `ted-ui`. The root entry
    pulls in every component, so an app importing `Button` from it without dayjs
    installed would stop building.
+
 3. Nothing else. The component registers the dayjs plugins it needs
    (`customParseFormat`, `localizedFormat`) and the kit's 10 locales itself, as a side
    effect of the import; the app's own `dayjs.extend(…)` calls are unaffected.
@@ -165,7 +167,9 @@ and the `Input` props the trigger passes through — is in Storybook.
 element's props. Alignment, margins and width come from your own class:
 
 ```tsx
-<Typography variant="t3" color="grey-400" className={styles.hint}>…</Typography>
+<Typography variant="t3" color="grey-400" className={styles.hint}>
+  …
+</Typography>
 ```
 
 ```scss
@@ -184,23 +188,23 @@ class: pick a variant.
 
 Variants, desktop sizes (font-size / line-height):
 
-| Variant | Size | Weight |
-|---|---|---|
-| `h1` | 32/40 (mobile 20/28) | 600 |
-| `h2` | 24/32 | 600 |
-| `h3` | 20/28 | 600 |
-| `h4` | 18/24 | 600 |
-| `h5` | 16/22 | 600 |
-| `h6` | 14/20 | 600 |
-| `h7` | 13/18 | 600 |
-| `h8` | 11/14 | 600 |
-| `bh1`–`bh7` | as `h1`–`h7` | 700 |
-| `t1` | 16/22 | 500 |
-| `t2` | 14/22 | 500 |
-| `t3` | 13/20 | 500 |
-| `t4` | 12/18 | 500 |
-| `t5` | 10/16 | 500 |
-| `t6` | 9/10 | 500 |
+| Variant     | Size                 | Weight |
+| ----------- | -------------------- | ------ |
+| `h1`        | 32/40 (mobile 20/28) | 600    |
+| `h2`        | 24/32                | 600    |
+| `h3`        | 20/28                | 600    |
+| `h4`        | 18/24                | 600    |
+| `h5`        | 16/22                | 600    |
+| `h6`        | 14/20                | 600    |
+| `h7`        | 13/18                | 600    |
+| `h8`        | 11/14                | 600    |
+| `bh1`–`bh7` | as `h1`–`h7`         | 700    |
+| `t1`        | 16/22                | 500    |
+| `t2`        | 14/22                | 500    |
+| `t3`        | 13/20                | 500    |
+| `t4`        | 12/18                | 500    |
+| `t5`        | 10/16                | 500    |
+| `t6`        | 9/10                 | 500    |
 
 Pick the nearest variant instead of a custom size — a 15px here and a 13.5px there is how
 a product stops looking like the design system. There is nothing above 32px and no
@@ -222,6 +226,7 @@ system (a kit change), don't hard-code one.
   ```
 
   Raw queries drift (767 here, 768 there) and the layout jumps between them.
+
 - **In TSX:** `useBreakpoints()` from `ted-ui/hooks/useBreakpoints` →
   `{ isMobile, isDesktop }`. The server and first paint assume **mobile** and reconcile
   on hydration — don't branch markup on it where a CSS mixin would do, or desktop users
@@ -256,16 +261,16 @@ icon exists.
 
 ## Accessibility
 
-| Building | Do | Not |
-|---|---|---|
-| something that goes somewhere | a link (`<a href>`, the router's `<Link>`) | `onClick` + `navigate()` |
-| something that does something | `Button` / `IconButton` | `div onClick` |
-| a form | `<form onSubmit noValidate>`, submit button `type="submit"`, others `type="button"` | Enter handled in `onKeyDown` |
-| a field | kit `Input` with `label`; errors via `errorText` | placeholder as the only label |
-| a failed submit | focus the first invalid field | leave focus on the button |
-| a step change in a flow | move focus to the new step's heading | let focus drop to `<body>` |
-| something that appears off-screen / a loader | `LiveRegion` | nothing |
-| animation | respect `prefers-reduced-motion` | motion that can't be turned off |
+| Building                                     | Do                                                                                  | Not                             |
+| -------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------- |
+| something that goes somewhere                | a link (`<a href>`, the router's `<Link>`)                                          | `onClick` + `navigate()`        |
+| something that does something                | `Button` / `IconButton`                                                             | `div onClick`                   |
+| a form                                       | `<form onSubmit noValidate>`, submit button `type="submit"`, others `type="button"` | Enter handled in `onKeyDown`    |
+| a field                                      | kit `Input` with `label`; errors via `errorText`                                    | placeholder as the only label   |
+| a failed submit                              | focus the first invalid field                                                       | leave focus on the button       |
+| a step change in a flow                      | move focus to the new step's heading                                                | let focus drop to `<body>`      |
+| something that appears off-screen / a loader | `LiveRegion`                                                                        | nothing                         |
+| animation                                    | respect `prefers-reduced-motion`                                                    | motion that can't be turned off |
 
 Most of this comes free with kit components; the rules exist for the moments you step
 outside them.
