@@ -7,6 +7,10 @@ read the matching one before starting:
 | When you're…                                                        | Read                                                                             |
 | ------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | adding a component, or a variant / size / colorScheme / prop to one | [`.claude/skills/add-component/SKILL.md`](.claude/skills/add-component/SKILL.md) |
+| writing SCSS, colors, breakpoints, typography                       | [`.claude/skills/kit-styles/SKILL.md`](.claude/skills/kit-styles/SKILL.md)       |
+| rendering text / adding an i18n key                                 | [`.claude/skills/kit-text/SKILL.md`](.claude/skills/kit-text/SKILL.md)           |
+| anything interactive, or accessibility work                         | [`.claude/skills/kit-a11y/SKILL.md`](.claude/skills/kit-a11y/SKILL.md)           |
+| writing a test                                                      | [`.claude/skills/kit-tests/SKILL.md`](.claude/skills/kit-tests/SKILL.md)         |
 | releasing a new version, or bumping the kit in BookedUp-front       | [`.claude/skills/release/SKILL.md`](.claude/skills/release/SKILL.md)             |
 
 ## How the package is shipped
@@ -94,98 +98,6 @@ keyboard and ARIA; a hand-rolled class drifts from it.
 Server Components, where without it the import dies on `createContext` at build time. Hooks files don't need it —
 the boundary is the component that calls them.
 
-## Styles
-
-- **Colors are tokens.** In SCSS: `var(--color-grey-500)`, `var(--color-blue-300)` from
-  `tokens.scss`. In TSX, where a raw value is unavoidable (canvas, a 3rd-party config,
-  SVG props): `colors` from `colors.ts`. Never a hex/rgba literal in a module —
-  literals are what make a theme (dark, a product palette) impossible later.
-- **Screen height** — `dvh` (or `svh` / `lvh`), never `vh`: on phones `100vh` is taller
-  than the screen while the browser bars show and ignores the keyboard.
-  `styles/viewportUnits.test.ts` fails on a plain `vh` in any `.scss` / `.tsx`.
-- **Spacing and radius** — `var(--spacing-4…32)`, `var(--radius-sm|md)` where a token
-  fits; a one-off number is fine when the design really has one.
-- **Text color** — `<Typography color="grey-500">`: the prop takes a `--color-*` token
-  name (`ColorToken` from `colors.ts`) and applies it as a class. Not `style={{ color }}`,
-  not a raw value.
-- **Any prop that picks a color** works the same way (`Spinner color`, `AvatarsRow
-  borderColor`): typed `ColorToken`, turned into a class by
-  `@include color-token-classes(<prefix>, <property>)` from `styles/_colorTokens.scss`.
-  The property can be a custom one (`--ring-color`) that child classes read. Inline
-  styles carry geometry only — sizes, offsets, opacity — never a color.
-- **No MUI-style APIs.** Sizes are unions (`'small' | 'medium' | 'large'`), not pixel
-  numbers; no `sx`/spacing props (`mt`, `mb`, `align`); no bags of another component's
-  props (`buttonProps`, `tooltipProps`) — expose the few props that are needed.
-- **Typography** — the scale lives in `Typography/Typography.module.scss`
-  (h1–h8 weight 600, bh1–bh7 weight 700, t1–t6 weight 500). Components that render text
-  use `Typography` or the same sizes; don't invent a 15px.
-- **Font** — `'Montserrat', sans-serif` is set in component modules; the consumer loads
-  the font files. Don't add another family.
-- **Breakpoints** — only the mixins from `styles/_breakpoints.scss`:
-
-  ```scss
-  @use '../styles/breakpoints' as *;
-
-  @include mobile  { … }   // max-width: 767px — the mobile/desktop threshold
-  @include desktop { … }   // min-width: 768px
-  @include bp-up($bp-lg)   { … }   // $bp-sm 600px, $bp-md 768px, $bp-lg 1280px
-  @include bp-down(480px)  { … }   // one-offs go through the mixin too
-  @include isPwa   { … }   // display-mode: standalone
-  ```
-
-  A raw `@media (max-width: …)` is how products end up with 767 here and 768 there.
-  In TSX: `useBreakpoints()` / `useMediaQuery()` from `hooks/`, SSR-safe (guard
-  `typeof window !== 'undefined'`).
-
-- **Global rules don't exist here.** No element selectors (`button { }`, `h1 { }`) and
-  no `:global` in modules: the kit is dropped into an app with its own resets, and a
-  global rule from us rewrites their screens.
-
-## Text
-
-The kit owns its strings in the `ui-kit` i18n namespace:
-
-1. `const { t } = useTranslation('ui-kit')` — not the bare `useTranslation()`.
-2. The key goes into **all 10** `i18n/locales/{en,es,fr,it,pt,de,pl,id,ru,tr}.json`, same
-   nested path, a real translation in each (`tr.json` is the one that gets forgotten).
-3. A string with a number uses plural keys (`_one`/`_other`; `ru` also `_few`/`_many`)
-   passed as `{ count }`.
-
-Consumers register the bundle with `registerUIKitTranslations(i18n)`
-(`i18n/resources.ts`) — nothing else is needed on their side. **Exception:** text that
-comes from the consumer's data (a post title, a category key) stays on the default
-namespace via `t(value)`; it resolves against the app's keys through `fallbackNS`.
-Don't copy such keys into our locales.
-
-## Accessibility
-
-A primitive's a11y bug repeats on every screen, so the bar here is higher than in the app.
-
-- Everything clickable is a real `<button>` (or base-ui `Button`) or `<a href>` — never
-  `div onClick`. Reset the native look in the element's own class so nothing moves
-  (`Tag`, the upload button of `Avatar`). When the clickable area contains a link or
-  another control, don't nest them: make one element the button and stretch it with
-  `::after`.
-- Icon-only controls take an `aria-label` (default text from the `ui-kit` namespace).
-- Form controls wire label, hint and error for the consumer: see
-  `Input/InputShell/inputMessage.ts` — `aria-describedby`, `aria-invalid`, and the error
-  announced through a live region. New fields reuse `InputShell`, not their own wiring.
-- Selection controls expose selection semantically (`role="radio"`/`"checkbox"` +
-  `aria-checked` in a named group, or base-ui's own) — not only a color.
-- Keyboard: Tab reaches it, Enter/Space activates it, Escape closes overlays, focus
-  returns to the trigger.
-- Decorative icons get `aria-hidden` (Remix icons don't set it themselves).
-- Accessibility work on an existing component adds attributes (`aria-*`, `alt`, names
-  from the `ui-kit` namespace) and stops there. Its look and behaviour — focus styles,
-  key handling, focus moves, markup, motion — are design decisions and don't change as
-  a side effect.
-- Storybook's **Accessibility** panel (`@storybook/addon-a11y`) runs axe on every story.
-  A new or changed story lands with 0 violations. `color-contrast` is reported as
-  "Inconclusive" until the palette is revised — don't add new pairs to that list.
-- `eslint-plugin-jsx-a11y` runs at `error`, so `npm run lint` fails on a new violation.
-  `eslint-disable` only with the reason after `--`, when the lint is wrong about it
-  (a mouse-only shortcut for a control that is reachable elsewhere, an opt-in `autoFocus`).
-
 ## Dependencies
 
 A new runtime dependency is a conversation with the team, not an author's decision:
@@ -220,34 +132,14 @@ npm test                 # vitest (test:watch while working)
 npm run build-storybook  # the catalogue still builds
 ```
 
-There is no CI: run all four before every PR.
-
-Tests live next to what they cover (`DatePicker/calendarModel.test.ts`), and
-`.npmignore` keeps them out of the package like the stories. Most of them need no DOM
-and run in `node`; a component test opts into one with a `// @vitest-environment
-happy-dom` pragma on the first line. Two things about that environment are worth
-knowing before they cost you an hour:
-
-- it opens at **1024px**, so `useBreakpoints` reports desktop until the test sets a
-  viewport (`window.happyDOM.setViewport({ width: 390 })`);
-- a programmatic `element.focus()` moves `document.activeElement` without dispatching
-  the `focusin` React listens to, so a test that focuses something has to send the
-  event as well (`fireEvent.focus(element)`) or the component never learns about it.
-
-Not every component needs a test — a story covers the look. Test the parts where being
-wrong is invisible: date and range arithmetic, keyboard navigation, focus moves, the
-state a component keeps.
+There is no CI: run all four before every PR. Writing a test: the `kit-tests` skill.
 
 ## Releasing
 
-1. PR into `main`.
-2. After merge: bump `version` in `package.json`, tag `vX.Y.Z`, push the tag.
-   Semver: a new component/variant/prop is a minor; renaming/moving a file, removing a
-   prop or changing a default is a **major** — consumers deep-import files.
-3. BookedUp-front bumps the tag in its `package.json` and runs `npm install ted-ui`.
-
-The full procedure — choosing the bump, the commit and tag, the bump and checks in BookedUp-front —
-is in [`.claude/skills/release/SKILL.md`](.claude/skills/release/SKILL.md).
+PR into `main`; after merge bump `version`, tag `vX.Y.Z`, push the tag. A new
+component/variant/prop is a minor; renaming/moving a file, removing a prop or changing a
+default is a **major** — consumers deep-import files. Procedure, and the bump in
+BookedUp-front: [`.claude/skills/release/SKILL.md`](.claude/skills/release/SKILL.md).
 
 Working on the kit together with BookedUp-front: in it,
 `npm install --no-save --install-links <path to this clone>`, and reinstall after each
