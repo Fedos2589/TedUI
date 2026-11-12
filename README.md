@@ -1,77 +1,79 @@
 # ted-ui
 
-Дизайн-система Ted. В npm пакет не публикуется: приложение ставит его прямо из
-этого репозитория по git-тегу. Единственный потребитель кита —
+The Ted design system. It is not published to npm: an app installs it straight from
+this repository by git tag. The kit's only consumer is
 [BookedUp-front](https://github.com/Fedos2589/BookedUp-front) (React + Vite).
 
-Пакет отдаёт исходники (`.tsx` + `.module.scss`), без сборки. Приложение
-компилирует их само; в BookedUp-front это делает Vite.
+The package ships source (`.tsx` + `.module.scss`), with no build step. The app
+compiles it itself; in BookedUp-front that is Vite.
 
-## Подключение
+## Installation
 
-Пакет ставится из публичного репозитория [Fedos2589/TedUI](https://github.com/Fedos2589/TedUI)
-по тегу версии:
+The package is installed from the public repository [Fedos2589/TedUI](https://github.com/Fedos2589/TedUI)
+by version tag:
 
 ```bash
 npm install github:Fedos2589/TedUI#v0.1.0
 ```
 
-В `package.json` приложения появится `"ted-ui": "github:Fedos2589/TedUI#v0.1.0"`.
-Без тега npm поставит текущий `main` — так не делать: тогда версия кита в приложении
-зависит от того, когда выполнили `npm install`.
+The app's `package.json` gets `"ted-ui": "github:Fedos2589/TedUI#v0.1.0"`.
+Without a tag npm installs the current `main` — don't: the kit version in the app would
+then depend on when `npm install` happened to run.
 
-Дальше приложение настраивается один раз: `vite-plugin-svgr` для `*.svg`,
-`optimizeDeps` для исходников кита, `sass`, `ted-ui/tokens.scss`, шрифт Montserrat,
-`registerUIKitTranslations(i18n)`, `ToastProvider` и базовые ресеты. Что именно и
-зачем — в таблице [«Setup an app needs once»](docs/agents/usage.md#setup-an-app-needs-once).
+After that the app is configured once: `vite-plugin-svgr` for `*.svg`,
+`optimizeDeps` for the kit's sources, `sass`, `ted-ui/tokens.scss`, the Montserrat font,
+`registerUIKitTranslations(i18n)`, `ToastProvider` and the base resets. What exactly
+and why is in the table [“Setup an app needs once”](docs/agents/usage.md#setup-an-app-needs-once).
 
-Импорты — по пути файла, без барреля: `ted-ui/Button/Button`,
+Imports go by file path, with no barrel: `ted-ui/Button/Button`,
 `ted-ui/colors`, `ted-ui/tokens.scss`.
 
-### Зависимости на стороне приложения
+### Dependencies on the app side
 
-Всё, что киту нужно в рантайме, он тянет сам — кроме `dayjs`: он нужен только
-`DatePicker` и лежит в `peerDependencies` как optional. Приложению с пикером надо
-поставить его самому (`npm i dayjs`) и импортировать компонент по пути папки
-(`ted-ui/DatePicker`) — из корневого `index.tsx` он намеренно не экспортируется,
-иначе приложение без dayjs сломалось бы на любом импорте из корня. Подробности для
-агентов — в [`docs/agents/usage.md`](docs/agents/usage.md).
+Everything the kit needs at runtime it pulls in itself — except `dayjs`: only
+`DatePicker` needs it, and it sits in `peerDependencies` as optional. An app that uses
+the picker has to install it (`npm i dayjs`) and import the component by its folder
+path (`ted-ui/DatePicker`) — it is deliberately not exported from the root `index.tsx`,
+otherwise an app without dayjs would break on any import from the root. Details for
+agents are in [`docs/agents/usage.md`](docs/agents/usage.md).
 
-## Релиз
+## Release
 
-1. Изменения вливаются в `main` через PR.
-2. Поднять `version` в `package.json`, поставить тег `vX.Y.Z` и запушить его.
-3. В BookedUp-front поменять тег в зависимости и выполнить `npm install ted-ui`,
-   чтобы обновился `package-lock.json`.
+1. Changes land in `main` through a PR.
+2. Bump `version` in `package.json`, tag `vX.Y.Z` and push the tag.
+3. In BookedUp-front change the tag in the dependency and run `npm install ted-ui`
+   so that `package-lock.json` is updated.
 
-## Разработка вместе с приложением
+## Developing together with the app
 
 ```bash
-git clone https://github.com/Fedos2589/TedUI.git   # рядом с BookedUp-front
-# в BookedUp-front
+git clone https://github.com/Fedos2589/TedUI.git   # next to BookedUp-front
+# in BookedUp-front
 npm install --no-save --install-links ../TedUI
 ```
 
-`--install-links` копирует кит в `node_modules` приложения, а не делает симлинк: так
-файлы кита берут `react`, `react-i18next` и `i18next` из приложения. С `npm link` они
-подхватывают копии из клона кита — «Invalid hook call» и ключи вместо текстов.
-После каждой правки в ките команду нужно повторить. `--no-save` не трогает
-`package.json` и lockfile; вернуть версию из тега — `npm ci` в приложении.
+`--install-links` copies the kit into the app's `node_modules` instead of symlinking
+it, so the kit's files take `react`, `react-i18next` and `i18next` from the app. With
+`npm link` they pick up the copies from the kit's clone — “Invalid hook call” and keys
+instead of texts. Repeat the command after every change in the kit. `--no-save` leaves
+`package.json` and the lockfile alone; to go back to the tagged version run `npm ci`
+in the app.
 
-## Команды
+## Commands
 
-- `npm run storybook` — Storybook на :6007
+- `npm run storybook` — Storybook on :6007
 - `npm run typecheck` — tsgo
 - `npm run lint` — ESLint (+ prettier)
 
-## Правила для агентов
+## Rules for agents
 
-- [`AGENTS.md`](AGENTS.md) — для тех, кто правит сам кит (Claude Code читает его через
-  `CLAUDE.md`). Развязка с приложением, устройство компонента, стили, брекпоинты,
-  строки, доступность, зависимости, релиз.
-- `.claude/skills/` — пошаговые процедуры к этим правилам: `add-component` (новый
-  компонент или вариант) и `release` (версия, тег и обновление кита в BookedUp-front).
-- [`docs/agents/usage.md`](docs/agents/usage.md) — для агентов в приложении, которое
-  пользуется китом. Файл едет внутри пакета; BookedUp-front подключает его строкой
-  `@node_modules/ted-ui/docs/agents/usage.md` в своём `AGENTS.md` — так правила
-  всегда соответствуют установленной версии кита.
+- [`AGENTS.md`](AGENTS.md) — for those who edit the kit itself (Claude Code reads it
+  through `CLAUDE.md`). Decoupling from the app, component anatomy, styles,
+  breakpoints, strings, accessibility, dependencies, releasing.
+- `.claude/skills/` — step-by-step procedures for those rules: `add-component` (a new
+  component or variant) and `release` (version, tag and updating the kit in
+  BookedUp-front).
+- [`docs/agents/usage.md`](docs/agents/usage.md) — for agents in an app that uses the
+  kit. The file ships inside the package; BookedUp-front pulls it in with the line
+  `@node_modules/ted-ui/docs/agents/usage.md` in its `AGENTS.md`, so the rules always
+  match the installed kit version.
