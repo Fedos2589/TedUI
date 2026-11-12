@@ -61,6 +61,7 @@ import { Typography } from 'ted-ui'               // root — works, but see bel
 | `<button>`, an `<a>`/`<div>` styled as a button | `Button` with explicit `variant` (`solid \| ghost`) and `colorScheme` (`black \| grey \| white \| lightBlue \| blue \| red \| lightRed \| outline`); link-style text buttons are `variant="ghost"` |
 | an icon-only button | `IconButton` with `aria-label` naming the action |
 | `<input>`, `<textarea>` | `Input`, `Input/Textarea` (`autoGrow`, `minRows`, `maxRows`) with `label` |
+| a time of day (opening hours, a slot start) | `TimePicker` — `value`/`onChange` are minutes after midnight, native picker |
 | an error message next to a field | the field's `error` + `errorText` |
 | `<h1>`–`<h6>`, `<p>`, `<span>` with text | `Typography` with a `variant`; need a tag → `component="h1"` |
 | a chip group to pick from | `TagSelect` (`multiple` or single) |
