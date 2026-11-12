@@ -44,7 +44,7 @@ export const ConfirmDialog = ({
           variant: 'ghost',
           colorScheme: 'grey',
           type: 'button',
-          children: cancelLabel ?? t('button.cancel'),
+          children: cancelLabel ?? t('common.button.cancel'),
           onClick: onClose,
         },
         {

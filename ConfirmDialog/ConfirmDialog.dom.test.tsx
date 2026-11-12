@@ -2,9 +2,10 @@
 import { describe, it, expect, vi } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { ConfirmDialog } from './ConfirmDialog'
+import en from '../i18n/locales/en.json'
 
 // No i18n instance is initialised here, so react-i18next echoes the key back.
-const CANCEL = 'button.cancel'
+const CANCEL = 'common.button.cancel'
 
 const setup = (
   props: Partial<React.ComponentProps<typeof ConfirmDialog>> = {},
@@ -27,6 +28,11 @@ const setup = (
 }
 
 describe('ConfirmDialog', () => {
+  // The echo above proves nothing about the key being real: check it exists.
+  it('asks for a cancel key that the ui-kit locale has', () => {
+    expect(en.common.button.cancel).toBe('Cancel')
+  })
+
   it('names the dialog by its title and shows what is asked about', () => {
     setup()
 
