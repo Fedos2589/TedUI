@@ -98,6 +98,15 @@ keyboard and ARIA; a hand-rolled class drifts from it.
 Server Components, where without it the import dies on `createContext` at build time. Hooks files don't need it —
 the boundary is the component that calls them.
 
+## Styles, in short
+
+Nothing checks these two automatically (only `vh` has a test), so they are on you:
+
+- No hex/rgba literals in a module — colors are `var(--color-*)` tokens.
+- No element selectors and no `:global` — the kit lands in apps with their own resets.
+
+The rest (breakpoints, spacing, color props, typography): the `kit-styles` skill.
+
 ## Dependencies
 
 A new runtime dependency is a conversation with the team, not an author's decision:
