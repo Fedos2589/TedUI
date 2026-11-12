@@ -61,6 +61,7 @@ import { Typography } from 'ted-ui'               // root — works, but see bel
 | `<button>`, an `<a>`/`<div>` styled as a button | `Button` with explicit `variant` (`solid \| ghost`) and `colorScheme` (`black \| grey \| white \| lightBlue \| blue \| red \| lightRed \| outline`); link-style text buttons are `variant="ghost"` |
 | an icon-only button | `IconButton` with `aria-label` naming the action |
 | `<input>`, `<textarea>` | `Input`, `Input/Textarea` (`autoGrow`, `minRows`, `maxRows`) with `label` |
+| a time of day (opening hours, a slot start) | `TimePicker` — `value`/`onChange` are minutes after midnight, native picker |
 | an error message next to a field | the field's `error` + `errorText` |
 | `<h1>`–`<h6>`, `<p>`, `<span>` with text | `Typography` with a `variant`; need a tag → `component="h1"` |
 | a chip group to pick from | `TagSelect` (`multiple` or single) |
@@ -82,6 +83,19 @@ import { Typography } from 'ted-ui'               // root — works, but see bel
 Using the kit component is not only about looks: `Button` handles `loading` and
 disabled-while-loading, `Input` wires label, hint and error to the field for screen
 readers, `Modal` traps and returns focus. A hand-rolled copy silently drops all of it.
+
+## TimePicker: what the native field can't do
+
+`value` is minutes after midnight, `0`–`1439`; `null` is an empty (or half-typed) field.
+
+- **No 24:00.** `1440` shows as an empty field and the native input can't take it. An
+  interval that ends at midnight is entered as `00:00` — the form model must read an end
+  at or before the start as "next day" (`end + 1440`).
+- **`step`, `min`, `max` are hints for the native picker, not rules.** Typing `09:07`
+  under `step={5}` still calls `onChange(547)`, and iOS/Android pickers ignore the step.
+  Validate the grid and the bounds in the form's schema.
+- **12 or 24 hours is the browser's choice** (`09:00 AM` on an en-US system); the value
+  you get is always minutes.
 
 ## DatePicker: the one component that needs something installed
 
