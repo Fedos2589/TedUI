@@ -5,8 +5,9 @@ description: Use when adding a new component, variant, colorScheme, size or prop
 
 # Adding a component (or a variant) to the kit
 
-`AGENTS.md` holds the rules — decoupling, anatomy, styles, text, a11y, dependencies.
-This is the order of work. Read `AGENTS.md` first if it isn't in context.
+`AGENTS.md` holds the core rules — decoupling, anatomy, dependencies, stories. Styles,
+text and a11y live in the `kit-styles`, `kit-text` and `kit-a11y` skills; load them as the
+steps below reach them. This is the order of work. Read `AGENTS.md` first if it isn't in context.
 
 ## 0. Does it belong in the kit?
 
