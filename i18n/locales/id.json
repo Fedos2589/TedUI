@@ -29,6 +29,7 @@
     "text": {
       "new": "baru",
       "startTypingToSeeSuggestions": "Mulai mengetik untuk melihat saran",
+      "noOptions": "Tidak ada opsi",
       "included": "Termasuk",
       "not_included": "Tidak termasuk",
       "more_count": "{{count}} lainnya",

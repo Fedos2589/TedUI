@@ -29,6 +29,7 @@
     "text": {
       "new": "neu",
       "startTypingToSeeSuggestions": "Beginnen Sie zu tippen, um Vorschläge zu sehen",
+      "noOptions": "Keine Optionen",
       "included": "Enthalten",
       "not_included": "Nicht enthalten",
       "more_count": "{{count}} weitere",

@@ -31,6 +31,7 @@
     "text": {
       "new": "новый",
       "startTypingToSeeSuggestions": "Начните вводить, чтобы увидеть подсказки",
+      "noOptions": "Нет вариантов",
       "included": "Включено",
       "not_included": "Не включено",
       "more_count": "ещё {{count}}",

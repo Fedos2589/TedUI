@@ -29,7 +29,7 @@ export function ComboboxDesktop<Value>({
   label,
   required,
   placeholder,
-  emptyValue = 'No options',
+  emptyValue,
   emptyInputValue,
   size,
   colorScheme,
@@ -154,6 +154,7 @@ export function ComboboxDesktop<Value>({
                   colorScheme="grey"
                   startIcon={<RiSearchLine size={16} aria-hidden />}
                   placeholder={searchPlaceholder}
+                  aria-label={searchPlaceholder}
                 >
                   {(p) => (
                     // eslint-disable-next-line jsx-a11y/no-autofocus -- search field of a popup the user just opened

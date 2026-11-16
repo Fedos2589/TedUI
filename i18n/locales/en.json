@@ -29,6 +29,7 @@
     "text": {
       "new": "new",
       "startTypingToSeeSuggestions": "Start typing to see suggestions",
+      "noOptions": "No options",
       "included": "Included",
       "not_included": "Not included",
       "more_count": "{{count}} more",

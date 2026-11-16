@@ -31,6 +31,7 @@
     "text": {
       "new": "nowy",
       "startTypingToSeeSuggestions": "Zacznij pisać, aby zobaczyć sugestie",
+      "noOptions": "Brak opcji",
       "included": "Zawarte",
       "not_included": "Niezawarte",
       "more_count": "jeszcze {{count}}",

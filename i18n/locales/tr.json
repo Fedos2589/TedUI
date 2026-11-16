@@ -29,6 +29,7 @@
     "text": {
       "new": "yeni",
       "startTypingToSeeSuggestions": "Önerileri görmek için yazmaya başlayın",
+      "noOptions": "Seçenek yok",
       "included": "Dahil",
       "not_included": "Dahil değil",
       "more_count": "{{count}} daha",
