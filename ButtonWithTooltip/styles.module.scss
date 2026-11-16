@@ -9,3 +9,18 @@
   flex: 1 1 auto;
   min-width: 0;
 }
+
+// The card, same look as the light Tooltip popup.
+.card {
+  box-sizing: border-box;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-grey-200);
+  background-color: var(--color-bw-white);
+  color: var(--color-bw-black);
+  box-shadow: 0 4px 12px rgba(141, 152, 190, 0.1);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
+}

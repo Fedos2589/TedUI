@@ -57,7 +57,7 @@ const Card = () => (
     }}
   >
     <Typography variant="h7">Popover title</Typography>
-    <Typography color="grey-500"  variant="t3">
+    <Typography color="grey-500" variant="t3">
       Any content goes here. Press Escape or click outside to close.
     </Typography>
   </div>
@@ -80,9 +80,9 @@ const Demo = (props: DemoProps) => {
         aria-label="Popover title"
         {...props}
         open={open}
-        onOpenChange={(v) => {
+        onOpenChange={(v, details) => {
           setOpen(v)
-          props.onOpenChange?.(v)
+          props.onOpenChange?.(v, details)
         }}
         anchor={anchor}
       >

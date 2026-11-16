@@ -48,32 +48,62 @@ describe('ButtonWithTooltip mobile sheet', () => {
   })
 })
 
-describe('ButtonWithTooltip desktop tooltip', () => {
+describe('ButtonWithTooltip desktop popover', () => {
   beforeEach(() => {
     viewport.isMobile = false
   })
 
-  it('closes on Escape but not when the pointer leaves', async () => {
-    const onClose = vi.fn()
+  it('is a named dialog with focus inside, not a tooltip', async () => {
     render(
       <ButtonWithTooltip
         isOpen
-        onClose={onClose}
-        tooltipContent="tip"
+        tooltipContent={<button>Inside</button>}
         modalContent="sheet"
+        modalTitle="Info"
       >
         <button>Info</button>
       </ButtonWithTooltip>,
     )
-    const button = screen.getByRole('button', { name: 'Info' })
-    button.focus()
-    fireEvent.focus(button)
+    const dialog = await screen.findByRole('dialog', { name: 'Info' })
+    expect(screen.queryByRole('tooltip')).toBeNull()
+    await waitFor(() =>
+      expect(dialog.contains(document.activeElement)).toBe(true),
+    )
+  })
 
-    fireEvent.mouseLeave(button.closest('span') ?? button)
-    expect(onClose).not.toHaveBeenCalled()
-
-    fireEvent.keyDown(button, { key: 'Escape' })
+  it('closes on Escape, then returns focus to the trigger', async () => {
+    const onClose = vi.fn()
+    const { rerender } = render(
+      <ButtonWithTooltip
+        isOpen
+        onClose={onClose}
+        tooltipContent={<button>Inside</button>}
+        modalContent="sheet"
+        modalTitle="Info"
+      >
+        <button>Info</button>
+      </ButtonWithTooltip>,
+    )
+    const dialog = await screen.findByRole('dialog', { name: 'Info' })
+    fireEvent.keyDown(dialog, { key: 'Escape' })
     await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1))
+
+    rerender(
+      <ButtonWithTooltip
+        isOpen={false}
+        onClose={onClose}
+        tooltipContent={<button>Inside</button>}
+        modalContent="sheet"
+        modalTitle="Info"
+      >
+        <button>Info</button>
+      </ButtonWithTooltip>,
+    )
+    await waitFor(() =>
+      expect(document.activeElement).toBe(
+        screen.getByRole('button', { name: 'Info' }),
+      ),
+    )
   })
 
   it('closes through onToggle when there is no onClose', async () => {
@@ -84,14 +114,79 @@ describe('ButtonWithTooltip desktop tooltip', () => {
         onToggle={onToggle}
         tooltipContent="tip"
         modalContent="sheet"
+        modalTitle="Info"
       >
         <button>Info</button>
       </ButtonWithTooltip>,
     )
-    const button = screen.getByRole('button', { name: 'Info' })
-    button.focus()
-    fireEvent.focus(button)
-    fireEvent.keyDown(button, { key: 'Escape' })
+    fireEvent.keyDown(await screen.findByRole('dialog'), { key: 'Escape' })
     await waitFor(() => expect(onToggle).toHaveBeenCalledTimes(1))
+  })
+
+  it('a press on the trigger toggles once instead of closing and reopening', async () => {
+    const onClose = vi.fn()
+    const onToggle = vi.fn()
+    render(
+      <ButtonWithTooltip
+        isOpen
+        onClose={onClose}
+        onToggle={onToggle}
+        tooltipContent="tip"
+        modalContent="sheet"
+        modalTitle="Info"
+      >
+        <button>Info</button>
+      </ButtonWithTooltip>,
+    )
+    await screen.findByRole('dialog')
+    const trigger = screen.getByRole('button', { name: 'Info' })
+    fireEvent.pointerDown(trigger)
+    fireEvent.mouseDown(trigger)
+    fireEvent.pointerUp(trigger)
+    fireEvent.mouseUp(trigger)
+    fireEvent.click(trigger)
+    expect(onToggle).toHaveBeenCalledTimes(1)
+    expect(onClose).not.toHaveBeenCalled()
+  })
+
+  it('leaves focus alone when an outside press closes it', async () => {
+    const onClose = vi.fn()
+    const { rerender } = render(
+      <>
+        <input aria-label="other" />
+        <ButtonWithTooltip
+          isOpen
+          onClose={onClose}
+          tooltipContent="tip"
+          modalContent="sheet"
+          modalTitle="Info"
+        >
+          <button>Info</button>
+        </ButtonWithTooltip>
+      </>,
+    )
+    await screen.findByRole('dialog')
+    const other = screen.getByLabelText('other')
+    other.focus()
+    fireEvent.pointerDown(other)
+    fireEvent.mouseDown(other)
+    await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1))
+
+    rerender(
+      <>
+        <input aria-label="other" />
+        <ButtonWithTooltip
+          isOpen={false}
+          onClose={onClose}
+          tooltipContent="tip"
+          modalContent="sheet"
+          modalTitle="Info"
+        >
+          <button>Info</button>
+        </ButtonWithTooltip>
+      </>,
+    )
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
+    expect(document.activeElement).toBe(other)
   })
 })

@@ -20,6 +20,9 @@ import { Typography } from '../Typography'
 import { colors } from '../colors'
 import styles from './Toast.module.scss'
 
+// Errors and warnings ask for a decision, so they stay longer than a plain notice.
+const ACTIONABLE_DURATION = 7000
+
 // Spinner colors for the native loading icon (kept from the library) so it reads
 // on the dark bubble. Secondary is a translucent white (not a palette token).
 const LOADING_ICON_THEME = {
@@ -106,7 +109,7 @@ export const ToastProvider = ({
         // Long enough to read: 2s is under a sentence at reading speed. Errors
         // and warnings get more — they are the ones a user has to act on.
         duration: 4000,
-        error: { duration: 7000 },
+        error: { duration: ACTIONABLE_DURATION },
         // Inline styles, not a CSS class: they beat goober's default white bubble.
         style: {
           background: colors.greyscale[600],
@@ -169,7 +172,7 @@ export const toast = Object.assign(hotToast, {
   ) =>
     hotToast(message, {
       ...opts,
-      duration: opts?.duration ?? 7000,
+      duration: opts?.duration ?? ACTIONABLE_DURATION,
       status: 'warning',
     } as Parameters<typeof hotToast>[1]),
 })
