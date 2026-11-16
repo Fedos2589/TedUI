@@ -24,6 +24,7 @@ export const Radio = ({
   ...props
 }: RadioProps) => {
   const labelId = useId()
+  const hintId = useId()
 
   return (
     <label
@@ -37,6 +38,7 @@ export const Radio = ({
         className={styles.root}
         disabled={disabled}
         aria-labelledby={label ? labelId : undefined}
+        aria-describedby={hint ? hintId : undefined}
         {...props}
       />
       {(label || hint) && (
@@ -45,6 +47,11 @@ export const Radio = ({
             <Typography variant="t2" id={labelId} className={styles.label}>
               {label}
             </Typography>
+          )}
+          {hint && (
+            <span id={hintId} className={styles.srOnly}>
+              {hint}
+            </span>
           )}
           {hint && (
             <Tooltip content={hint} side="top">

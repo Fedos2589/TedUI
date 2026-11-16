@@ -28,6 +28,7 @@ export const Checkbox = ({
   ...props
 }: CheckboxProps) => {
   const labelId = useId()
+  const hintId = useId()
 
   return (
     <label
@@ -46,6 +47,7 @@ export const Checkbox = ({
         disabled={disabled}
         aria-invalid={error || undefined}
         aria-labelledby={label ? labelId : undefined}
+        aria-describedby={hint ? hintId : undefined}
         {...props}
       >
         <BaseCheckbox.Indicator className={styles.indicator} keepMounted>
@@ -58,6 +60,11 @@ export const Checkbox = ({
             <Typography variant="t2" id={labelId} className={styles.label}>
               {label}
             </Typography>
+          )}
+          {hint && (
+            <span id={hintId} className={styles.srOnly}>
+              {hint}
+            </span>
           )}
           {hint && (
             <Tooltip content={hint} side="top">
