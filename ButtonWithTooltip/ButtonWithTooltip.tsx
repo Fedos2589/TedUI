@@ -5,16 +5,18 @@ import {
   ReactNode,
   cloneElement,
   isValidElement,
-  useCallback,
+  useEffect,
   useId,
   useRef,
 } from 'react'
 import cn from 'classnames'
-import { Tooltip } from '../Tooltip'
 import { Modal } from '../Modal'
-import type { PopoverAlign, PopoverSide } from '../Popover/Popover'
+import {
+  Popover,
+  type PopoverAlign,
+  type PopoverSide,
+} from '../Popover/Popover'
 import useBreakpoints from '../hooks/useBreakpoints'
-import { useOutsideClick } from '../hooks/useOutsideClick'
 import styles from './styles.module.scss'
 
 export interface ButtonWithTooltipProps {
@@ -51,53 +53,54 @@ export const ButtonWithTooltip = ({
   const popupId = useId()
   const desktopOpen = isOpen && !mobile
 
-  // Desktop only: an outside press closes the tooltip. Clicks inside the
-  // portaled tooltip content are kept open by calling
-  // `stopImmediatePropagation()` on the *native* event below — React's
-  // synthetic `stopPropagation` would not stop the native event from reaching
-  // the hook's document listener.
-  const close = useCallback(() => onClose?.(), [onClose])
-  useOutsideClick(anchorRef, close, !mobile && isOpen)
+  const focusTrigger = () =>
+    anchorRef.current
+      ?.querySelector<HTMLElement>(
+        ':is(button, a[href], [tabindex]):not([tabindex="-1"])',
+      )
+      ?.focus()
+
+  // Focus goes back to the trigger once the card closes (not on first render).
+  const wasOpen = useRef(false)
+  useEffect(() => {
+    if (wasOpen.current && !desktopOpen) focusTrigger()
+    wasOpen.current = desktopOpen
+  }, [desktopOpen])
 
   return (
     <>
-      <Tooltip
-        content={
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- only keeps a press inside the tooltip from reaching the outside-click listener
-          <div
-            id={popupId}
-            onMouseDown={(e) => e.nativeEvent.stopImmediatePropagation()}
-          >
-            {tooltipContent}
-          </div>
-        }
-        open={isOpen && !mobile}
-        onOpenChange={(open, details) => {
-          if (!open && details.reason === 'escape-key')
-            (onClose ?? onToggle)?.()
+      <div
+        ref={anchorRef}
+        onClickCapture={(e) => {
+          e.stopPropagation()
+          onToggle?.()
         }}
+        className={cn(styles.anchorInner, {
+          [styles.anchorInnerFullWidth]: fullWidth,
+        })}
+      >
+        {isValidElement<Record<string, unknown>>(children)
+          ? cloneElement(children, {
+              'aria-expanded': isOpen,
+              'aria-haspopup': 'dialog',
+              'aria-controls': desktopOpen ? popupId : undefined,
+            })
+          : children}
+      </div>
+      <Popover
+        open={desktopOpen}
+        onOpenChange={(open) => {
+          if (!open) (onClose ?? onToggle)?.()
+        }}
+        anchor={anchorRef}
+        id={popupId}
+        aria-label={modalTitle}
         side={tooltipSide}
         align={tooltipAlign}
-        fullWidth={fullWidth}
+        className={styles.card}
       >
-        <div
-          ref={anchorRef}
-          onClickCapture={(e) => {
-            e.stopPropagation()
-            onToggle?.()
-          }}
-          className={cn(styles.anchorInner, {
-            [styles.anchorInnerFullWidth]: fullWidth,
-          })}
-        >
-          {isValidElement<Record<string, unknown>>(children)
-            ? cloneElement(children, {
-                'aria-expanded': isOpen,
-                'aria-controls': desktopOpen ? popupId : undefined,
-              })
-            : children}
-        </div>
-      </Tooltip>
+        {tooltipContent}
+      </Popover>
 
       <Modal
         title={modalTitle}
