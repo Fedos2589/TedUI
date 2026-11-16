@@ -26,7 +26,7 @@ export const IconButton = ({
   colorScheme = 'grey',
   loading = false,
   className,
-  disabled,
+  onClick,
   onPointerUp,
   onTouchEnd,
   ...props
@@ -39,8 +39,15 @@ export const IconButton = ({
       { [styles.loading]: loading },
       className,
     )}
-    disabled={disabled || loading}
+    aria-disabled={loading || undefined}
     aria-busy={loading || undefined}
+    onClick={(e) => {
+      if (loading) {
+        e.preventDefault()
+        return
+      }
+      onClick?.(e)
+    }}
     onPointerUp={(e) => {
       blurTarget(e)
       onPointerUp?.(e)
