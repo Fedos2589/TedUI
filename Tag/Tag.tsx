@@ -111,11 +111,12 @@ export const Tag = ({
 
   // A button can't hold the remove button, so the body and the remove control are siblings.
   return (
-    <div className={cn(rootClassName, styles.split)} {...props}>
+    <div className={cn(rootClassName, styles.split)}>
       <button
         type="button"
         className={cn(styles.button, styles.body)}
         onClick={onButtonClick}
+        {...(props as ComponentProps<'button'>)}
       >
         {content}
       </button>

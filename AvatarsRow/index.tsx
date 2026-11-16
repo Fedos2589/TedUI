@@ -51,12 +51,11 @@ export const AvatarsRow = ({
   const chipSize = visible[visible.length - 1]?.size ?? 40
 
   return (
-    <div
+    <ul
       className={cn(
         styles.avatars,
         borderColor && styles[`ring-${borderColor}`],
       )}
-      role="group"
       aria-label={t('common.text.people_count', '{{count}} people', {
         count: data.length,
       })}
@@ -74,12 +73,8 @@ export const AvatarsRow = ({
         />
       ))}
       {overflow > 0 && (
-        <div
+        <li
           className={cn(styles.overflow, borderColor && styles.ringed)}
-          role="img"
-          aria-label={t('common.text.more_count', '{{count}} more', {
-            count: overflow,
-          })}
           style={
             {
               width: chipSize,
@@ -91,11 +86,18 @@ export const AvatarsRow = ({
             } as CSSProperties
           }
         >
-          <Typography variant="t5" color="grey-500">
-            +{overflow}
-          </Typography>
-        </div>
+          <span
+            role="img"
+            aria-label={t('common.text.more_count', '{{count}} more', {
+              count: overflow,
+            })}
+          >
+            <Typography variant="t5" color="grey-500">
+              +{overflow}
+            </Typography>
+          </span>
+        </li>
       )}
-    </div>
+    </ul>
   )
 }
