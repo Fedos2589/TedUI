@@ -157,3 +157,44 @@ describe('CalendarPanel a11y', () => {
     }
   })
 })
+
+describe('CalendarPanel semantics', () => {
+  it('names a day with its weekday', () => {
+    renderPanel()
+
+    expect(
+      screen.getByRole('button', { name: /^Tuesday, 15 July 2025/ }),
+    ).toBeTruthy()
+  })
+
+  it('keeps the weekday in the name of the day focus moved to', () => {
+    renderPanel()
+    focusDay('2025-07-15')
+
+    press('PageDown')
+
+    expect(document.activeElement?.getAttribute('aria-label')).toMatch(
+      /^[A-Z][a-z]+day, /,
+    )
+  })
+
+  it('reports whether the month list is open', () => {
+    renderPanel({ view: 'day' })
+
+    expect(
+      screen
+        .getByRole('button', { name: 'July' })
+        .getAttribute('aria-expanded'),
+    ).toBe('false')
+  })
+
+  it('reports the month list as expanded in the month view', () => {
+    renderPanel({ view: 'month' })
+
+    expect(
+      screen
+        .getByRole('button', { name: 'July' })
+        .getAttribute('aria-expanded'),
+    ).toBe('true')
+  })
+})

@@ -56,11 +56,10 @@ export const PhoneNumberField = ({
   const { t, i18n } = useTranslation('ui-kit')
   const fieldRef = useRef<HTMLDivElement>(null)
 
-  const localeOptions = useMemo(
-    () => getCountryOptions(i18n.language),
-    [i18n.language],
+  const options = useMemo(
+    () => countries ?? getCountryOptions(i18n.language),
+    [countries, i18n.language],
   )
-  const options = countries ?? localeOptions
   const selectedOption = options.find((option) => option.code === country)
 
   // The grouping is per-country, so switching the country regroups what is
@@ -88,6 +87,9 @@ export const PhoneNumberField = ({
     )
   }
 
+  // A country missing from a narrowed list has no code to lead the name with.
+  const codePrefix = selectedOption ? `+${selectedOption.callingCode}, ` : ''
+
   const countryTrigger = (
     <Button
       size="small"
@@ -95,9 +97,12 @@ export const PhoneNumberField = ({
       colorScheme="grey"
       disabled={disabled}
       className={styles.countryTrigger}
-      aria-label={`${t('common.title.select_country')}: ${selectedOption?.name ?? country}`}
+      // The visible "+code" leads the name, so voice control can say what it sees.
+      aria-label={`${codePrefix}${t('common.title.select_country')}: ${selectedOption?.name ?? country}`}
     >
-      <span className={styles.flag}>{toFlagEmoji(country)}</span>
+      <span className={styles.flag} aria-hidden="true">
+        {toFlagEmoji(country)}
+      </span>
       <Typography variant="t2">+{selectedOption?.callingCode}</Typography>
     </Button>
   )

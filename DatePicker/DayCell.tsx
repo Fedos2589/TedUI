@@ -45,7 +45,7 @@ export const DayCell = ({
       tabIndex={isActive ? 0 : -1}
       data-date={date.format('YYYY-MM-DD')}
       aria-current={isToday ? 'date' : undefined}
-      aria-label={date.format('D MMMM YYYY')}
+      aria-label={date.format('dddd, D MMMM YYYY')}
       disabled={disabled}
       className={cn(styles.cell, {
         [styles.outside]: isOutsideMonth,

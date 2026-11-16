@@ -31,6 +31,8 @@ export interface ModalProps {
   columnButtons?: boolean
   onBack?: () => void
   onClose?: () => void
+  /** Id of the dialog — what a trigger's `aria-controls` points at. */
+  id?: string
   // dialog name when there is no visible `title`
   'aria-label'?: string
 }
@@ -45,6 +47,7 @@ export const Modal = ({
   columnButtons = false,
   onBack,
   onClose,
+  id,
   'aria-label': ariaLabel,
 }: PropsWithChildren<ModalProps>) => {
   const { t } = useTranslation('ui-kit')
@@ -58,7 +61,11 @@ export const Modal = ({
     >
       <Dialog.Portal>
         <Dialog.Backdrop className={styles.overlay} />
-        <Dialog.Popup className={styles.modalWrapper} aria-label={ariaLabel}>
+        <Dialog.Popup
+          id={id}
+          className={styles.modalWrapper}
+          aria-label={ariaLabel}
+        >
           <div className={styles.modal}>
             <div className={styles.header}>
               {onBack && (
