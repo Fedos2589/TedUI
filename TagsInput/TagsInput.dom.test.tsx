@@ -70,3 +70,22 @@ describe('TagsInput when the parent does not apply the change', () => {
     expect(document.activeElement).toBe(screen.getByRole('textbox'))
   })
 })
+
+describe('TagsInput blur at the limit', () => {
+  it('leaves focus alone when blur adds the last tag', () => {
+    render(<Controlled maxTags={1} />)
+    const input = screen.getByRole('textbox')
+    input.focus()
+    fireEvent.change(input, { target: { value: 'a' } })
+    const next = document.createElement('button')
+    document.body.appendChild(next)
+
+    next.focus() // Tab to the next field blurs the input
+    fireEvent.blur(input)
+
+    expect(
+      screen.getByRole('button', { name: 'common.button.remove a' }),
+    ).toBeTruthy()
+    expect(document.activeElement).toBe(next)
+  })
+})

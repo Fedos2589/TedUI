@@ -91,12 +91,13 @@ export const TagsInput = ({
   })
   const describedBy = message != null ? inputMessageId(id) : undefined
 
-  const addTag = (raw: string) => {
+  const addTag = (raw: string, keepFocusAtLimit = true) => {
     const tag = raw.trim()
     if (!tag || isFull) return
     if (!value.some((item) => item.toLowerCase() === tag.toLowerCase())) {
       onChange([...value, tag])
-      if (maxTags != null && value.length + 1 >= maxTags) {
+      // Not from blur: the user is already leaving the field (Tab).
+      if (keepFocusAtLimit && maxTags != null && value.length + 1 >= maxTags) {
         focusAfterRender.current = 'lastRemove'
       }
     }
@@ -174,7 +175,7 @@ export const TagsInput = ({
               setDraft(event.target.value)
             }}
             onKeyDown={handleKeyDown}
-            onBlur={() => addTag(draft)}
+            onBlur={() => addTag(draft, false)}
           />
         )}
       </div>
