@@ -103,9 +103,8 @@ export const ToastProvider = ({
       // island (0 in a browser). react-hot-toast's default top is 16px.
       containerStyle={{ top: 'calc(16px + var(--sa-top, 0px))' }}
       toastOptions={{
-        // Long enough to read: WCAG 2.2.1 wants the user to control timing, and 2s
-        // is under a sentence at reading speed. Errors and warnings get more —
-        // they are the ones a user has to act on.
+        // Long enough to read: 2s is under a sentence at reading speed. Errors
+        // and warnings get more — they are the ones a user has to act on.
         duration: 4000,
         error: { duration: 7000 },
         // Inline styles, not a CSS class: they beat goober's default white bubble.
@@ -169,8 +168,8 @@ export const toast = Object.assign(hotToast, {
     opts?: Parameters<typeof hotToast>[1],
   ) =>
     hotToast(message, {
-      duration: 7000,
       ...opts,
+      duration: opts?.duration ?? 7000,
       status: 'warning',
     } as Parameters<typeof hotToast>[1]),
 })
