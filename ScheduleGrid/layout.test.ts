@@ -98,4 +98,26 @@ describe('minuteAt', () => {
     expect(minuteAt(-0.1, range, 15)).toBe(range.startMinute)
     expect(minuteAt(1, range, 15)).toBe(range.endMinute - 15)
   })
+
+  it('counts the step from midnight, not from the start of the range', () => {
+    const odd = { startMinute: 9 * 60 + 10, endMinute: 19 * 60 + 50 }
+    expect(minuteAt(0, odd, 15)).toBe(9 * 60 + 15)
+    expect(minuteAt(1, odd, 15)).toBe(19 * 60 + 45)
+    expect(minuteAt(0.5, odd, 15) % 15).toBe(0)
+  })
+
+  it('never leaves a range shorter than a step', () => {
+    expect(minuteAt(0.5, { startMinute: 600, endMinute: 610 }, 15)).toBe(600)
+  })
+})
+
+describe('layoutItems with extra fields', () => {
+  it('hands back the original item, so equal ids cannot mix up contents', () => {
+    const a = { ...item('x', 600, 660), label: 'first' }
+    const b = { ...item('x', 700, 760), label: 'second' }
+    expect(layoutItems([a, b], range).map((r) => r.item.label)).toEqual([
+      'first',
+      'second',
+    ])
+  })
 })
