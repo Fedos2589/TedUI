@@ -33,4 +33,12 @@ describe('ProgressBar name', () => {
 
     expect(screen.getByRole('progressbar', { name: '2 of 5' })).toBeTruthy()
   })
+
+  it('ignores an empty caption', () => {
+    render(<ProgressBar value={2} max={5} caption={false} />)
+
+    expect(
+      screen.getByRole('progressbar', { name: 'progressBar.label' }),
+    ).toBeTruthy()
+  })
 })

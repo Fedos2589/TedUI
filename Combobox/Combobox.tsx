@@ -37,7 +37,11 @@ export function Combobox<Value = string>(props: ComboboxProps<Value>) {
   const childProps: ComboboxProps<Value> = {
     ...props,
     onClear: wrappedOnClear,
-    emptyValue: props.emptyValue ?? t('common.text.noOptions'),
+    // `null` is a deliberate "show nothing", so only `undefined` gets the default
+    emptyValue:
+      props.emptyValue === undefined
+        ? t('common.text.noOptions')
+        : props.emptyValue,
     emptyInputValue:
       props.emptyInputValue ?? t('common.text.startTypingToSeeSuggestions'),
     searchPlaceholder:

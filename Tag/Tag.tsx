@@ -16,6 +16,8 @@ export interface TagProps extends Omit<ComponentProps<'div'>, 'color'> {
   size?: TagSize
   colorScheme?: TagColorScheme
   label?: ReactNode
+  // Decorative: both slots are aria-hidden, so put nothing in them that a
+  // screen reader must hear (a count, a status) — that belongs in `label`.
   startIcon?: ReactNode
   endIcon?: ReactNode
   onRemove?: () => void

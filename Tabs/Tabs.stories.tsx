@@ -77,7 +77,7 @@ export const AllSizes: Story = {
 }
 
 const dotTabs = [
-  { label: 'Overview', value: 'a', dot: true },
+  { label: 'Overview', value: 'a', dot: true, dotLabel: 'new activity' },
   { label: 'Activity', value: 'b', dot: true },
   { label: 'Messages', value: 'c' },
 ]

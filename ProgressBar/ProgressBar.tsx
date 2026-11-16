@@ -72,6 +72,8 @@ export const ProgressBar = ({
 }: ProgressBarProps) => {
   const { t } = useTranslation('ui-kit')
   const captionId = useId()
+  // `caption={cond && …}` hands over false/'' — no caption to name the bar by
+  const hasCaption = caption != null && caption !== false && caption !== ''
   const trackRef = useRef<HTMLDivElement>(null)
   const maxLabelRef = useRef<HTMLSpanElement>(null)
 
@@ -151,13 +153,10 @@ export const ProgressBar = ({
       }
       aria-label={
         ariaLabel ??
-        (!ariaLabelledBy && caption == null
-          ? t('progressBar.label')
-          : undefined)
+        (!ariaLabelledBy && !hasCaption ? t('progressBar.label') : undefined)
       }
       aria-labelledby={
-        ariaLabelledBy ??
-        (!ariaLabel && caption != null ? captionId : undefined)
+        ariaLabelledBy ?? (!ariaLabel && hasCaption ? captionId : undefined)
       }
     >
       <div ref={trackRef} className={styles.track}>

@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { describe, it, expect } from 'vitest'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { Combobox } from './Combobox'
 
 const trigger = <button aria-label="Pick">Pick</button>
@@ -24,6 +24,25 @@ describe('Combobox names', () => {
     fireEvent.click(screen.getByRole('combobox', { name: 'Pick' }))
 
     expect(await screen.findByText('common.text.noOptions')).toBeTruthy()
+  })
+
+  it('keeps emptyValue={null} as "show nothing"', async () => {
+    render(
+      <Combobox
+        options={[]}
+        inputValue="zzz"
+        emptyValue={null}
+        trigger={trigger}
+      />,
+    )
+
+    fireEvent.click(screen.getByRole('combobox', { name: 'Pick' }))
+
+    const popup = await screen.findByRole('dialog')
+    await waitFor(() => expect(popup.hasAttribute('data-empty')).toBe(true))
+    // let the empty slot render before asserting nothing is in it
+    await new Promise((resolve) => setTimeout(resolve, 300))
+    expect(screen.queryByText('common.text.noOptions')).toBeNull()
   })
 
   // The attribute, not the computed name: Modal still renders an empty

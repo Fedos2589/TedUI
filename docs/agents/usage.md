@@ -297,6 +297,9 @@ What the kit can't know and you have to pass:
   `role="combobox"`, which takes no name from its text).
 - `Tabs`, `TabsRounded`, `TagSelect`, `RadioGroup` → a group name
   (`aria-label` / `aria-labelledby`) when there's no visible heading for them.
+- `Tag` `startIcon` / `endIcon` are decorative and hidden from screen readers. Anything they
+  must hear (a count, a status) goes into `label`; a `Tag` with an `onClick` or `onRemove`
+  and no `label` has no name — give it an `aria-label`.
 - `Tabs` item with `dot` → `dotLabel` (what the dot means, e.g. "unread"); a bare `Counter`
   `variant="dot"` takes `role="img"` + `aria-label` the same way.
 - `ProgressBar` without a `caption` → `aria-label`. A `Spinner` is decorative unless you

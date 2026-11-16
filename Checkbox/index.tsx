@@ -3,6 +3,7 @@
 import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox'
 import { ComponentProps, useId } from 'react'
 import cn from 'classnames'
+import { useTranslation } from 'react-i18next'
 import { RiCheckLine, RiQuestionLine } from '@remixicon/react'
 import styles from './styles.module.scss'
 import { Typography } from '../Typography'
@@ -24,9 +25,11 @@ export const Checkbox = ({
   error = false,
   hint,
   disabled,
+  'aria-describedby': describedBy,
   colorScheme = 'blue',
   ...props
 }: CheckboxProps) => {
+  const { t } = useTranslation('ui-kit')
   const labelId = useId()
   const hintId = useId()
 
@@ -47,7 +50,9 @@ export const Checkbox = ({
         disabled={disabled}
         aria-invalid={error || undefined}
         aria-labelledby={label ? labelId : undefined}
-        aria-describedby={hint ? hintId : undefined}
+        aria-describedby={
+          [hint && hintId, describedBy].filter(Boolean).join(' ') || undefined
+        }
         {...props}
       >
         <BaseCheckbox.Indicator className={styles.indicator} keepMounted>
@@ -72,7 +77,8 @@ export const Checkbox = ({
                 size="small"
                 colorScheme="whiteBlue"
                 className={styles.hint}
-                aria-label={hint}
+                aria-label={t('common.action.more_info')}
+                aria-describedby={hintId}
               >
                 <RiQuestionLine size={16} aria-hidden />
               </IconButton>
