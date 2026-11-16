@@ -51,11 +51,14 @@ export const AvatarsRow = ({
   const chipSize = visible[visible.length - 1]?.size ?? 40
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-redundant-roles -- restores the list role that Safari removes with list-style: none
     <ul
       className={cn(
         styles.avatars,
         borderColor && styles[`ring-${borderColor}`],
       )}
+      // Safari drops the list semantics of a ul with list-style: none.
+      role="list"
       aria-label={t('common.text.people_count', '{{count}} people', {
         count: data.length,
       })}

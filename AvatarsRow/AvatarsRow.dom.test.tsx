@@ -14,6 +14,11 @@ describe('AvatarsRow', () => {
     expect(within(list).getAllByRole('listitem')).toHaveLength(3)
   })
 
+  it('keeps the list role explicit for Safari, which drops it with list-style: none', () => {
+    const { container } = render(<AvatarsRow data={people} />)
+    expect(container.querySelector('ul')?.getAttribute('role')).toBe('list')
+  })
+
   it('makes the +N chip a list item too', () => {
     render(<AvatarsRow data={people} max={2} />)
     const items = within(screen.getByRole('list')).getAllByRole('listitem')
