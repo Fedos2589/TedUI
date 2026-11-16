@@ -20,7 +20,10 @@ export interface TooltipProps {
   /** Controlled open state. */
   open?: boolean
   defaultOpen?: boolean
-  onOpenChange?: (open: boolean) => void
+  onOpenChange?: (
+    open: boolean,
+    details: BaseTooltip.Root.ChangeEventDetails,
+  ) => void
   disabled?: boolean
   /** Hover open delay, ms. */
   delay?: number

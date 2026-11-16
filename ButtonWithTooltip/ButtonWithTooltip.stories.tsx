@@ -30,7 +30,7 @@ const Menu = (props: { onClose: () => void }) => (
         fullWidth
         onClick={props.onClose}
       >
-        <Typography color="bw-black"  variant="t3">
+        <Typography color="bw-black" variant="t3">
           {item}
         </Typography>
       </Button>
@@ -61,7 +61,7 @@ const Demo = (
     >
       {props.fullWidth ? (
         <Button colorScheme="white" align="left" fullWidth>
-          <Typography color="bw-black"  variant="t3">
+          <Typography color="bw-black" variant="t3">
             Account
           </Typography>
         </Button>
