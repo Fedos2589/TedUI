@@ -11,6 +11,7 @@ export interface TitleBlockProps {
   size?: TitleBlockSize
   align?: 'left' | 'center' | 'right'
   className?: string
+  headingLevel?: 1 | 2 | 3 | 4 | 5 | 6
 }
 
 type SizeConfig = {
@@ -33,12 +34,14 @@ export const TitleBlock = ({
   size = 'l',
   align = 'center',
   className,
+  headingLevel,
 }: TitleBlockProps) => {
   const config = SIZE_CONFIG[size]
   return (
     <div className={cn(styles.container, styles[`size_${size}`], className)}>
       <Typography
         variant={config.title}
+        component={headingLevel ? `h${headingLevel}` : undefined}
         className={cn(styles.line, styles[`align_${align}`])}
       >
         {title}
