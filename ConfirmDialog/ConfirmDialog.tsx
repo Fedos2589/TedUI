@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Dialog } from '@base-ui/react/dialog'
 import { Modal } from '../Modal'
 import { Typography } from '../Typography'
 
@@ -38,6 +39,7 @@ export const ConfirmDialog = ({
     <Modal
       isVisible={isVisible}
       title={title}
+      role="alertdialog"
       onClose={onClose}
       buttons={[
         {
@@ -58,9 +60,9 @@ export const ConfirmDialog = ({
       ]}
     >
       {children && (
-        <Typography variant="t3" component="p">
+        <Dialog.Description render={<Typography variant="t3" component="p" />}>
           {children}
-        </Typography>
+        </Dialog.Description>
       )}
     </Modal>
   )

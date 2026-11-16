@@ -33,6 +33,8 @@ export interface ModalProps {
   onClose?: () => void
   /** Id of the dialog — what a trigger's `aria-controls` points at. */
   id?: string
+  /** `alertdialog` for a question that needs an answer (ConfirmDialog). */
+  role?: 'dialog' | 'alertdialog'
   // dialog name when there is no visible `title`
   'aria-label'?: string
 }
@@ -48,6 +50,7 @@ export const Modal = ({
   onBack,
   onClose,
   id,
+  role = 'dialog',
   'aria-label': ariaLabel,
 }: PropsWithChildren<ModalProps>) => {
   const { t } = useTranslation('ui-kit')
@@ -63,6 +66,8 @@ export const Modal = ({
         <Dialog.Backdrop className={styles.overlay} />
         <Dialog.Popup
           id={id}
+          role={role}
+          aria-modal="true"
           className={styles.modalWrapper}
           aria-label={ariaLabel}
         >
@@ -79,19 +84,31 @@ export const Modal = ({
                 </IconButton>
               )}
               <div className={styles.titleBlock}>
-                <Dialog.Title
-                  render={<Typography variant="h4" className={styles.title} />}
-                >
-                  {title}
-                </Dialog.Title>
+                {title && (
+                  <Dialog.Title
+                    render={
+                      <Typography
+                        variant="h4"
+                        component="h2"
+                        className={styles.title}
+                      />
+                    }
+                  >
+                    {title}
+                  </Dialog.Title>
+                )}
                 {subtitle && (
-                  <Typography
-                    variant="t5"
-                    color="grey-400"
-                    className={styles.subtitle}
+                  <Dialog.Description
+                    render={
+                      <Typography
+                        variant="t5"
+                        color="grey-400"
+                        className={styles.subtitle}
+                      />
+                    }
                   >
                     {subtitle}
-                  </Typography>
+                  </Dialog.Description>
                 )}
               </div>
               {onClose && (
@@ -109,9 +126,7 @@ export const Modal = ({
               )}
             </div>
 
-            <Dialog.Description render={<div className={styles.content} />}>
-              {children}
-            </Dialog.Description>
+            <div className={styles.content}>{children}</div>
 
             {((buttons && buttons.length > 0) || footerStart) && (
               <div

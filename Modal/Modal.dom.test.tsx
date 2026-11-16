@@ -46,3 +46,50 @@ describe('Modal header controls', () => {
     expect(screen.getByText('24 – 31 July, 7 days')).toBeTruthy()
   })
 })
+
+describe('Modal semantics', () => {
+  it('is a modal dialog named by an h2 title', () => {
+    render(
+      <Modal isVisible title="Select dates">
+        body
+      </Modal>,
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Select dates' }),
+    ).toBeTruthy()
+    const dialog = screen.getByRole('dialog', { name: 'Select dates' })
+    expect(dialog.getAttribute('aria-modal')).toBe('true')
+  })
+
+  it('without a title the dialog takes aria-label and has no heading', () => {
+    render(
+      <Modal isVisible aria-label="Pick">
+        body
+      </Modal>,
+    )
+
+    expect(screen.getByRole('dialog', { name: 'Pick' })).toBeTruthy()
+    expect(screen.queryByRole('heading')).toBeNull()
+  })
+
+  it('describes the dialog by the subtitle only, not by its content', () => {
+    const { rerender } = render(
+      <Modal isVisible title="T" subtitle="Summary">
+        <input aria-label="x" />
+      </Modal>,
+    )
+    const dialog = screen.getByRole('dialog')
+    const id = dialog.getAttribute('aria-describedby')
+    expect(document.getElementById(id!)?.textContent).toBe('Summary')
+
+    rerender(
+      <Modal isVisible title="T">
+        <input aria-label="x" />
+      </Modal>,
+    )
+    expect(
+      screen.getByRole('dialog').getAttribute('aria-describedby'),
+    ).toBeNull()
+  })
+})

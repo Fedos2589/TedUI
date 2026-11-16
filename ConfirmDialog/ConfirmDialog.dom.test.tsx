@@ -37,7 +37,7 @@ describe('ConfirmDialog', () => {
     setup()
 
     expect(
-      screen.getByRole('dialog', { name: 'Delete this date?' }),
+      screen.getByRole('alertdialog', { name: 'Delete this date?' }),
     ).toBeTruthy()
     expect(screen.getByText('Fri, May 15')).toBeTruthy()
   })
@@ -83,5 +83,34 @@ describe('ConfirmDialog', () => {
     expect(
       screen.getByRole('button', { name: 'Delete' }).getAttribute('aria-busy'),
     ).toBe('true')
+  })
+})
+
+describe('ConfirmDialog semantics', () => {
+  it('is an alertdialog described by its question', () => {
+    setup()
+
+    const dialog = screen.getByRole('alertdialog', {
+      name: 'Delete this date?',
+    })
+    expect(dialog.getAttribute('aria-modal')).toBe('true')
+    const id = dialog.getAttribute('aria-describedby')
+    expect(document.getElementById(id!)?.textContent).toBe('Fri, May 15')
+  })
+
+  it('has no description without a question', () => {
+    render(
+      <ConfirmDialog
+        isVisible
+        title="Delete?"
+        confirmLabel="Delete"
+        onConfirm={vi.fn()}
+        onClose={vi.fn()}
+      />,
+    )
+
+    expect(
+      screen.getByRole('alertdialog').getAttribute('aria-describedby'),
+    ).toBeNull()
   })
 })
