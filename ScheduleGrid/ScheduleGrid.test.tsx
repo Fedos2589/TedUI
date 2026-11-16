@@ -1,5 +1,11 @@
 // @vitest-environment happy-dom
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  within,
+} from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ScheduleGrid } from './ScheduleGrid'
 
@@ -135,5 +141,21 @@ describe('ScheduleGrid', () => {
     expect(container.innerHTML).not.toMatch(/NaN|Infinity/)
     const inner = container.querySelector<HTMLElement>('[style]')!
     expect(inner.style.getPropertyValue('--schedule-grid-hours')).toBe('1')
+  })
+
+  it('lists the items of a column as a list, so a screen reader counts them', () => {
+    render(
+      <ScheduleGrid
+        aria-label="Day"
+        columns={columns}
+        startMinute={480}
+        endMinute={1200}
+        onItemClick={vi.fn()}
+      />,
+    )
+    const list = within(screen.getByRole('group', { name: 'Anna' })).getByRole(
+      'list',
+    )
+    expect(within(list).getAllByRole('listitem')).toHaveLength(1)
   })
 })

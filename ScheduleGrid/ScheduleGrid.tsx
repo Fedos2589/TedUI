@@ -147,42 +147,47 @@ export const ScheduleGrid = ({
                   style={{ top: percent(minute) }}
                 />
               ))}
-              {layoutItems(column.items, range).map((placed) => {
-                const { item } = placed
-                const itemClassName = classNames(
-                  styles.item,
-                  schemeStyles[item.colorScheme ?? 'blue'],
-                )
-                const style = {
-                  top: `${placed.top * 100}%`,
-                  height: `${placed.height * 100}%`,
-                  left: `${(placed.lane / placed.lanes) * 100}%`,
-                  width: `${100 / placed.lanes}%`,
-                }
-                const content = (
-                  <>
-                    <span className={styles.srOnly}>
-                      {clock(item.startMinute)}–{clock(item.endMinute)}{' '}
-                    </span>
-                    {item.children}
-                  </>
-                )
-                return onItemClick ? (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className={classNames(itemClassName, styles.itemButton)}
-                    style={style}
-                    onClick={() => onItemClick(column.id, item.id)}
-                  >
-                    {content}
-                  </button>
-                ) : (
-                  <div key={item.id} className={itemClassName} style={style}>
-                    {content}
-                  </div>
-                )
-              })}
+              <ul className={styles.items}>
+                {layoutItems(column.items, range).map((placed) => {
+                  const { item } = placed
+                  const itemClassName = classNames(
+                    styles.item,
+                    schemeStyles[item.colorScheme ?? 'blue'],
+                  )
+                  const style = {
+                    top: `${placed.top * 100}%`,
+                    height: `${placed.height * 100}%`,
+                    left: `${(placed.lane / placed.lanes) * 100}%`,
+                    width: `${100 / placed.lanes}%`,
+                  }
+                  const content = (
+                    <>
+                      <span className={styles.srOnly}>
+                        {clock(item.startMinute)}–{clock(item.endMinute)}{' '}
+                      </span>
+                      {item.children}
+                    </>
+                  )
+                  return (
+                    <li key={item.id} className={styles.slot} style={style}>
+                      {onItemClick ? (
+                        <button
+                          type="button"
+                          className={classNames(
+                            itemClassName,
+                            styles.itemButton,
+                          )}
+                          onClick={() => onItemClick(column.id, item.id)}
+                        >
+                          {content}
+                        </button>
+                      ) : (
+                        <div className={itemClassName}>{content}</div>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
             </div>
           </div>
         ))}
