@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { layoutItems, visibleRange } from './layout'
+import { layoutItems, minuteAt, visibleRange } from './layout'
 
 const range = { startMinute: 8 * 60, endMinute: 20 * 60 }
 const item = (id: string, startMinute: number, endMinute: number) => ({
@@ -84,5 +84,18 @@ describe('visibleRange', () => {
   it('falls back when there are no items', () => {
     const fallback = { startMinute: 480, endMinute: 1200 }
     expect(visibleRange([], fallback)).toBe(fallback)
+  })
+})
+
+describe('minuteAt', () => {
+  it('rounds the clicked point down to the step', () => {
+    // 8:00–20:00, a click 3/12 of the way down is 11:00; 0.28 → 11:15 at a 15 min step
+    expect(minuteAt(0.25, range, 15)).toBe(11 * 60)
+    expect(minuteAt(0.28, range, 15)).toBe(11 * 60 + 15)
+  })
+
+  it('stays inside the range', () => {
+    expect(minuteAt(-0.1, range, 15)).toBe(range.startMinute)
+    expect(minuteAt(1, range, 15)).toBe(range.endMinute - 15)
   })
 })

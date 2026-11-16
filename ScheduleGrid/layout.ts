@@ -58,3 +58,12 @@ export const visibleRange = (items: Span[], fallback: Span): Span => {
     endMinute: Math.ceil(Math.max(...items.map((i) => i.endMinute)) / 60) * 60,
   }
 }
+
+// The minute under a point `fraction` (0–1) of the way down the range, rounded down to the step.
+export const minuteAt = (fraction: number, range: Span, step: number) => {
+  const raw =
+    range.startMinute + fraction * (range.endMinute - range.startMinute)
+  const rounded =
+    range.startMinute + Math.floor((raw - range.startMinute) / step) * step
+  return Math.min(Math.max(rounded, range.startMinute), range.endMinute - step)
+}

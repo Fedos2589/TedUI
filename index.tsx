@@ -42,6 +42,13 @@ export type { RadioGroupProps } from './RadioGroup/RadioGroup'
 export * from './Combobox'
 export { Modal } from './Modal'
 export type { ModalProps } from './Modal'
+export { ScheduleGrid } from './ScheduleGrid'
+export type {
+  ScheduleGridColumn,
+  ScheduleGridItem,
+  ScheduleGridItemColorScheme,
+  ScheduleGridProps,
+} from './ScheduleGrid'
 export { ConfirmDialog } from './ConfirmDialog'
 export type { ConfirmDialogProps } from './ConfirmDialog'
 export { NavMobileHeader } from './NavMobileHeader/NavMobileHeader'
