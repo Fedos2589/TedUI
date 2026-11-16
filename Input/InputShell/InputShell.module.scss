@@ -282,6 +282,14 @@
   border-color: var(--color-red-200);
 }
 
+// Keyboard focus ring on the whole shell: `.control` has `outline: none`, and the
+// border change on :focus-within is too faint to count as a focus indicator.
+// Not scoped to a scheme or `:not(.error)` — an errored field needs it too.
+.controlWrapper:has(:focus-visible) {
+  outline: 2px solid var(--color-blue-300);
+  outline-offset: 2px;
+}
+
 // ─── Control (input / textarea) ──────────────────────────────────────────────
 
 .control {

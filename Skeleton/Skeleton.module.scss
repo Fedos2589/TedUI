@@ -78,3 +78,13 @@
     transform: translateX(100%);
   }
 }
+
+// Motion that isn't needed to understand the page (WCAG 2.3.3). The grey block
+// alone already says "loading"; the Spinner is left animated on purpose — it is
+// the loading indicator itself.
+@media (prefers-reduced-motion: reduce) {
+  .pulse,
+  .wave::after {
+    animation: none;
+  }
+}

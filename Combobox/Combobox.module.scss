@@ -12,6 +12,12 @@
   padding: 4px;
   margin: -4px;
 
+  // `all: unset` above drops the outline too, so the ring has to come back.
+  &:focus-visible {
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: 2px;
+  }
+
   &[data-popup-open] svg {
     transform: rotate(180deg);
   }

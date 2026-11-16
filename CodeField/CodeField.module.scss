@@ -37,12 +37,9 @@
     margin: 0;
   }
 
-  // No focus ring yet — the design for it is still being agreed. Until then the
-  // only cue that a box is active is the native text caret, which is weaker than
-  // WCAG 2.4.7 wants; the `border` above is kept so a ring can be added without
-  // shifting the layout.
   &:focus-visible {
-    outline: none;
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: 2px;
   }
 
   &:disabled {

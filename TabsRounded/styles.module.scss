@@ -97,6 +97,14 @@
     background-color 0.2s ease-in-out,
     box-shadow 0.2s ease-in-out;
 
+  // `all: unset` above drops the outline too, so the ring has to come back.
+  // Drawn inside the tab: the scrollable lists have `overflow-x: auto`, which
+  // would clip a ring that sticks out.
+  &:focus-visible {
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: -2px;
+  }
+
   // The tab's label — not every span: the "new" badge keeps its own color.
   .label {
     color: var(--color-grey-400);
