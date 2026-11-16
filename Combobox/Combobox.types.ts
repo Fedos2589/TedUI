@@ -20,6 +20,8 @@ export interface ComboboxProps<Value = string> {
         itemToString?: (itemValue: Value) => string,
       ) => boolean)
     | null
+  // On mobile only a string `label` reaches the sheet's title; give `mobileLabel`
+  // when the label is a node.
   label?: ReactNode
   required?: boolean
   placeholder?: string

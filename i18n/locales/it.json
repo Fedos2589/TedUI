@@ -5,7 +5,8 @@
       "back": "Indietro",
       "clear": "Cancella",
       "show_options": "Mostra opzioni",
-      "menu": "Menu"
+      "menu": "Menu",
+      "more_info": "Maggiori informazioni"
     },
     "button": {
       "apply": "Applica",
@@ -29,6 +30,7 @@
     "text": {
       "new": "nuovo",
       "startTypingToSeeSuggestions": "Inizia a digitare per vedere i suggerimenti",
+      "noOptions": "Nessuna opzione",
       "included": "Incluso",
       "not_included": "Non incluso",
       "more_count": "altri {{count}}",
@@ -45,5 +47,8 @@
   },
   "avatar": {
     "upload": "Carica"
+  },
+  "progressBar": {
+    "label": "Avanzamento"
   }
 }

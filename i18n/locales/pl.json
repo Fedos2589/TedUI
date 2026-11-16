@@ -5,7 +5,8 @@
       "back": "Wstecz",
       "clear": "Wyczyść",
       "show_options": "Pokaż opcje",
-      "menu": "Menu"
+      "menu": "Menu",
+      "more_info": "Więcej informacji"
     },
     "button": {
       "apply": "Zastosuj",
@@ -31,6 +32,7 @@
     "text": {
       "new": "nowy",
       "startTypingToSeeSuggestions": "Zacznij pisać, aby zobaczyć sugestie",
+      "noOptions": "Brak opcji",
       "included": "Zawarte",
       "not_included": "Niezawarte",
       "more_count": "jeszcze {{count}}",
@@ -49,5 +51,8 @@
   },
   "avatar": {
     "upload": "Prześlij"
+  },
+  "progressBar": {
+    "label": "Postęp"
   }
 }

@@ -5,7 +5,8 @@
       "back": "Zurück",
       "clear": "Löschen",
       "show_options": "Optionen anzeigen",
-      "menu": "Menü"
+      "menu": "Menü",
+      "more_info": "Mehr Infos"
     },
     "button": {
       "apply": "Übernehmen",
@@ -29,6 +30,7 @@
     "text": {
       "new": "neu",
       "startTypingToSeeSuggestions": "Beginnen Sie zu tippen, um Vorschläge zu sehen",
+      "noOptions": "Keine Optionen",
       "included": "Enthalten",
       "not_included": "Nicht enthalten",
       "more_count": "{{count}} weitere",
@@ -45,5 +47,8 @@
   },
   "avatar": {
     "upload": "Hochladen"
+  },
+  "progressBar": {
+    "label": "Fortschritt"
   }
 }

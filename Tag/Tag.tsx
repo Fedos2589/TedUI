@@ -16,6 +16,8 @@ export interface TagProps extends Omit<ComponentProps<'div'>, 'color'> {
   size?: TagSize
   colorScheme?: TagColorScheme
   label?: ReactNode
+  // Decorative: both slots are aria-hidden, so put nothing in them that a
+  // screen reader must hear (a count, a status) — that belongs in `label`.
   startIcon?: ReactNode
   endIcon?: ReactNode
   onRemove?: () => void
@@ -52,9 +54,17 @@ export const Tag = ({
 
   const content = (
     <>
-      {startIcon && <span className={styles.icon}>{startIcon}</span>}
+      {startIcon && (
+        <span className={styles.icon} aria-hidden="true">
+          {startIcon}
+        </span>
+      )}
       {label != null && <span className={styles.label}>{label}</span>}
-      {endIcon && <span className={styles.icon}>{endIcon}</span>}
+      {endIcon && (
+        <span className={styles.icon} aria-hidden="true">
+          {endIcon}
+        </span>
+      )}
     </>
   )
 

@@ -5,7 +5,8 @@
       "back": "Back",
       "clear": "Clear",
       "show_options": "Show options",
-      "menu": "Menu"
+      "menu": "Menu",
+      "more_info": "More info"
     },
     "button": {
       "apply": "Apply",
@@ -29,6 +30,7 @@
     "text": {
       "new": "new",
       "startTypingToSeeSuggestions": "Start typing to see suggestions",
+      "noOptions": "No options",
       "included": "Included",
       "not_included": "Not included",
       "more_count": "{{count}} more",
@@ -45,5 +47,8 @@
   },
   "avatar": {
     "upload": "Upload"
+  },
+  "progressBar": {
+    "label": "Progress"
   }
 }

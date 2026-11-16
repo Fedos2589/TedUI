@@ -3,6 +3,7 @@
 import { Radio as BaseRadio } from '@base-ui/react/radio'
 import { ComponentProps, useId } from 'react'
 import cn from 'classnames'
+import { useTranslation } from 'react-i18next'
 import { RiQuestionLine } from '@remixicon/react'
 import styles from './Radio.module.scss'
 import { Typography } from '../Typography'
@@ -20,10 +21,13 @@ export const Radio = ({
   className,
   hint,
   disabled,
+  'aria-describedby': describedBy,
   colorScheme = 'blue',
   ...props
 }: RadioProps) => {
+  const { t } = useTranslation('ui-kit')
   const labelId = useId()
+  const hintId = useId()
 
   return (
     <label
@@ -37,6 +41,9 @@ export const Radio = ({
         className={styles.root}
         disabled={disabled}
         aria-labelledby={label ? labelId : undefined}
+        aria-describedby={
+          [hint && hintId, describedBy].filter(Boolean).join(' ') || undefined
+        }
         {...props}
       />
       {(label || hint) && (
@@ -47,12 +54,18 @@ export const Radio = ({
             </Typography>
           )}
           {hint && (
+            <span id={hintId} className={styles.srOnly}>
+              {hint}
+            </span>
+          )}
+          {hint && (
             <Tooltip content={hint} side="top">
               <IconButton
                 size="small"
                 colorScheme="whiteBlue"
                 className={styles.hint}
-                aria-label={hint}
+                aria-label={t('common.action.more_info')}
+                aria-describedby={hintId}
               >
                 <RiQuestionLine size={16} aria-hidden />
               </IconButton>

@@ -281,7 +281,7 @@ export const CalendarPanel = ({
             onClick={() => onViewChange('year')}
           >
             {viewMonth.format('MMMM YYYY')}
-            <RiArrowDownSLine size={20} />
+            <RiArrowDownSLine size={20} aria-hidden="true" />
           </Button>
         )}
 
@@ -292,7 +292,7 @@ export const CalendarPanel = ({
             disabled={prevDisabled}
             onClick={() => onViewMonthChange(viewMonth.subtract(1, 'month'))}
           >
-            <RiArrowLeftSLine size={20} />
+            <RiArrowLeftSLine size={20} aria-hidden="true" />
           </IconButton>
           <IconButton
             {...navArrow}
@@ -300,7 +300,7 @@ export const CalendarPanel = ({
             disabled={nextDisabled}
             onClick={() => onViewMonthChange(viewMonth.add(1, 'month'))}
           >
-            <RiArrowRightSLine size={20} />
+            <RiArrowRightSLine size={20} aria-hidden="true" />
           </IconButton>
         </div>
       </div>

@@ -5,7 +5,8 @@
       "back": "Retour",
       "clear": "Effacer",
       "show_options": "Afficher les options",
-      "menu": "Menu"
+      "menu": "Menu",
+      "more_info": "Plus d'infos"
     },
     "button": {
       "apply": "Appliquer",
@@ -29,6 +30,7 @@
     "text": {
       "new": "nouveau",
       "startTypingToSeeSuggestions": "Commencez à taper pour voir des suggestions",
+      "noOptions": "Aucune option",
       "included": "Inclus",
       "not_included": "Non inclus",
       "more_count": "{{count}} de plus",
@@ -45,5 +47,8 @@
   },
   "avatar": {
     "upload": "Téléverser"
+  },
+  "progressBar": {
+    "label": "Progression"
   }
 }

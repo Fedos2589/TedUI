@@ -5,7 +5,8 @@
       "back": "Geri",
       "clear": "Temizle",
       "show_options": "Seçenekleri göster",
-      "menu": "Menü"
+      "menu": "Menü",
+      "more_info": "Daha fazla bilgi"
     },
     "button": {
       "apply": "Uygula",
@@ -29,6 +30,7 @@
     "text": {
       "new": "yeni",
       "startTypingToSeeSuggestions": "Önerileri görmek için yazmaya başlayın",
+      "noOptions": "Seçenek yok",
       "included": "Dahil",
       "not_included": "Dahil değil",
       "more_count": "{{count}} daha",
@@ -45,5 +47,8 @@
   },
   "avatar": {
     "upload": "Yükle"
+  },
+  "progressBar": {
+    "label": "İlerleme"
   }
 }

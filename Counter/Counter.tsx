@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react'
 import classNames from 'classnames'
 import { Typography } from '../Typography'
 import styles from './Counter.module.scss'
@@ -13,7 +14,10 @@ const schemeStyles: Record<CounterColorScheme, string> = {
   white: styles.schemeWhite,
 }
 
-export interface CounterProps {
+export interface CounterProps extends Omit<
+  ComponentProps<'span'>,
+  'children' | 'color'
+> {
   count?: number
   size?: CounterSize
   variant?: CounterVariant
@@ -27,6 +31,7 @@ export const Counter = ({
   variant = 'number',
   colorScheme = 'red',
   className,
+  ...rest
 }: CounterProps) => {
   if (variant === 'dot') {
     return (
@@ -37,6 +42,7 @@ export const Counter = ({
           schemeStyles[colorScheme],
           className,
         )}
+        {...rest}
       />
     )
   }
@@ -50,6 +56,7 @@ export const Counter = ({
         schemeStyles[colorScheme],
         className,
       )}
+      {...rest}
     >
       {count}
     </Typography>

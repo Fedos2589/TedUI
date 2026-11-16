@@ -133,7 +133,11 @@ export const MonthYearGrid = ({
         >
           {option.label}
           {layout === 'list' && option.selected && (
-            <RiCheckLine size={16} className={styles.check} />
+            <RiCheckLine
+              size={16}
+              className={styles.check}
+              aria-hidden="true"
+            />
           )}
         </button>
       ))}

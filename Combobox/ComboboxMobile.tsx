@@ -3,6 +3,7 @@
 import { Combobox as BaseCombobox } from '@base-ui/react/combobox'
 import { RiArrowDownSLine, RiSearchLine } from '@remixicon/react'
 import cn from 'classnames'
+import { useTranslation } from 'react-i18next'
 
 import { Modal } from '../Modal'
 import { Input } from '../Input'
@@ -29,7 +30,7 @@ export function ComboboxMobile<Value>({
   label,
   required,
   placeholder,
-  emptyValue = 'No options',
+  emptyValue,
   emptyInputValue,
   size,
   colorScheme,
@@ -50,6 +51,8 @@ export function ComboboxMobile<Value>({
   open,
   setOpen,
 }: ComboboxMobileProps<Value>) {
+  const { t } = useTranslation('ui-kit')
+  const title = mobileLabel ?? (typeof label === 'string' ? label : undefined)
   const displayText =
     value != null ? getLabel(value, itemToStringLabel) : (inputValue ?? '')
 
@@ -95,7 +98,8 @@ export function ComboboxMobile<Value>({
       <Modal
         isVisible={open}
         onClose={() => setOpen(false)}
-        title={mobileLabel ?? (label as string)}
+        title={title}
+        aria-label={title ? undefined : t('common.action.show_options')}
       >
         <div className={styles.mobileModalContent}>
           {/* A read-only combobox is a plain select — there is nothing to type,
@@ -108,6 +112,7 @@ export function ComboboxMobile<Value>({
               startIcon={<RiSearchLine size={16} aria-hidden />}
               endIcon={searchEndIcon}
               placeholder={searchPlaceholder}
+              aria-label={searchPlaceholder}
             >
               {(p) => (
                 // eslint-disable-next-line jsx-a11y/no-autofocus -- search field of a popup the user just opened
