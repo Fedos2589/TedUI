@@ -35,7 +35,8 @@ A primitive's a11y bug repeats on every screen, so the bar here is higher than i
   key handling, focus moves, markup, motion — are design decisions and don't change as
   a side effect.
 - Storybook's **Accessibility** panel (`@storybook/addon-a11y`) runs axe on every story.
-  A new or changed story lands with 0 violations. `color-contrast` is reported as
+  A new or changed story lands with 0 violations — `npm run test:stories` checks all
+  stories at once (first run: `npx playwright install chromium`). `color-contrast` is reported as
   "Inconclusive" until the palette is revised — don't add new pairs to that list.
 - `eslint-plugin-jsx-a11y` runs at `error`, so `npm run lint` fails on a new violation.
   `eslint-disable` only with the reason after `--`, when the lint is wrong about it

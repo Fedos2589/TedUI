@@ -2,8 +2,12 @@ import type { StorybookConfig } from '@storybook/react-vite'
 import svgr from 'vite-plugin-svgr'
 
 const config: StorybookConfig = {
-  stories: ['../**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-a11y'],
+  stories: ['../**/*.stories.@(js|jsx|mjs|ts|tsx)', '!../node_modules/**'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-a11y',
+    '@storybook/addon-vitest',
+  ],
   framework: {
     name: '@storybook/react-vite',
     options: {},
