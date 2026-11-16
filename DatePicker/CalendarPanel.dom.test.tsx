@@ -143,3 +143,17 @@ describe('CalendarPanel keyboard', () => {
     expect(onDayPick.mock.calls[0][0].format('YYYY-MM-DD')).toBe('2025-07-16')
   })
 })
+
+describe('CalendarPanel a11y', () => {
+  it('hides the nav icons from assistive tech', () => {
+    renderPanel()
+
+    for (const name of [
+      'common.datePicker.prevMonth',
+      'common.datePicker.nextMonth',
+    ]) {
+      const icon = screen.getByRole('button', { name }).querySelector('svg')
+      expect(icon?.getAttribute('aria-hidden')).toBe('true')
+    }
+  })
+})

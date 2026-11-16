@@ -52,9 +52,17 @@ export const Tag = ({
 
   const content = (
     <>
-      {startIcon && <span className={styles.icon}>{startIcon}</span>}
+      {startIcon && (
+        <span className={styles.icon} aria-hidden="true">
+          {startIcon}
+        </span>
+      )}
       {label != null && <span className={styles.label}>{label}</span>}
-      {endIcon && <span className={styles.icon}>{endIcon}</span>}
+      {endIcon && (
+        <span className={styles.icon} aria-hidden="true">
+          {endIcon}
+        </span>
+      )}
     </>
   )
 
