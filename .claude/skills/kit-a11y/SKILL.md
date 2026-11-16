@@ -9,6 +9,13 @@ Part of the kit rules from `AGENTS.md`, split out so it loads only when the work
 
 A primitive's a11y bug repeats on every screen, so the bar here is higher than in the app.
 
+- **Semantics before `div`.** Pick the native element that already says what the thing is:
+  a set of siblings is `<ul>/<li>`, a labelled block is `<section>`/`<fieldset>`, a heading
+  is `<h*>`, a moment is `<time>`, a table of data is `<table>`. A `div`/`span` is for layout
+  only; `role="…"` on one is for what HTML has no element for (`group`, `radio`…) and is a
+  smell when a native element fits. The test: with CSS off, would the DOM still read as a
+  list / form / table — or as a pile of boxes? A component with no `div` that carries
+  meaning in its story's a11y panel is the goal; one made only of `div`s is a red flag in review.
 - Everything clickable is a real `<button>` (or base-ui `Button`) or `<a href>` — never
   `div onClick`. Reset the native look in the element's own class so nothing moves
   (`Tag`, the upload button of `Avatar`). When the clickable area contains a link or
