@@ -138,7 +138,7 @@ an app, the component is coupled.
 npm run typecheck        # tsgo
 npm run lint             # ESLint + prettier (lint:ci — the same without --fix)
 npm test                 # vitest (test:watch while working)
-npm run test:stories     # axe on every story, in headless Chromium
+npm run test:stories     # axe on every story (first run: npx playwright install chromium)
 npm run build-storybook  # the catalogue still builds
 ```
 

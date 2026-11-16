@@ -23,6 +23,8 @@ export default defineConfig({
       },
       {
         extends: true,
+        // Без явного списка Vite переоптимизирует эти пакеты посреди прогона,
+        // перезагружает страницу, и часть файлов стори падает на импорте.
         optimizeDeps: {
           include: [
             'react/jsx-runtime',
