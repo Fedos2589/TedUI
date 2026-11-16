@@ -1,4 +1,4 @@
-$hour-height: 56px;
+$hour-height: 64px;
 $gutter-width: 48px;
 $header-height: 40px;
 
@@ -67,12 +67,23 @@ $header-height: 40px;
   pointer-events: none;
 }
 
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .item {
   position: absolute;
+  cursor: default;
   box-sizing: border-box;
   overflow: hidden;
   margin: 0;
-  padding: 4px 6px;
+  padding: 1px 6px;
+  line-height: 1.1;
   border: 1px solid transparent;
   border-radius: 6px;
   font: inherit;

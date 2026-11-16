@@ -5,3 +5,4 @@ export type {
   ScheduleGridItemColorScheme,
   ScheduleGridProps,
 } from './ScheduleGrid'
+export { visibleRange } from './layout'

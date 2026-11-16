@@ -86,6 +86,19 @@ Using the kit component is not only about looks: `Button` handles `loading` and
 disabled-while-loading, `Input` wires label, hint and error to the field for screen
 readers, `Modal` traps and returns focus. A hand-rolled copy silently drops all of it.
 
+## ScheduleGrid: what the consumer provides
+
+- **A keyboard route for `onEmptyClick`.** Clicking empty space is mouse-only (there is no
+  focusable cell per minute), so the screen also needs a plain button («New booking») that
+  does the same thing.
+- **Midnight is `1440`.** An item that ends at 24:00 has `endMinute: 1440`. An `endMinute`
+  at or before `startMinute` (what a `TimePicker` form model holds for «until midnight», `0`)
+  is dropped from the grid without an error. Convert before passing.
+- **`children` is the item's own text.** The grid adds the time range to the item's accessible
+  name itself — don't repeat it in `children` for screen readers.
+- `visibleRange(items, fallback)` (`import { visibleRange } from 'ted-ui/ScheduleGrid'`) gives
+  the `startMinute`/`endMinute` that fit a day's items, in whole hours.
+
 ## TimePicker: what the native field can't do
 
 `value` is minutes after midnight, `0`–`1439`; `null` is an empty (or half-typed) field.

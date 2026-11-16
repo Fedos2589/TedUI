@@ -123,3 +123,32 @@ export const ManyColumns: Story = {
 export const Empty: Story = {
   args: { columns: [{ id: 'anna', label: 'Anna', items: [] }] },
 }
+
+// 15 and 30 minute bookings are the smallest a grid has to keep readable.
+export const ShortItems: Story = {
+  args: {
+    columns: [
+      {
+        id: 'anna',
+        label: 'Anna',
+        items: [
+          { id: 's1', startMinute: 600, endMinute: 615, children: 'Fringe' },
+          {
+            id: 's2',
+            startMinute: 630,
+            endMinute: 660,
+            children: 'Wash · Olga',
+            colorScheme: 'green',
+          },
+          {
+            id: 's3',
+            startMinute: 660,
+            endMinute: 675,
+            children: 'Consult',
+            colorScheme: 'grey',
+          },
+        ],
+      },
+    ],
+  },
+}

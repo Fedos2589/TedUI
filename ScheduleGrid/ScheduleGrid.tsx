@@ -1,7 +1,14 @@
 'use client'
 
 import classNames from 'classnames'
-import { useId, type MouseEvent, type ReactNode } from 'react'
+import {
+  useId,
+  type ComponentProps,
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
+} from 'react'
+import { minutesToTime } from '../TimePicker/timeValue'
 import { layoutItems, minuteAt } from './layout'
 import styles from './ScheduleGrid.module.scss'
 
@@ -21,7 +28,10 @@ export interface ScheduleGridColumn {
   items: ScheduleGridItem[]
 }
 
-export interface ScheduleGridProps {
+export interface ScheduleGridProps extends Omit<
+  ComponentProps<'div'>,
+  'children' | 'onClick'
+> {
   columns: ScheduleGridColumn[]
   /** Minutes from midnight: the grid shows [startMinute, endMinute). */
   startMinute: number
@@ -30,7 +40,6 @@ export interface ScheduleGridProps {
   stepMinutes?: number
   onItemClick?: (columnId: string, itemId: string) => void
   onEmptyClick?: (columnId: string, minute: number) => void
-  className?: string
   'aria-label': string
 }
 
@@ -41,7 +50,9 @@ const schemeStyles: Record<ScheduleGridItemColorScheme, string> = {
   red: styles.schemeRed,
 }
 
-const pad = (n: number) => String(n).padStart(2, '0')
+// 24:00 is how an item that ends at midnight reads; minutesToTime only knows 00:00–23:59.
+const clock = (minute: number) =>
+  minute === 24 * 60 ? '24:00' : minutesToTime(minute)
 
 const hoursIn = (startMinute: number, endMinute: number) => {
   const hours: number[] = []
@@ -60,11 +71,16 @@ export const ScheduleGrid = ({
   onEmptyClick,
   className,
   'aria-label': ariaLabel,
+  ...rest
 }: ScheduleGridProps) => {
   const id = useId()
-  const range = { startMinute, endMinute }
-  const length = endMinute - startMinute
-  const hours = hoursIn(startMinute, endMinute)
+  // An empty or inverted range (a day off) still gets one hour of grid instead of NaN.
+  const range = {
+    startMinute,
+    endMinute: Math.max(endMinute, startMinute + 60),
+  }
+  const length = range.endMinute - range.startMinute
+  const hours = hoursIn(startMinute, range.endMinute)
   const percent = (minute: number) =>
     `${((minute - startMinute) / length) * 100}%`
 
@@ -81,13 +97,14 @@ export const ScheduleGrid = ({
 
   return (
     <div
+      {...rest}
       role="group"
       aria-label={ariaLabel}
       className={classNames(styles.root, className)}
     >
       <div
         className={styles.inner}
-        style={{ '--schedule-grid-hours': length / 60 } as React.CSSProperties}
+        style={{ '--schedule-grid-hours': length / 60 } as CSSProperties}
       >
         <div className={styles.gutter} aria-hidden>
           <div className={styles.header} />
@@ -98,19 +115,19 @@ export const ScheduleGrid = ({
                 className={styles.hourLabel}
                 style={{ top: percent(minute) }}
               >
-                {pad(minute / 60)}:00
+                {clock(minute)}
               </span>
             ))}
           </div>
         </div>
-        {columns.map((column) => (
+        {columns.map((column, index) => (
           <div
             key={column.id}
             role="group"
-            aria-labelledby={`${id}-${column.id}`}
+            aria-labelledby={`${id}-col-${index}`}
             className={styles.column}
           >
-            <div id={`${id}-${column.id}`} className={styles.header}>
+            <div id={`${id}-col-${index}`} className={styles.header}>
               {column.label}
             </div>
             {/* A mouse-only shortcut: the consumer offers a keyboard route to the same action. */}
@@ -131,7 +148,7 @@ export const ScheduleGrid = ({
                 />
               ))}
               {layoutItems(column.items, range).map((placed) => {
-                const item = column.items.find((i) => i.id === placed.id)!
+                const { item } = placed
                 const itemClassName = classNames(
                   styles.item,
                   schemeStyles[item.colorScheme ?? 'blue'],
@@ -142,6 +159,14 @@ export const ScheduleGrid = ({
                   left: `${(placed.lane / placed.lanes) * 100}%`,
                   width: `${100 / placed.lanes}%`,
                 }
+                const content = (
+                  <>
+                    <span className={styles.srOnly}>
+                      {clock(item.startMinute)}–{clock(item.endMinute)}{' '}
+                    </span>
+                    {item.children}
+                  </>
+                )
                 return onItemClick ? (
                   <button
                     key={item.id}
@@ -150,11 +175,11 @@ export const ScheduleGrid = ({
                     style={style}
                     onClick={() => onItemClick(column.id, item.id)}
                   >
-                    {item.children}
+                    {content}
                   </button>
                 ) : (
                   <div key={item.id} className={itemClassName} style={style}>
-                    {item.children}
+                    {content}
                   </div>
                 )
               })}
