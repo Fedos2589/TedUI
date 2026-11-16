@@ -99,6 +99,11 @@ export const ButtonWithTooltip = ({
         title={modalTitle}
         isVisible={isOpen && mobile}
         onClose={onClose ?? onToggle}
+        finalFocus={() =>
+          anchorRef.current?.querySelector<HTMLElement>(
+            ':is(button, a[href], [tabindex]):not([tabindex="-1"])',
+          ) ?? true
+        }
       >
         {modalContent}
       </Modal>

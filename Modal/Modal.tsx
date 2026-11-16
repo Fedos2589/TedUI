@@ -1,7 +1,7 @@
 'use client'
 
 import { Dialog } from '@base-ui/react/dialog'
-import { PropsWithChildren, ReactNode } from 'react'
+import { ComponentProps, PropsWithChildren, ReactNode } from 'react'
 import styles from './Modal.module.scss'
 import classNames from 'classnames'
 import { Button } from '../Button'
@@ -33,6 +33,14 @@ export interface ModalProps {
   onClose?: () => void
   /** Id of the dialog — what a trigger's `aria-controls` points at. */
   id?: string
+  /**
+   * Where focus goes on close. Pass the opener's ref when it is a Button or
+   * IconButton: they blur themselves on pointer release, so base-ui would
+   * otherwise remember <body> as the opener.
+   */
+  finalFocus?: ComponentProps<typeof Dialog.Popup>['finalFocus']
+  /** `alertdialog` for a question that needs an answer (ConfirmDialog). */
+  role?: 'dialog' | 'alertdialog'
   // dialog name when there is no visible `title`
   'aria-label'?: string
 }
@@ -48,6 +56,8 @@ export const Modal = ({
   onBack,
   onClose,
   id,
+  role = 'dialog',
+  finalFocus,
   'aria-label': ariaLabel,
 }: PropsWithChildren<ModalProps>) => {
   const { t } = useTranslation('ui-kit')
@@ -63,6 +73,9 @@ export const Modal = ({
         <Dialog.Backdrop className={styles.overlay} />
         <Dialog.Popup
           id={id}
+          role={role}
+          finalFocus={finalFocus}
+          aria-modal="true"
           className={styles.modalWrapper}
           aria-label={ariaLabel}
         >
@@ -79,19 +92,31 @@ export const Modal = ({
                 </IconButton>
               )}
               <div className={styles.titleBlock}>
-                <Dialog.Title
-                  render={<Typography variant="h4" className={styles.title} />}
-                >
-                  {title}
-                </Dialog.Title>
+                {title && (
+                  <Dialog.Title
+                    render={
+                      <Typography
+                        variant="h4"
+                        component="h2"
+                        className={styles.title}
+                      />
+                    }
+                  >
+                    {title}
+                  </Dialog.Title>
+                )}
                 {subtitle && (
-                  <Typography
-                    variant="t5"
-                    color="grey-400"
-                    className={styles.subtitle}
+                  <Dialog.Description
+                    render={
+                      <Typography
+                        variant="t5"
+                        color="grey-400"
+                        className={styles.subtitle}
+                      />
+                    }
                   >
                     {subtitle}
-                  </Typography>
+                  </Dialog.Description>
                 )}
               </div>
               {onClose && (
@@ -109,9 +134,7 @@ export const Modal = ({
               )}
             </div>
 
-            <Dialog.Description render={<div className={styles.content} />}>
-              {children}
-            </Dialog.Description>
+            <div className={styles.content}>{children}</div>
 
             {((buttons && buttons.length > 0) || footerStart) && (
               <div

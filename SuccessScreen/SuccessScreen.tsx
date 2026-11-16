@@ -11,6 +11,7 @@ interface SuccessScreenProps {
   description: ReactNode
   actionLabel: ReactNode
   onAction: () => void
+  headingLevel?: 1 | 2 | 3 | 4 | 5 | 6
 }
 
 const SuccessScreen = ({
@@ -19,6 +20,7 @@ const SuccessScreen = ({
   description,
   actionLabel,
   onAction,
+  headingLevel,
 }: SuccessScreenProps) => {
   const titleId = useId()
   const descriptionId = useId()
@@ -27,7 +29,12 @@ const SuccessScreen = ({
     <div className={styles.container}>
       <img src={image} alt="" />
       <div className={styles.text}>
-        <Typography id={titleId} variant="h3" className={styles.title}>
+        <Typography
+          id={titleId}
+          variant="h3"
+          component={headingLevel ? `h${headingLevel}` : undefined}
+          className={styles.title}
+        >
           {title}
         </Typography>
         <Typography

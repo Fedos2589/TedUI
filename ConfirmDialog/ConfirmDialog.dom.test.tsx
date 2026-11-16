@@ -1,6 +1,8 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi } from 'vitest'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { useRef, useState } from 'react'
+import { Button } from '../Button'
 import { ConfirmDialog } from './ConfirmDialog'
 import en from '../i18n/locales/en.json'
 
@@ -37,7 +39,7 @@ describe('ConfirmDialog', () => {
     setup()
 
     expect(
-      screen.getByRole('dialog', { name: 'Delete this date?' }),
+      screen.getByRole('alertdialog', { name: 'Delete this date?' }),
     ).toBeTruthy()
     expect(screen.getByText('Fri, May 15')).toBeTruthy()
   })
@@ -83,5 +85,68 @@ describe('ConfirmDialog', () => {
     expect(
       screen.getByRole('button', { name: 'Delete' }).getAttribute('aria-busy'),
     ).toBe('true')
+  })
+})
+
+describe('ConfirmDialog semantics', () => {
+  it('is an alertdialog described by its question', () => {
+    setup()
+
+    const dialog = screen.getByRole('alertdialog', {
+      name: 'Delete this date?',
+    })
+    expect(dialog.getAttribute('aria-modal')).toBe('true')
+    const id = dialog.getAttribute('aria-describedby')
+    expect(document.getElementById(id!)?.textContent).toBe('Fri, May 15')
+  })
+
+  it('has no description without a question', () => {
+    render(
+      <ConfirmDialog
+        isVisible
+        title="Delete?"
+        confirmLabel="Delete"
+        onConfirm={vi.fn()}
+        onClose={vi.fn()}
+      />,
+    )
+
+    expect(
+      screen.getByRole('alertdialog').getAttribute('aria-describedby'),
+    ).toBeNull()
+  })
+})
+
+describe('ConfirmDialog focus return', () => {
+  const Opener = () => {
+    const [open, setOpen] = useState(false)
+    const ref = useRef<HTMLButtonElement>(null)
+    return (
+      <>
+        <Button ref={ref} onClick={() => setOpen(true)}>
+          Remove
+        </Button>
+        <ConfirmDialog
+          isVisible={open}
+          title="Delete?"
+          confirmLabel="Delete"
+          finalFocus={ref}
+          onConfirm={vi.fn()}
+          onClose={() => setOpen(false)}
+        />
+      </>
+    )
+  }
+
+  it('returns focus to a Button that opened it by pointer', async () => {
+    render(<Opener />)
+    const button = screen.getByRole('button', { name: 'Remove' })
+    button.focus()
+    fireEvent.pointerUp(button)
+    fireEvent.click(button)
+
+    fireEvent.click(screen.getByRole('button', { name: CANCEL }))
+
+    await waitFor(() => expect(document.activeElement).toBe(button))
   })
 })

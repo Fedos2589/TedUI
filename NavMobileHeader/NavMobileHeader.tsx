@@ -16,6 +16,7 @@ export interface NavMobileHeaderProps {
   rightContent?: ReactNode
   hideBackButton?: boolean
   align?: 'center' | 'left'
+  headingLevel?: 1 | 2 | 3 | 4 | 5 | 6
 }
 
 export const NavMobileHeader = ({
@@ -27,6 +28,7 @@ export const NavMobileHeader = ({
   rightContent,
   hideBackButton = false,
   align = 'center',
+  headingLevel,
 }: NavMobileHeaderProps) => {
   const { t } = useTranslation('ui-kit')
   const handleBack = () => {
@@ -68,6 +70,7 @@ export const NavMobileHeader = ({
         <Typography
           className={classNames(styles.title, styles[`title_${align}`])}
           variant="h6"
+          component={headingLevel ? `h${headingLevel}` : undefined}
           color="bw-black"
         >
           {title}

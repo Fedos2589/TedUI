@@ -1,6 +1,6 @@
 'use client'
 
-import { KeyboardEvent, useId, useRef, useState } from 'react'
+import { KeyboardEvent, useEffect, useId, useRef, useState } from 'react'
 import cn from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { RiCloseLine } from '@remixicon/react'
@@ -63,7 +63,22 @@ export const TagsInput = ({
   const reactId = useId()
   const id = idProp ?? reactId
   const inputRef = useRef<HTMLInputElement>(null)
+  const lastRemoveRef = useRef<HTMLButtonElement>(null)
   const [draft, setDraft] = useState('')
+  // The element to focus once the next render has mounted it: the field is
+  // unmounted while the limit is reached, and the clicked chip's button
+  // unmounts with its chip — focus would otherwise fall to <body>.
+  const focusAfterRender = useRef<'input' | 'lastRemove' | null>(null)
+
+  // Only when the list length actually changes: if the parent ignored the
+  // change, the flag must not fire on some later unrelated render.
+  useEffect(() => {
+    if (focusAfterRender.current === 'input') inputRef.current?.focus()
+    if (focusAfterRender.current === 'lastRemove') {
+      lastRemoveRef.current?.focus()
+    }
+    focusAfterRender.current = null
+  }, [value.length])
 
   const isFull = maxTags != null && value.length >= maxTags
 
@@ -76,20 +91,22 @@ export const TagsInput = ({
   })
   const describedBy = message != null ? inputMessageId(id) : undefined
 
-  const addTag = (raw: string) => {
+  const addTag = (raw: string, keepFocusAtLimit = true) => {
     const tag = raw.trim()
     if (!tag || isFull) return
     if (!value.some((item) => item.toLowerCase() === tag.toLowerCase())) {
       onChange([...value, tag])
+      // Not from blur: the user is already leaving the field (Tab).
+      if (keepFocusAtLimit && maxTags != null && value.length + 1 >= maxTags) {
+        focusAfterRender.current = 'lastRemove'
+      }
     }
     setDraft('')
   }
 
   const removeTag = (index: number) => {
     onChange(value.filter((_, i) => i !== index))
-    // The clicked button unmounts with its chip, so focus would fall to
-    // <body> and a keyboard user would lose their place in the form.
-    inputRef.current?.focus()
+    focusAfterRender.current = 'input'
   }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -127,6 +144,7 @@ export const TagsInput = ({
               <Typography variant="t3">{tag}</Typography>
               <button
                 type="button"
+                ref={index === value.length - 1 ? lastRemoveRef : undefined}
                 className={styles.remove}
                 aria-label={`${t('common.button.remove')} ${tag}`}
                 disabled={disabled}
@@ -149,12 +167,15 @@ export const TagsInput = ({
             value={draft}
             placeholder={value.length > 0 ? undefined : placeholder}
             disabled={disabled}
-            required={required}
+            required={required && value.length === 0}
             aria-invalid={error || undefined}
             aria-describedby={describedBy}
-            onChange={(event) => setDraft(event.target.value)}
+            onChange={(event) => {
+              focusAfterRender.current = null
+              setDraft(event.target.value)
+            }}
             onKeyDown={handleKeyDown}
-            onBlur={() => addTag(draft)}
+            onBlur={() => addTag(draft, false)}
           />
         )}
       </div>
