@@ -35,6 +35,13 @@ type ToastWithOptions = Toast & {
   status?: 'warning'
 }
 
+// Errors and warnings interrupt the screen reader; the library's default
+// (`status` / polite) would queue them behind whatever it is reading.
+const liveRegionProps = (t: Toast) =>
+  t.type === 'error' || (t as ToastWithOptions).status === 'warning'
+    ? ({ role: 'alert', 'aria-live': 'assertive' } as const)
+    : t.ariaProps
+
 const showCloseButton = (t: Toast): boolean =>
   t.type !== 'loading' && (t as ToastWithOptions).closeButton !== false
 
@@ -122,7 +129,7 @@ export const ToastProvider = ({
               {renderIcon(t, icon)}
               {/* Raw message: the library's `message` arg is wrapped in a div
                   with margin that would add dead space around the text. */}
-              <Typography variant="t3" color="bw-white" {...t.ariaProps}>
+              <Typography variant="t3" color="bw-white" {...liveRegionProps(t)}>
                 {resolveValue(t.message, t)}
               </Typography>
               {showCloseButton(t) && (
