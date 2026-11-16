@@ -275,6 +275,7 @@ export const DatePicker = (props: DatePickerProps) => {
         disabled={disabled}
         className={styles.trigger}
         controlWrapperRef={anchorRef}
+        role="combobox"
         aria-haspopup="dialog"
         aria-expanded={open}
         onControlWrapperClick={openPicker}
@@ -289,6 +290,7 @@ export const DatePicker = (props: DatePickerProps) => {
           side="bottom"
           align="start"
           className={styles.popover}
+          aria-label={sheetTitle()}
         >
           {panel}
         </Popover>

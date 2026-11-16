@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { ReactElement } from 'react'
 import { DatePicker } from './DatePicker'
@@ -12,7 +12,7 @@ import { DatePicker } from './DatePicker'
 
 const openSheet = (ui: ReactElement) => {
   render(ui)
-  fireEvent.click(screen.getByRole('textbox'))
+  fireEvent.click(screen.getByRole('combobox'))
 }
 
 describe('DatePicker sheet subtitle', () => {
@@ -40,5 +40,39 @@ describe('DatePicker sheet subtitle', () => {
     )
 
     expect(screen.getByText('Wednesday, 1 June 2022')).toBeTruthy()
+  })
+})
+
+describe('DatePicker trigger', () => {
+  beforeEach(() => {
+    ;(
+      window as unknown as {
+        happyDOM?: { setViewport: (size: object) => void }
+      }
+    ).happyDOM?.setViewport({ width: 1024, height: 768 })
+  })
+
+  it('is a combobox that reports and opens the popover from the keyboard', () => {
+    render(<DatePicker mode="single" value="2022-06-01" onChange={vi.fn()} />)
+    const trigger = screen.getByRole('combobox')
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('false')
+
+    fireEvent.keyDown(trigger, { key: 'ArrowDown' })
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+    expect(
+      screen.getByRole('dialog', { name: 'common.datePicker.selectDate' }),
+    ).toBeTruthy()
+  })
+
+  it('opens on Enter', () => {
+    render(<DatePicker mode="single" value="2022-06-01" onChange={vi.fn()} />)
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' })
+
+    expect(
+      screen.getByRole('dialog', { name: 'common.datePicker.selectDate' }),
+    ).toBeTruthy()
   })
 })

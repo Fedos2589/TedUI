@@ -251,6 +251,8 @@ export const CalendarPanel = ({
                 className={cn(styles.navPart, {
                   [styles.navPartActive]: view === 'month',
                 })}
+                aria-haspopup="listbox"
+                aria-expanded={view === 'month'}
                 onClick={() => onViewChange(view === 'month' ? 'day' : 'month')}
               >
                 {viewMonth.format('MMMM')}
@@ -265,6 +267,8 @@ export const CalendarPanel = ({
                 className={cn(styles.navPart, {
                   [styles.navPartActive]: view === 'year',
                 })}
+                aria-haspopup="listbox"
+                aria-expanded={view === 'year'}
                 onClick={() => onViewChange(view === 'year' ? 'day' : 'year')}
               >
                 {viewMonth.format('YYYY')}
