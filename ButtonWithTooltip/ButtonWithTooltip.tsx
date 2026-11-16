@@ -101,7 +101,7 @@ export const ButtonWithTooltip = ({
         onClose={onClose ?? onToggle}
         finalFocus={() =>
           anchorRef.current?.querySelector<HTMLElement>(
-            'button, a, [tabindex]',
+            ':is(button, a[href], [tabindex]):not([tabindex="-1"])',
           ) ?? true
         }
       >

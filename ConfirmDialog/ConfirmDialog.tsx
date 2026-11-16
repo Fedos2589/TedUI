@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dialog } from '@base-ui/react/dialog'
-import { Modal } from '../Modal'
+import { Modal, type ModalProps } from '../Modal'
 import { Typography } from '../Typography'
 
 export interface ConfirmDialogProps {
@@ -18,6 +18,8 @@ export interface ConfirmDialogProps {
   /** `red` for an action that cannot be undone. */
   colorScheme?: 'black' | 'red'
   loading?: boolean
+  /** The opener's ref when it is a Button/IconButton — see Modal. */
+  finalFocus?: ModalProps['finalFocus']
   onConfirm: () => void
   onClose: () => void
 }
@@ -30,6 +32,7 @@ export const ConfirmDialog = ({
   cancelLabel,
   colorScheme = 'black',
   loading,
+  finalFocus,
   onConfirm,
   onClose,
 }: ConfirmDialogProps) => {
@@ -40,6 +43,7 @@ export const ConfirmDialog = ({
       isVisible={isVisible}
       title={title}
       role="alertdialog"
+      finalFocus={finalFocus}
       onClose={onClose}
       buttons={[
         {

@@ -70,12 +70,15 @@ export const TagsInput = ({
   // unmounts with its chip — focus would otherwise fall to <body>.
   const focusAfterRender = useRef<'input' | 'lastRemove' | null>(null)
 
+  // Only when the list length actually changes: if the parent ignored the
+  // change, the flag must not fire on some later unrelated render.
   useEffect(() => {
     if (focusAfterRender.current === 'input') inputRef.current?.focus()
-    if (focusAfterRender.current === 'lastRemove')
+    if (focusAfterRender.current === 'lastRemove') {
       lastRemoveRef.current?.focus()
+    }
     focusAfterRender.current = null
-  })
+  }, [value.length])
 
   const isFull = maxTags != null && value.length >= maxTags
 
@@ -166,7 +169,10 @@ export const TagsInput = ({
             required={required && value.length === 0}
             aria-invalid={error || undefined}
             aria-describedby={describedBy}
-            onChange={(event) => setDraft(event.target.value)}
+            onChange={(event) => {
+              focusAfterRender.current = null
+              setDraft(event.target.value)
+            }}
             onKeyDown={handleKeyDown}
             onBlur={() => addTag(draft)}
           />

@@ -54,3 +54,19 @@ describe('TagsInput required', () => {
     )
   })
 })
+
+describe('TagsInput when the parent does not apply the change', () => {
+  it('does not steal focus from the field on later renders', () => {
+    const { rerender } = render(
+      <TagsInput value={['a']} onChange={vi.fn()} maxTags={2} />,
+    )
+    const input = screen.getByRole('textbox')
+    input.focus()
+    type(input, 'b') // parent ignores it: value stays ['a']
+
+    fireEvent.change(input, { target: { value: 'c' } })
+    rerender(<TagsInput value={['a']} onChange={vi.fn()} maxTags={2} />)
+
+    expect(document.activeElement).toBe(screen.getByRole('textbox'))
+  })
+})

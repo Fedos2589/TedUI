@@ -1,6 +1,8 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi } from 'vitest'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { useRef, useState } from 'react'
+import { Button } from '../Button'
 import { ConfirmDialog } from './ConfirmDialog'
 import en from '../i18n/locales/en.json'
 
@@ -112,5 +114,39 @@ describe('ConfirmDialog semantics', () => {
     expect(
       screen.getByRole('alertdialog').getAttribute('aria-describedby'),
     ).toBeNull()
+  })
+})
+
+describe('ConfirmDialog focus return', () => {
+  const Opener = () => {
+    const [open, setOpen] = useState(false)
+    const ref = useRef<HTMLButtonElement>(null)
+    return (
+      <>
+        <Button ref={ref} onClick={() => setOpen(true)}>
+          Remove
+        </Button>
+        <ConfirmDialog
+          isVisible={open}
+          title="Delete?"
+          confirmLabel="Delete"
+          finalFocus={ref}
+          onConfirm={vi.fn()}
+          onClose={() => setOpen(false)}
+        />
+      </>
+    )
+  }
+
+  it('returns focus to a Button that opened it by pointer', async () => {
+    render(<Opener />)
+    const button = screen.getByRole('button', { name: 'Remove' })
+    button.focus()
+    fireEvent.pointerUp(button)
+    fireEvent.click(button)
+
+    fireEvent.click(screen.getByRole('button', { name: CANCEL }))
+
+    await waitFor(() => expect(document.activeElement).toBe(button))
   })
 })

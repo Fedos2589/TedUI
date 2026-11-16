@@ -3,7 +3,7 @@
 import { Combobox as BaseCombobox } from '@base-ui/react/combobox'
 import { RiArrowDownSLine, RiSearchLine } from '@remixicon/react'
 import cn from 'classnames'
-import { useRef } from 'react'
+import { useId, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Modal } from '../Modal'
@@ -56,6 +56,7 @@ export function ComboboxMobile<Value>({
 }: ComboboxMobileProps<Value>) {
   const { t } = useTranslation('ui-kit')
   const fieldRef = useRef<HTMLInputElement>(null)
+  const dialogId = useId()
   const title = mobileLabel ?? (typeof label === 'string' ? label : undefined)
   const displayText =
     value != null ? getLabel(value, itemToStringLabel) : (inputValue ?? '')
@@ -99,6 +100,7 @@ export function ComboboxMobile<Value>({
           role="combobox"
           aria-haspopup="dialog"
           aria-expanded={open}
+          aria-controls={open ? dialogId : undefined}
           onKeyDown={(event) => {
             if (disabled || !OPEN_KEYS.includes(event.key)) return
             event.preventDefault()
@@ -110,10 +112,9 @@ export function ComboboxMobile<Value>({
       )}
       <Modal
         isVisible={open}
-        onClose={() => {
-          setOpen(false)
-          fieldRef.current?.focus()
-        }}
+        id={dialogId}
+        onClose={() => setOpen(false)}
+        finalFocus={fieldRef}
         title={title}
         aria-label={title ? undefined : t('common.action.show_options')}
       >
