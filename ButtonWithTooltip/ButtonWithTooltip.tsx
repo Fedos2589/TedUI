@@ -53,18 +53,19 @@ export const ButtonWithTooltip = ({
   const popupId = useId()
   const desktopOpen = isOpen && !mobile
 
+  const triggerSelector =
+    ':is(button, a[href], [tabindex]):not([tabindex="-1"])'
   const focusTrigger = () =>
-    anchorRef.current
-      ?.querySelector<HTMLElement>(
-        ':is(button, a[href], [tabindex]):not([tabindex="-1"])',
-      )
-      ?.focus()
+    anchorRef.current?.querySelector<HTMLElement>(triggerSelector)?.focus()
 
-  // Focus goes back to the trigger once the card closes (not on first render).
-  const wasOpen = useRef(false)
+  // Focus goes back to the trigger only when the user closed the card from
+  // inside (Escape) — an outside press means they are already going elsewhere.
+  const returnFocus = useRef(false)
   useEffect(() => {
-    if (wasOpen.current && !desktopOpen) focusTrigger()
-    wasOpen.current = desktopOpen
+    if (!desktopOpen && returnFocus.current) {
+      returnFocus.current = false
+      focusTrigger()
+    }
   }, [desktopOpen])
 
   return (
@@ -89,8 +90,17 @@ export const ButtonWithTooltip = ({
       </div>
       <Popover
         open={desktopOpen}
-        onOpenChange={(open) => {
-          if (!open) (onClose ?? onToggle)?.()
+        onOpenChange={(open, { reason, event }) => {
+          if (open) return
+          // A press on the trigger is its own toggle (onClickCapture below).
+          if (
+            reason === 'outside-press' &&
+            event.target instanceof Node &&
+            anchorRef.current?.contains(event.target)
+          )
+            return
+          if (reason === 'escape-key') returnFocus.current = true
+          ;(onClose ?? onToggle)?.()
         }}
         anchor={anchorRef}
         id={popupId}
@@ -107,9 +117,7 @@ export const ButtonWithTooltip = ({
         isVisible={isOpen && mobile}
         onClose={onClose ?? onToggle}
         finalFocus={() =>
-          anchorRef.current?.querySelector<HTMLElement>(
-            ':is(button, a[href], [tabindex]):not([tabindex="-1"])',
-          ) ?? true
+          anchorRef.current?.querySelector<HTMLElement>(triggerSelector) ?? true
         }
       >
         {modalContent}

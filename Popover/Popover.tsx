@@ -8,11 +8,14 @@ import styles from './Popover.module.scss'
 export type PopoverSide = 'top' | 'bottom' | 'left' | 'right'
 export type PopoverAlign = 'start' | 'center' | 'end'
 
+/** Why it changed (`'escape-key'`, `'outside-press'`, …) and the DOM event behind it. */
+export type PopoverChangeDetails = { reason: string; event: Event }
+
 export interface PopoverProps {
   /** Controlled open state. */
   open: boolean
   /** Fires on open/close — outside-press and Escape close the popover. */
-  onOpenChange?: (open: boolean) => void
+  onOpenChange?: (open: boolean, details: PopoverChangeDetails) => void
   /** Element (or ref) the popover is positioned against. */
   anchor: Element | RefObject<Element | null> | null
   children: ReactNode
@@ -67,7 +70,7 @@ export const Popover = ({
   return (
     <BasePopover.Root
       open={open}
-      onOpenChange={(nextOpen) => onOpenChange?.(nextOpen)}
+      onOpenChange={(nextOpen, details) => onOpenChange?.(nextOpen, details)}
       modal={modal}
     >
       <BasePopover.Portal keepMounted={keepMounted}>

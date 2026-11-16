@@ -122,4 +122,71 @@ describe('ButtonWithTooltip desktop popover', () => {
     fireEvent.keyDown(await screen.findByRole('dialog'), { key: 'Escape' })
     await waitFor(() => expect(onToggle).toHaveBeenCalledTimes(1))
   })
+
+  it('a press on the trigger toggles once instead of closing and reopening', async () => {
+    const onClose = vi.fn()
+    const onToggle = vi.fn()
+    render(
+      <ButtonWithTooltip
+        isOpen
+        onClose={onClose}
+        onToggle={onToggle}
+        tooltipContent="tip"
+        modalContent="sheet"
+        modalTitle="Info"
+      >
+        <button>Info</button>
+      </ButtonWithTooltip>,
+    )
+    await screen.findByRole('dialog')
+    const trigger = screen.getByRole('button', { name: 'Info' })
+    fireEvent.pointerDown(trigger)
+    fireEvent.mouseDown(trigger)
+    fireEvent.pointerUp(trigger)
+    fireEvent.mouseUp(trigger)
+    fireEvent.click(trigger)
+    expect(onToggle).toHaveBeenCalledTimes(1)
+    expect(onClose).not.toHaveBeenCalled()
+  })
+
+  it('leaves focus alone when an outside press closes it', async () => {
+    const onClose = vi.fn()
+    const { rerender } = render(
+      <>
+        <input aria-label="other" />
+        <ButtonWithTooltip
+          isOpen
+          onClose={onClose}
+          tooltipContent="tip"
+          modalContent="sheet"
+          modalTitle="Info"
+        >
+          <button>Info</button>
+        </ButtonWithTooltip>
+      </>,
+    )
+    await screen.findByRole('dialog')
+    const other = screen.getByLabelText('other')
+    other.focus()
+    fireEvent.pointerDown(other)
+    fireEvent.mouseDown(other)
+    await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1))
+
+    rerender(
+      <>
+        <input aria-label="other" />
+        <ButtonWithTooltip
+          isOpen={false}
+          onClose={onClose}
+          tooltipContent="tip"
+          modalContent="sheet"
+          modalTitle="Info"
+        >
+          <button>Info</button>
+        </ButtonWithTooltip>
+      </>,
+    )
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
+    expect(document.activeElement).toBe(other)
+  })
 })
