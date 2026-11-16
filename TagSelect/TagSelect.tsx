@@ -55,23 +55,13 @@ export const TagSelect = <V extends string | number = number>({
             size={size}
             colorScheme={colorScheme}
             isActive={isActive}
-            role="button"
             aria-pressed={isActive}
             aria-disabled={option.disabled || undefined}
-            // Keyboard access: each option is a tab stop, toggled with Enter/Space.
-            tabIndex={option.disabled ? -1 : 0}
+            // A disabled option has no handler, so Tag renders it as a div:
+            // keep it a named, unfocusable button. Enabled ones are real buttons.
+            {...(option.disabled && { role: 'button', tabIndex: -1 })}
             className={cn({ [styles.disabled]: option.disabled })}
             onClick={option.disabled ? undefined : () => toggle(option.value)}
-            onKeyDown={
-              option.disabled
-                ? undefined
-                : (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault()
-                      toggle(option.value)
-                    }
-                  }
-            }
           />
         )
       })}

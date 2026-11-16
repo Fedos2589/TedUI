@@ -48,7 +48,7 @@ export const AvatarsRowItem = ({
     faded && ringed ? (FADE_OPACITIES[index] ?? FADE_OPACITY_MAX) : 0
 
   return (
-    <div
+    <li
       className={cn(
         styles.item,
         animate && (index === 0 ? styles.animatedFirst : styles.animatedRest),
@@ -67,6 +67,6 @@ export const AvatarsRowItem = ({
       {fadeOpacity > 0 && (
         <div className={styles.fade} style={{ opacity: fadeOpacity }} />
       )}
-    </div>
+    </li>
   )
 }

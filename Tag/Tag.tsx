@@ -25,6 +25,17 @@ export interface TagProps extends Omit<ComponentProps<'div'>, 'color'> {
   isActive?: boolean
 }
 
+const splitProps = (props: Record<string, unknown>) => {
+  const semantics: Record<string, unknown> = {}
+  const rest: Record<string, unknown> = {}
+  for (const [key, value] of Object.entries(props)) {
+    const isSemantic =
+      key.startsWith('aria-') || key === 'role' || key === 'tabIndex'
+    ;(isSemantic ? semantics : rest)[key] = value
+  }
+  return { semantics, rest }
+}
+
 export const Tag = ({
   variant = 'filled',
   size = 'medium',
@@ -109,13 +120,17 @@ export const Tag = ({
     )
   }
 
-  // A button can't hold the remove button, so the body and the remove control are siblings.
+  // A button can't hold the remove button, so the body and the remove control are
+  // siblings. What describes the control (aria-*, role, tabIndex) goes on the
+  // body button; layout and test hooks (id, style, data-*) stay on the root.
+  const { semantics, rest } = splitProps(props)
   return (
-    <div className={cn(rootClassName, styles.split)} {...props}>
+    <div className={cn(rootClassName, styles.split)} {...rest}>
       <button
         type="button"
         className={cn(styles.button, styles.body)}
         onClick={onButtonClick}
+        {...semantics}
       >
         {content}
       </button>

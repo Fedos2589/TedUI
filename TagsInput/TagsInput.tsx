@@ -68,17 +68,21 @@ export const TagsInput = ({
   // The element to focus once the next render has mounted it: the field is
   // unmounted while the limit is reached, and the clicked chip's button
   // unmounts with its chip — focus would otherwise fall to <body>.
-  const focusAfterRender = useRef<'input' | 'lastRemove' | null>(null)
+  const focusAfterRender = useRef<{
+    target: 'input' | 'lastRemove'
+    length: number
+  } | null>(null)
 
-  // Only when the list length actually changes: if the parent ignored the
-  // change, the flag must not fire on some later unrelated render.
+  // The first render after the action decides: if the parent applied the
+  // change the list has the expected length and focus moves; if it ignored it,
+  // the flag is dropped, so it can't fire on some later unrelated change.
   useEffect(() => {
-    if (focusAfterRender.current === 'input') inputRef.current?.focus()
-    if (focusAfterRender.current === 'lastRemove') {
-      lastRemoveRef.current?.focus()
-    }
+    const pending = focusAfterRender.current
     focusAfterRender.current = null
-  }, [value.length])
+    if (!pending || pending.length !== value.length) return
+    if (pending.target === 'input') inputRef.current?.focus()
+    else lastRemoveRef.current?.focus()
+  })
 
   const isFull = maxTags != null && value.length >= maxTags
 
@@ -98,7 +102,10 @@ export const TagsInput = ({
       onChange([...value, tag])
       // Not from blur: the user is already leaving the field (Tab).
       if (keepFocusAtLimit && maxTags != null && value.length + 1 >= maxTags) {
-        focusAfterRender.current = 'lastRemove'
+        focusAfterRender.current = {
+          target: 'lastRemove',
+          length: value.length + 1,
+        }
       }
     }
     setDraft('')
@@ -106,7 +113,7 @@ export const TagsInput = ({
 
   const removeTag = (index: number) => {
     onChange(value.filter((_, i) => i !== index))
-    focusAfterRender.current = 'input'
+    focusAfterRender.current = { target: 'input', length: value.length - 1 }
   }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

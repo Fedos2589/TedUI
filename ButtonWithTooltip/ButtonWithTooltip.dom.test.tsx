@@ -1,12 +1,17 @@
 // @vitest-environment happy-dom
-import { describe, it, expect, vi } from 'vitest'
+import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { useState } from 'react'
 import { Button } from '../Button'
 import { ButtonWithTooltip } from './ButtonWithTooltip'
 
+const viewport = vi.hoisted(() => ({ isMobile: true }))
+
 vi.mock('../hooks/useBreakpoints', () => ({
-  default: () => ({ isMobile: true, isDesktop: false }),
+  default: () => ({
+    isMobile: viewport.isMobile,
+    isDesktop: !viewport.isMobile,
+  }),
 }))
 
 const Host = () => {
@@ -26,6 +31,10 @@ const Host = () => {
 }
 
 describe('ButtonWithTooltip mobile sheet', () => {
+  beforeEach(() => {
+    viewport.isMobile = true
+  })
+
   it('returns focus to its trigger after a pointer open', async () => {
     render(<Host />)
     const trigger = screen.getByRole('button', { name: 'Info' })
@@ -36,5 +45,53 @@ describe('ButtonWithTooltip mobile sheet', () => {
     fireEvent.keyDown(await screen.findByRole('dialog'), { key: 'Escape' })
 
     await waitFor(() => expect(document.activeElement).toBe(trigger))
+  })
+})
+
+describe('ButtonWithTooltip desktop tooltip', () => {
+  beforeEach(() => {
+    viewport.isMobile = false
+  })
+
+  it('closes on Escape but not when the pointer leaves', async () => {
+    const onClose = vi.fn()
+    render(
+      <ButtonWithTooltip
+        isOpen
+        onClose={onClose}
+        tooltipContent="tip"
+        modalContent="sheet"
+      >
+        <button>Info</button>
+      </ButtonWithTooltip>,
+    )
+    const button = screen.getByRole('button', { name: 'Info' })
+    button.focus()
+    fireEvent.focus(button)
+
+    fireEvent.mouseLeave(button.closest('span') ?? button)
+    expect(onClose).not.toHaveBeenCalled()
+
+    fireEvent.keyDown(button, { key: 'Escape' })
+    await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1))
+  })
+
+  it('closes through onToggle when there is no onClose', async () => {
+    const onToggle = vi.fn()
+    render(
+      <ButtonWithTooltip
+        isOpen
+        onToggle={onToggle}
+        tooltipContent="tip"
+        modalContent="sheet"
+      >
+        <button>Info</button>
+      </ButtonWithTooltip>,
+    )
+    const button = screen.getByRole('button', { name: 'Info' })
+    button.focus()
+    fireEvent.focus(button)
+    fireEvent.keyDown(button, { key: 'Escape' })
+    await waitFor(() => expect(onToggle).toHaveBeenCalledTimes(1))
   })
 })

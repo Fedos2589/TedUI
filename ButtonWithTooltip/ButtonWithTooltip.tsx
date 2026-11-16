@@ -72,6 +72,10 @@ export const ButtonWithTooltip = ({
           </div>
         }
         open={isOpen && !mobile}
+        onOpenChange={(open, details) => {
+          if (!open && details.reason === 'escape-key')
+            (onClose ?? onToggle)?.()
+        }}
         side={tooltipSide}
         align={tooltipAlign}
         fullWidth={fullWidth}

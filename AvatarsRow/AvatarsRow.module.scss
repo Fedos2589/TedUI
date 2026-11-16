@@ -4,6 +4,9 @@
 @include color-token-classes(ring, --ring-color);
 
 .avatars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   align-items: center;
   position: relative;

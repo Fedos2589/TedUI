@@ -71,6 +71,25 @@ describe('TagsInput when the parent does not apply the change', () => {
   })
 })
 
+describe('TagsInput stale focus flag', () => {
+  it('does not fire when the parent later changes the list on its own', () => {
+    const { rerender } = render(
+      <TagsInput value={['a', 'b']} onChange={vi.fn()} maxTags={3} />,
+    )
+    const input = screen.getByRole('textbox')
+    input.focus()
+    type(input, 'c') // would fill the limit; the parent ignores it
+
+    rerender(
+      <TagsInput value={['x', 'y', 'z']} onChange={vi.fn()} maxTags={3} />,
+    )
+
+    expect(document.activeElement).not.toBe(
+      screen.getByRole('button', { name: /remove z/ }),
+    )
+  })
+})
+
 describe('TagsInput blur at the limit', () => {
   it('leaves focus alone when blur adds the last tag', () => {
     render(<Controlled maxTags={1} />)
