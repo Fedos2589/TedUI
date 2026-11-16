@@ -57,3 +57,40 @@ describe('Combobox names', () => {
     expect(dialog.getAttribute('aria-label')).toBe('common.action.show_options')
   })
 })
+
+describe('mobile Combobox keyboard', () => {
+  const setup = () =>
+    render(<Combobox options={['a', 'b']} forceMobile label="Pick" />)
+
+  it('is a combobox that announces its popup', () => {
+    setup()
+    const field = screen.getByRole('combobox')
+    expect(field.getAttribute('aria-haspopup')).toBe('dialog')
+    expect(field.getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it.each(['Enter', ' ', 'ArrowDown'])('opens with %j', async (key) => {
+    setup()
+    const field = screen.getByRole('combobox')
+    field.focus()
+
+    fireEvent.keyDown(field, { key })
+
+    expect(await screen.findByRole('dialog')).toBeTruthy()
+    expect(field.getAttribute('aria-expanded')).toBe('true')
+  })
+
+  it('gives focus back to the field when closed, and opens again', async () => {
+    setup()
+    const field = screen.getByRole('combobox')
+    fireEvent.keyDown(field, { key: 'Enter' })
+
+    fireEvent.click(
+      await screen.findByRole('button', { name: 'common.action.close' }),
+    )
+
+    await waitFor(() => expect(document.activeElement).toBe(field))
+    fireEvent.keyDown(field, { key: 'Enter' })
+    expect(await screen.findByRole('dialog')).toBeTruthy()
+  })
+})

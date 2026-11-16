@@ -3,6 +3,7 @@
 import { Combobox as BaseCombobox } from '@base-ui/react/combobox'
 import { RiArrowDownSLine, RiSearchLine } from '@remixicon/react'
 import cn from 'classnames'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Modal } from '../Modal'
@@ -17,6 +18,8 @@ import {
   getLabel,
 } from './ComboboxShared'
 import type { ComboboxProps } from './Combobox.types'
+
+const OPEN_KEYS = ['Enter', ' ', 'ArrowDown']
 
 type ComboboxMobileProps<Value> = ComboboxProps<Value> & {
   open: boolean
@@ -52,6 +55,7 @@ export function ComboboxMobile<Value>({
   setOpen,
 }: ComboboxMobileProps<Value>) {
   const { t } = useTranslation('ui-kit')
+  const fieldRef = useRef<HTMLInputElement>(null)
   const title = mobileLabel ?? (typeof label === 'string' ? label : undefined)
   const displayText =
     value != null ? getLabel(value, itemToStringLabel) : (inputValue ?? '')
@@ -91,13 +95,25 @@ export function ComboboxMobile<Value>({
           disabled={disabled}
           placeholder={placeholder}
           readOnly
+          ref={fieldRef}
+          role="combobox"
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          onKeyDown={(event) => {
+            if (disabled || !OPEN_KEYS.includes(event.key)) return
+            event.preventDefault()
+            setOpen(true)
+          }}
           value={displayText}
           onControlWrapperClick={() => !disabled && setOpen(true)}
         />
       )}
       <Modal
         isVisible={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false)
+          fieldRef.current?.focus()
+        }}
         title={title}
         aria-label={title ? undefined : t('common.action.show_options')}
       >
