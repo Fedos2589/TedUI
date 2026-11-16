@@ -141,3 +141,12 @@
 .list:has(.tab[data-selected]:not([data-disabled]):active) .indicator {
   background-color: var(--color-blue-400);
 }
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

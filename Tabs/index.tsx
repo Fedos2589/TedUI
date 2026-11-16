@@ -15,6 +15,8 @@ interface TabItem {
   disabled?: boolean
   badge?: number
   dot?: boolean
+  // Read by screen readers after the label when `dot` is set
+  dotLabel?: string
 }
 
 export interface TabsProps {
@@ -76,7 +78,15 @@ export const Tabs = ({
               {item.badge ? (
                 <Counter count={item.badge} />
               ) : item.dot ? (
-                <span className={cn(styles.dot, dotSizeClass[size])} />
+                <>
+                  <span
+                    className={cn(styles.dot, dotSizeClass[size])}
+                    aria-hidden="true"
+                  />
+                  {item.dotLabel && (
+                    <span className={styles.srOnly}>{item.dotLabel}</span>
+                  )}
+                </>
               ) : null}
             </BaseTabs.Tab>
           )
