@@ -49,5 +49,8 @@
   },
   "avatar": {
     "upload": "Prześlij"
+  },
+  "progressBar": {
+    "label": "Postęp"
   }
 }

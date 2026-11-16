@@ -45,5 +45,8 @@
   },
   "avatar": {
     "upload": "Unggah"
+  },
+  "progressBar": {
+    "label": "Kemajuan"
   }
 }

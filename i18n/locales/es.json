@@ -45,5 +45,8 @@
   },
   "avatar": {
     "upload": "Subir"
+  },
+  "progressBar": {
+    "label": "Progreso"
   }
 }

@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react'
 import cn from 'classnames'
+import { useTranslation } from 'react-i18next'
 import styles from './ProgressBar.module.scss'
 
 export type ProgressBarSize = 'thin' | 'small' | 'medium' | 'big'
@@ -69,6 +70,7 @@ export const ProgressBar = ({
   'aria-labelledby': ariaLabelledBy,
   'aria-valuetext': ariaValueText,
 }: ProgressBarProps) => {
+  const { t } = useTranslation('ui-kit')
   const captionId = useId()
   const trackRef = useRef<HTMLDivElement>(null)
   const maxLabelRef = useRef<HTMLSpanElement>(null)
@@ -147,7 +149,12 @@ export const ProgressBar = ({
         ariaValueText ??
         (format && typeof labelContent === 'string' ? labelContent : undefined)
       }
-      aria-label={ariaLabel}
+      aria-label={
+        ariaLabel ??
+        (!ariaLabelledBy && caption == null
+          ? t('progressBar.label')
+          : undefined)
+      }
       aria-labelledby={
         ariaLabelledBy ??
         (!ariaLabel && caption != null ? captionId : undefined)

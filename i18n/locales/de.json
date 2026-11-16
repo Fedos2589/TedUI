@@ -45,5 +45,8 @@
   },
   "avatar": {
     "upload": "Hochladen"
+  },
+  "progressBar": {
+    "label": "Fortschritt"
   }
 }

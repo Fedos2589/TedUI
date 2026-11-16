@@ -49,5 +49,8 @@
   },
   "avatar": {
     "upload": "Загрузить"
+  },
+  "progressBar": {
+    "label": "Прогресс"
   }
 }

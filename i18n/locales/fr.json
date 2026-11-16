@@ -45,5 +45,8 @@
   },
   "avatar": {
     "upload": "Téléverser"
+  },
+  "progressBar": {
+    "label": "Progression"
   }
 }
