@@ -1,7 +1,9 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi } from 'vitest'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { useRef, useState } from 'react'
 import { Modal } from './Modal'
+import { Button } from '../Button'
 
 // No i18n instance is initialised here, so react-i18next echoes the key back —
 // which is all these assertions need to tell the two controls apart.
@@ -91,5 +93,52 @@ describe('Modal semantics', () => {
     expect(
       screen.getByRole('dialog').getAttribute('aria-describedby'),
     ).toBeNull()
+  })
+})
+
+describe('Modal focus return', () => {
+  const Opener = ({ withRef }: { withRef: boolean }) => {
+    const [open, setOpen] = useState(false)
+    const ref = useRef<HTMLButtonElement>(null)
+    return (
+      <>
+        <Button ref={ref} onClick={() => setOpen(true)}>
+          Open
+        </Button>
+        <Modal
+          isVisible={open}
+          title="T"
+          onClose={() => setOpen(false)}
+          finalFocus={withRef ? ref : undefined}
+        >
+          body
+        </Modal>
+      </>
+    )
+  }
+
+  it('returns focus to the opener after a pointer open (Button blurs itself)', async () => {
+    render(<Opener withRef />)
+    const button = screen.getByRole('button', { name: 'Open' })
+    button.focus()
+    fireEvent.pointerUp(button)
+    fireEvent.click(button)
+
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' })
+
+    await waitFor(() => expect(document.activeElement).toBe(button))
+  })
+
+  it('still returns focus after a keyboard open without finalFocus', async () => {
+    render(<Opener withRef={false} />)
+    const button = screen.getByRole('button', { name: 'Open' })
+    button.focus()
+    fireEvent.focus(button)
+    fireEvent.keyDown(button, { key: 'Enter' })
+    fireEvent.click(button)
+
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' })
+
+    await waitFor(() => expect(document.activeElement).toBe(button))
   })
 })

@@ -86,6 +86,9 @@ Using the kit component is not only about looks: `Button` handles `loading` and
 disabled-while-loading, `Input` wires label, hint and error to the field for screen
 readers, `Modal` traps and returns focus. A hand-rolled copy silently drops all of it.
 
+A `Modal` opened by a `Button`/`IconButton` needs `finalFocus={ref of that button}`:
+they blur themselves on pointer release, so without it focus is lost on close.
+
 ## ScheduleGrid: what the consumer provides
 
 - **A keyboard route for `onEmptyClick`.** Clicking empty space is mouse-only (there is no
