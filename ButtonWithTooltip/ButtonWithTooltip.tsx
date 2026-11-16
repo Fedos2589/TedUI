@@ -73,7 +73,8 @@ export const ButtonWithTooltip = ({
         }
         open={isOpen && !mobile}
         onOpenChange={(open, details) => {
-          if (!open && details.reason === 'escape-key') onClose?.()
+          if (!open && details.reason === 'escape-key')
+            (onClose ?? onToggle)?.()
         }}
         side={tooltipSide}
         align={tooltipAlign}

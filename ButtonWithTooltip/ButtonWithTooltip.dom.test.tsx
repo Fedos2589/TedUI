@@ -75,4 +75,23 @@ describe('ButtonWithTooltip desktop tooltip', () => {
     fireEvent.keyDown(button, { key: 'Escape' })
     await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1))
   })
+
+  it('closes through onToggle when there is no onClose', async () => {
+    const onToggle = vi.fn()
+    render(
+      <ButtonWithTooltip
+        isOpen
+        onToggle={onToggle}
+        tooltipContent="tip"
+        modalContent="sheet"
+      >
+        <button>Info</button>
+      </ButtonWithTooltip>,
+    )
+    const button = screen.getByRole('button', { name: 'Info' })
+    button.focus()
+    fireEvent.focus(button)
+    fireEvent.keyDown(button, { key: 'Escape' })
+    await waitFor(() => expect(onToggle).toHaveBeenCalledTimes(1))
+  })
 })
