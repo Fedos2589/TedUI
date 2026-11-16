@@ -23,4 +23,21 @@ describe('PhoneNumberField country button', () => {
       }),
     ).toBeTruthy()
   })
+
+  // A `country` outside the narrowed list has no calling code to show.
+  it('leaves the code out when the country is not in the list', () => {
+    render(
+      <PhoneNumberField
+        country="US"
+        nationalNumber=""
+        countries={[{ code: 'RU', callingCode: '7', name: 'Russia' }]}
+        onCountryChange={vi.fn()}
+        onNationalNumberChange={vi.fn()}
+      />,
+    )
+
+    expect(
+      screen.getByRole('combobox', { name: 'common.title.select_country: US' }),
+    ).toBeTruthy()
+  })
 })

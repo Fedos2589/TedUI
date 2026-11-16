@@ -87,6 +87,9 @@ export const PhoneNumberField = ({
     )
   }
 
+  // A country missing from a narrowed list has no code to lead the name with.
+  const codePrefix = selectedOption ? `+${selectedOption.callingCode}, ` : ''
+
   const countryTrigger = (
     <Button
       size="small"
@@ -95,7 +98,7 @@ export const PhoneNumberField = ({
       disabled={disabled}
       className={styles.countryTrigger}
       // The visible "+code" leads the name, so voice control can say what it sees.
-      aria-label={`+${selectedOption?.callingCode}, ${t('common.title.select_country')}: ${selectedOption?.name ?? country}`}
+      aria-label={`${codePrefix}${t('common.title.select_country')}: ${selectedOption?.name ?? country}`}
     >
       <span className={styles.flag} aria-hidden="true">
         {toFlagEmoji(country)}

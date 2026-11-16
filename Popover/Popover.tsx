@@ -34,6 +34,8 @@ export interface PopoverProps {
   arrow?: boolean
   /** Keep the popover mounted (hidden) while closed. */
   keepMounted?: boolean
+  /** Id of the popup — what a trigger's `aria-controls` points at. */
+  id?: string
   'aria-label'?: string
   'aria-labelledby'?: string
 }
@@ -58,6 +60,7 @@ export const Popover = ({
   modal = false,
   arrow = false,
   keepMounted = false,
+  id,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledBy,
 }: PopoverProps) => {
@@ -79,6 +82,7 @@ export const Popover = ({
           positionMethod="fixed"
         >
           <BasePopover.Popup
+            id={id}
             className={cn(styles.popup, className)}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledBy}

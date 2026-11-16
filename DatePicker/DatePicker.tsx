@@ -1,6 +1,6 @@
 'use client'
 
-import { KeyboardEvent, useRef, useState } from 'react'
+import { KeyboardEvent, useId, useRef, useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import { useTranslation } from 'react-i18next'
 import { Input } from '../Input'
@@ -46,6 +46,7 @@ export const DatePicker = (props: DatePickerProps) => {
   const { isDesktop } = useBreakpoints()
   const anchorRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLInputElement>(null)
+  const popupId = useId()
 
   const isRange = props.mode === 'range'
   const hasDayView = views.includes('day')
@@ -278,6 +279,7 @@ export const DatePicker = (props: DatePickerProps) => {
         role="combobox"
         aria-haspopup="dialog"
         aria-expanded={open}
+        aria-controls={open ? popupId : undefined}
         onControlWrapperClick={openPicker}
         onKeyDown={handleTriggerKeyDown}
       />
@@ -290,13 +292,21 @@ export const DatePicker = (props: DatePickerProps) => {
           side="bottom"
           align="start"
           className={styles.popover}
-          aria-label={sheetTitle()}
+          id={popupId}
+          // Not sheetTitle(): a month dropdown opens over the days here, and the
+          // dialog is still the date picker.
+          aria-label={t(
+            isRange
+              ? 'common.datePicker.selectDates'
+              : 'common.datePicker.selectDate',
+          )}
         >
           {panel}
         </Popover>
       ) : (
         <Modal
           isVisible={open}
+          id={popupId}
           title={sheetTitle()}
           subtitle={view === terminalView ? subtitle() : undefined}
           onClose={close}
