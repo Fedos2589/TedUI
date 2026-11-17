@@ -143,3 +143,11 @@ $header-height: 40px;
   border-color: var(--color-red-200);
   color: var(--color-grey-600);
 }
+
+// A pale layer over the scheme's own background; the text keeps its contrast
+// (grey-500 on white is 7:1), so faded stays readable, not just visible.
+.item[data-faded] {
+  --veil: color-mix(in srgb, var(--color-bw-white) 60%, transparent);
+  background-image: linear-gradient(var(--veil), var(--veil));
+  color: var(--color-grey-500);
+}

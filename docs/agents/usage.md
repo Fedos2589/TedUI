@@ -102,6 +102,8 @@ they blur themselves on pointer release, so without it focus is lost on close.
   is dropped from the grid without an error. Convert before passing.
 - **`children` is the item's own text.** The grid adds the time range to the item's accessible
   name itself — don't repeat it in `children` for screen readers.
+- **`faded` is only visual.** A pale item is still readable and clickable, but pale is not a
+  signal for a screen reader — say «ended» in `children` too.
 - `visibleRange(items, fallback)` (`import { visibleRange } from 'ted-ui/ScheduleGrid'`) gives
   the `startMinute`/`endMinute` that fit a day's items, in whole hours.
 

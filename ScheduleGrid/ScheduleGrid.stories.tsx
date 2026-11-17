@@ -152,3 +152,38 @@ export const ShortItems: Story = {
     ],
   },
 }
+
+export const FadedItems: Story = {
+  args: {
+    columns: [
+      {
+        id: 'anna',
+        label: 'Anna',
+        items: [
+          {
+            id: 'f1',
+            startMinute: 9 * 60,
+            endMinute: 10 * 60,
+            children: 'Yoga · ended',
+            faded: true,
+          },
+          {
+            id: 'f2',
+            startMinute: 10 * 60,
+            endMinute: 11 * 60,
+            children: 'Pilates · ended',
+            colorScheme: 'green',
+            faded: true,
+          },
+          {
+            id: 'f3',
+            startMinute: 11 * 60,
+            endMinute: 12 * 60,
+            children: 'Stretch · in progress',
+            colorScheme: 'green',
+          },
+        ],
+      },
+    ],
+  },
+}
