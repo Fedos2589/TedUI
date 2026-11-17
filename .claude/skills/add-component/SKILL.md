@@ -101,7 +101,7 @@ BookedUp-front for users of that language.
   (disabled, loading, error, long text);
 - layout through `_storybook/Stack` or plain inline styles — no app components, no MUI.
 
-Open the **Accessibility** panel for each story: 0 violations.
+Open the **Accessibility** panel for each story (or run `npm run test:stories`): 0 violations.
 
 ## 7. Exports
 
