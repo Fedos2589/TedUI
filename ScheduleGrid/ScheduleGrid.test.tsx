@@ -158,4 +158,39 @@ describe('ScheduleGrid', () => {
     )
     expect(within(list).getAllByRole('listitem')).toHaveLength(1)
   })
+
+  it('marks a faded item but keeps it clickable', () => {
+    const onItemClick = vi.fn()
+    render(
+      <ScheduleGrid
+        aria-label="Day"
+        columns={[
+          {
+            id: 'anna',
+            label: 'Anna',
+            items: [
+              {
+                id: 'old',
+                startMinute: 600,
+                endMinute: 660,
+                children: 'Yoga',
+                faded: true,
+              },
+              { id: 'now', startMinute: 700, endMinute: 760, children: 'Run' },
+            ],
+          },
+        ]}
+        startMinute={480}
+        endMinute={1200}
+        onItemClick={onItemClick}
+      />,
+    )
+    const old = screen.getByRole('button', { name: /Yoga/ })
+    expect(old.hasAttribute('data-faded')).toBe(true)
+    expect(
+      screen.getByRole('button', { name: /Run/ }).hasAttribute('data-faded'),
+    ).toBe(false)
+    fireEvent.click(old)
+    expect(onItemClick).toHaveBeenCalledWith('anna', 'old')
+  })
 })

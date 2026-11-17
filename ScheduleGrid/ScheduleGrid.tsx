@@ -20,6 +20,8 @@ export interface ScheduleGridItem {
   endMinute: number
   children: ReactNode
   colorScheme?: ScheduleGridItemColorScheme
+  /** Gone by: paler, but still readable and clickable. Say so in `children` too — pale is not a signal for a screen reader. */
+  faded?: boolean
 }
 
 export interface ScheduleGridColumn {
@@ -154,6 +156,7 @@ export const ScheduleGrid = ({
                     styles.item,
                     schemeStyles[item.colorScheme ?? 'blue'],
                   )
+                  const fadedProps = item.faded ? { 'data-faded': '' } : {}
                   const style = {
                     top: `${placed.top * 100}%`,
                     height: `${placed.height * 100}%`,
@@ -178,11 +181,14 @@ export const ScheduleGrid = ({
                             styles.itemButton,
                           )}
                           onClick={() => onItemClick(column.id, item.id)}
+                          {...fadedProps}
                         >
                           {content}
                         </button>
                       ) : (
-                        <div className={itemClassName}>{content}</div>
+                        <div className={itemClassName} {...fadedProps}>
+                          {content}
+                        </div>
                       )}
                     </li>
                   )
