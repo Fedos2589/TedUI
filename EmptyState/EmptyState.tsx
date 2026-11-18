@@ -7,7 +7,7 @@ export interface EmptyStateProps extends Omit<ComponentProps<'div'>, 'title'> {
   icon?: ReactNode
   title: ReactNode
   text?: ReactNode
-  headingLevel?: 1 | 2 | 3 | 4 | 5 | 6
+  headingLevel: 1 | 2 | 3 | 4 | 5 | 6
   // the action: a Button
   children?: ReactNode
 }
@@ -28,15 +28,11 @@ export const EmptyState = ({
       </div>
     )}
     <div className={styles.text}>
-      <Typography
-        variant="h5"
-        component={headingLevel ? `h${headingLevel}` : undefined}
-        className={styles.center}
-      >
+      <Typography variant="h5" component={`h${headingLevel}`}>
         {title}
       </Typography>
       {text && (
-        <Typography variant="t2" color="grey-500" className={styles.center}>
+        <Typography variant="t2" color="grey-500">
           {text}
         </Typography>
       )}

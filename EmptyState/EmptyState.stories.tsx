@@ -40,3 +40,10 @@ export const WithAction: Story = {
 }
 
 export const TitleOnly: Story = { args: { icon: undefined, text: undefined } }
+
+export const LongText: Story = {
+  args: {
+    title: 'Nobody has booked this master for the selected week yet',
+    text: 'Clients appear here after their first booking. Share the booking link, or add a booking yourself from the calendar to see how it looks.',
+  },
+}
