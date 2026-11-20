@@ -42,6 +42,12 @@ export type { RadioGroupProps } from './RadioGroup/RadioGroup'
 export * from './Combobox'
 export { Modal } from './Modal'
 export type { ModalProps } from './Modal'
+export { SlotPicker } from './SlotPicker'
+export type {
+  SlotPickerDay,
+  SlotPickerProps,
+  SlotPickerSlot,
+} from './SlotPicker'
 export { ScheduleGrid } from './ScheduleGrid'
 export type {
   ScheduleGridColumn,

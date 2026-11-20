@@ -1,0 +1,95 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.days {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px;
+  scroll-snap-type: x proximity;
+}
+
+.day,
+.slot {
+  appearance: none;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid var(--color-grey-200);
+  background: var(--color-bw-white);
+  color: var(--color-grey-500);
+  border-radius: var(--radius-md);
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-blue-300);
+    outline-offset: 2px;
+  }
+
+  &[data-selected] {
+    border-color: var(--color-grey-500);
+    background: var(--color-grey-500);
+    color: var(--color-bw-white);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
+.day {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 56px;
+  padding: 8px;
+  scroll-snap-align: start;
+
+  &[data-empty]:not([data-selected]) {
+    opacity: 0.5;
+  }
+
+  // Today is marked by an underline, so it reads without colour
+  &[data-today] > :last-child {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 88px;
+  min-height: 44px;
+  padding: 8px 12px;
+}
+
+.text {
+  // Typography sets its own colour; the button's (selected → white) must reach the text
+  color: inherit;
+}
+
+.hint {
+  opacity: 0.8;
+}
+
+.empty {
+  margin: 0;
+}
