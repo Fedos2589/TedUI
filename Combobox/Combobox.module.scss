@@ -30,11 +30,12 @@
 // ─── Positioner (desktop dropdown) ───────────────────────────────────────────
 // z-index must live here: the Positioner is the `position: fixed` element, so
 // it's the stacking participant. The Popup inside it is `position: static`, so
-// a z-index there is ignored — which is why it was occluded by Bootstrap modals
-// (z-index 1055) when a Combobox is rendered inside one.
+// a z-index there is ignored — which is why it was occluded by a modal when a
+// Combobox is rendered inside one. Above Modal and Popover (1400), below
+// Tooltip (1500): a list opened in a dialog must show over the dialog.
 
 .positioner {
-  z-index: 1100;
+  z-index: 1450;
 }
 
 // ─── Popup (desktop dropdown) ────────────────────────────────────────────────
