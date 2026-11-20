@@ -107,10 +107,10 @@ export const SlotPicker = ({
             className={styles.day}
             onClick={() => onDayChange(d.id)}
           >
-            <Typography variant="t6" component="span">
+            <Typography variant="t6" component="span" className={styles.text}>
               {d.weekday}
             </Typography>
-            <Typography variant="bh5" component="span">
+            <Typography variant="bh5" component="span" className={styles.text}>
               {d.number}
             </Typography>
           </button>
@@ -145,14 +145,18 @@ export const SlotPicker = ({
               className={styles.slot}
               onClick={() => onChange(s.id)}
             >
-              <Typography variant="bh5" component="span">
+              <Typography
+                variant="bh5"
+                component="span"
+                className={styles.text}
+              >
                 {s.label}
               </Typography>
               {s.hint && (
                 <Typography
                   variant="t6"
                   component="span"
-                  className={styles.hint}
+                  className={cn(styles.text, styles.hint)}
                 >
                   {s.hint}
                 </Typography>

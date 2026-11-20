@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { SlotPicker, type SlotPickerDay, type SlotPickerSlot } from './SlotPicker'
+import {
+  SlotPicker,
+  type SlotPickerDay,
+  type SlotPickerSlot,
+} from './SlotPicker'
 
 const meta: Meta<typeof SlotPicker> = {
   title: 'UI-KIT/SlotPicker',
@@ -13,7 +17,10 @@ export default meta
 type Story = StoryObj<typeof SlotPicker>
 
 const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-const makeDays = (count: number, emptyIndexes: number[] = []): SlotPickerDay[] =>
+const makeDays = (
+  count: number,
+  emptyIndexes: number[] = [],
+): SlotPickerDay[] =>
   Array.from({ length: count }, (_, i) => ({
     id: `d${i}`,
     weekday: weekdays[i % 7],
@@ -22,7 +29,14 @@ const makeDays = (count: number, emptyIndexes: number[] = []): SlotPickerDay[] =
     empty: emptyIndexes.includes(i),
   }))
 
-const hours: SlotPickerSlot[] = ['10:00', '11:00', '12:00', '13:30', '15:00', '16:30'].map((label) => ({
+const hours: SlotPickerSlot[] = [
+  '10:00',
+  '11:00',
+  '12:00',
+  '13:30',
+  '15:00',
+  '16:30',
+].map((label) => ({
   id: label,
   label,
 }))
@@ -61,7 +75,12 @@ const Template = ({
 }
 
 export const Hours: Story = {
-  render: () => <Template days={makeDays(14, [2])} slotsByDay={(d) => (d === 'd2' ? [] : hours)} />,
+  render: () => (
+    <Template
+      days={makeDays(14, [2])}
+      slotsByDay={(d) => (d === 'd2' ? [] : hours)}
+    />
+  ),
 }
 
 export const GroupsWithHints: Story = {

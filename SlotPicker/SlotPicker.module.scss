@@ -74,10 +74,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 2px;
   min-width: 88px;
   min-height: 44px;
   padding: 8px 12px;
+}
+
+.text {
+  // Typography sets its own colour; the button's (selected → white) must reach the text
+  color: inherit;
 }
 
 .hint {
