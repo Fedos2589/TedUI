@@ -18,6 +18,7 @@
     "test:watch": "vitest --project unit",
     "test:stories": "vitest run --project storybook",
     "typecheck": "tsgo --noEmit -p tsconfig.json",
+    "check:coupling": "./scripts/check-coupling.sh",
     "lint": "eslint --fix --cache .",
     "lint:ci": "eslint .",
     "prettier-format": "prettier --write \"**/*.{ts,tsx,js,jsx}\"",
