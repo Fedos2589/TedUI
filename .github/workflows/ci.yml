@@ -28,6 +28,7 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint:ci
+      - run: npm run check:coupling
       - run: npm test
       # The headless shell is all test:stories needs.
       - run: npx playwright install --with-deps --only-shell chromium

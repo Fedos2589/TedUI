@@ -42,13 +42,10 @@ import fails `npm run typecheck` here. One kind of coupling fails nothing:
   global class it even looks right; everywhere else the style silently disappears. Every
   class a component renders comes from its own `*.module.scss`.
 
-These must stay empty before you finish:
+This must pass before you finish (it prints the offending lines; CI runs it too):
 
 ```bash
-grep -rE "from '@/(src|components|assets|styles)" --include='*.ts*' --include='*.scss' . --exclude-dir=node_modules
-grep -rE "from '(@mui|@emotion|next)/" --include='*.ts*' . --exclude-dir=node_modules
-grep -rE "@(use|import) '@/styles" --include='*.scss' . --exclude-dir=node_modules
-grep -rnE 'className=\{?"[^"]+"' --include='*.tsx' . --exclude-dir=node_modules | grep -v '.stories.'
+npm run check:coupling
 ```
 
 When a component needs something from the outside, **invert it**: take a prop or a
@@ -137,6 +134,7 @@ an app, the component is coupled.
 ```bash
 npm run typecheck        # tsgo
 npm run lint             # ESLint + prettier (lint:ci — the same without --fix)
+npm run check:coupling   # the kit imports nothing from an app
 npm test                 # vitest (test:watch while working)
 npm run test:stories     # axe on every story (first run: npx playwright install chromium)
 npm run build-storybook  # the catalogue still builds

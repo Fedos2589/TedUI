@@ -17,7 +17,8 @@ npm install github:Fedos2589/TedUI#vX.Y.Z
 ```
 
 `vX.Y.Z` is the latest tag: see the repository's tags page or run
-`git ls-remote --tags https://github.com/Fedos2589/TedUI`.
+`git ls-remote --tags --sort=-v:refname https://github.com/Fedos2589/TedUI 'v*'`
+(the first line is the latest).
 The app's `package.json` gets `"ted-ui": "github:Fedos2589/TedUI#vX.Y.Z"`.
 Without a tag npm installs the current `main` — don't: the kit version in the app would
 then depend on when `npm install` happened to run.
