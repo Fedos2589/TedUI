@@ -142,7 +142,7 @@ npm run test:stories     # axe on every story (first run: npx playwright install
 npm run build-storybook  # the catalogue still builds
 ```
 
-There is no CI: run all of them before every PR. Writing a test: the `kit-tests` skill.
+CI runs them on every PR; run them locally first anyway. Writing a test: the `kit-tests` skill.
 
 ## Releasing
 
