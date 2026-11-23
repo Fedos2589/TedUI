@@ -13,10 +13,12 @@ The package is installed from the public repository [Fedos2589/TedUI](https://gi
 by version tag:
 
 ```bash
-npm install github:Fedos2589/TedUI#v0.1.0
+npm install github:Fedos2589/TedUI#vX.Y.Z
 ```
 
-The app's `package.json` gets `"ted-ui": "github:Fedos2589/TedUI#v0.1.0"`.
+`vX.Y.Z` is the latest tag: see the repository's tags page or run
+`git ls-remote --tags https://github.com/Fedos2589/TedUI`.
+The app's `package.json` gets `"ted-ui": "github:Fedos2589/TedUI#vX.Y.Z"`.
 Without a tag npm installs the current `main` — don't: the kit version in the app would
 then depend on when `npm install` happened to run.
 
